@@ -1,0 +1,5 @@
+(Will be) an implementation of Tiger in ML.
+
+I'm working through Andrew W. Appel's "Modern Compiler Implementation in ML". The first 12 chapters develop a complete modern compiler and runtime for Tiger (an ML-like language). Implementation is in ML (which seems to be Appel's preferred language) - although there are books which work through the same compiler implementation in Java and C.
+
+See http://www.cs.princeton.edu/~appel/modern/ml/
