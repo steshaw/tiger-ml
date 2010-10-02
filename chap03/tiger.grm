@@ -1,27 +1,25 @@
 (* vim: set filetype=sml: *)
 %%
 %term
-    EOF 
+    EOF
   | ID of string
-  | INT of int | STRING of string 
-  | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK 
-  | LBRACE | RBRACE | DOT 
+  | INT of int | STRING of string
+  | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK
+  | LBRACE | RBRACE | DOT
   | PLUS | MINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE
   | AND | OR | ASSIGN
-  | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF 
+  | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF
   | BREAK | NIL
-  | FUNCTION | VAR | TYPE 
+  | FUNCTION | VAR | TYPE
 
-%nonterm  exp | program 
-  | decs | dec 
+%nonterm  exp | program
+  | decs | dec
   | tydec | vardec | fundec
   | ty | tyfields | tyfields_rest
-  | lvalue
-  | exp_rest
-  | unit
-  | arith_exp
+  | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
+  | record_create_list | record_create_field | record_create_list_rest
+  | expseq | exp_seq_rest
   | exp_comma_rest
-  | funcall
 
 %pos int
 %verbose
@@ -75,34 +73,74 @@ fundec
   | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  ()
 
 exp
-  : lvalue                       ()
-  | NIL                          ()
-  | LPAREN exp exp_rest RPAREN   () (* expression sequence *)
-  | unit                         ()
-  | INT                          ()
-  | STRING                       ()
-  | MINUS INT                    () (* negate *)
-  | funcall                      ()
-  | arith_exp                    ()
-  | LPAREN exp RPAREN            ()
+  : lvalue                             ()
+  | NIL                                ()
+  | LPAREN expseq RPAREN               ()
+  | unit_exp                           ()
+  | INT                                ()
+  | STRING                             ()
+  | MINUS INT                          () (* negate *)
+  | funcall                            ()
+  | arith_exp                          ()
+  | comp_exp                           ()
+  | bool_exp                           ()
+  | record_create                      ()
+  | array_create                       ()
+  | lvalue ASSIGN exp                  ()
+  | IF exp THEN exp ELSE exp           ()
+  | WHILE exp DO exp                   ()
+  | FOR ID ASSIGN exp TO exp DO exp    ()
+  | BREAK                              ()
+  | LET decs IN expseq                 ()
+  | LPAREN exp RPAREN                  ()
 
-unit: LPAREN RPAREN              ()
+record_create
+  : ID LBRACE record_create_list RBRACE      ()
 
-funcall: ID LPAREN exp exp_comma_rest RPAREN ()
+record_create_list
+  : record_create_field record_create_list_rest   ()
+
+record_create_field: ID EQ exp         ()
+
+record_create_list_rest
+  :                                    () 
+  | COMMA record_create_field          ()
+
+array_create
+  : ID LBRACK exp RBRACK OF exp        ()
+
+expseq: exp exp_seq_rest               ()
+
+exp_seq_rest
+  :                                    ()
+  | SEMICOLON exp                      ()
+
+unit_exp: LPAREN RPAREN                ()
+
+funcall
+  : ID LPAREN exp exp_comma_rest RPAREN  ()
 
 exp_comma_rest
   :                              ()
   | COMMA exp                    ()
-
-exp_rest
-  :                              ()
-  | SEMICOLON exp                ()
 
 arith_exp
   : INT PLUS INT                 ()
   | INT MINUS INT                ()
   | INT TIMES INT                () 
   | INT DIVIDE INT               ()
+
+comp_exp
+  : exp EQ exp                   ()
+  | exp NEQ exp                  ()
+  | exp LT exp                   ()
+  | exp LE exp                   ()
+  | exp GT exp                   ()
+  | exp GE exp                   ()
+
+bool_exp
+  : exp AND exp                  ()
+  | exp OR exp                   ()
 
 lvalue 
   : ID                           () 
