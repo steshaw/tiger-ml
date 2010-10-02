@@ -6,5 +6,5 @@ let
 
 		var arr1:a := b [10] of 0
 in
-		arr1[2]
+		arr1[2] 
 end
