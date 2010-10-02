@@ -6,8 +6,8 @@
   | INT of int | STRING of string
   | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK
   | LBRACE | RBRACE | DOT
-  | PLUS | MINUS | UMINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE
-  | AND | OR | ASSIGN
+  | PLUS | MINUS | UMINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE | AND | OR 
+  | ASSIGN
   | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF
   | BREAK | NIL
   | FUNCTION | VAR | TYPE
@@ -15,7 +15,7 @@
 %nonterm  exp | program
   | decs | dec
   | tydec | vardec | fundec
-  | ty | tyfields | tyfield
+  | ty | tyfields | tyfields_nonempty | tyfield
   | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
   | record_create_list | record_create_list_nonempty | record_create_field
   | expseq
@@ -36,8 +36,7 @@
 
 %name Tiger
 
-%keyword WHILE FOR TO BREAK LET IN END FUNCTION VAR TYPE ARRAY IF THEN ELSE 
-	DO OF NIL
+%keyword WHILE FOR TO BREAK LET IN END FUNCTION VAR TYPE ARRAY IF THEN ELSE DO OF NIL
 
 %prefer THEN ELSE LPAREN
 
@@ -90,8 +89,11 @@ ty
 
 tyfield: ID COLON ID          ()
 
-(* FIXME: need empty list of types here too *)
 tyfields
+  :                           ()
+  | tyfields_nonempty         ()
+
+tyfields_nonempty
   : tyfield                   ()
   | tyfields COMMA tyfield    ()
 
