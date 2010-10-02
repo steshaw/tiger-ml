@@ -14,7 +14,7 @@ fun getInt(optionInt : int option) = case optionInt of
   SOME(n) => n
   | _ => raise NotAnInt 
 
-%% 
+%%
 %s COMMENT;
 letter = [a-zA-Z];
 digit = [0-9];
