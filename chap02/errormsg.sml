@@ -1,3 +1,4 @@
+
 signature ERRORMSG =
 sig
     val anyErrors : bool ref
