@@ -13,7 +13,7 @@
   | FUNCTION | VAR | TYPE
 
 %nonterm  exp | program
-  | decs | dec
+  | decs | dec | dec_rest
   | tydec | vardec | fundec
   | ty | tyfields | tyfields_rest
   | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
@@ -40,16 +40,42 @@
 
 %%
 
-program	: exp ()
+program	: exp                 ()
 
-decs : decs dec ()
+exp
+  : lvalue                             ()
+  | NIL                                ()
+  | LPAREN expseq RPAREN               ()
+  | unit_exp                           ()
+  | INT                                ()
+  | STRING                             ()
+  | MINUS INT                          () (* negate *)
+  | funcall                            ()
+  | arith_exp                          ()
+  | comp_exp                           ()
+  | bool_exp                           ()
+  | record_create                      ()
+  | array_create                       ()
+  | lvalue ASSIGN exp                  ()
+  | IF exp THEN exp ELSE exp           ()
+  | WHILE exp DO exp                   ()
+  | FOR ID ASSIGN exp TO exp DO exp    ()
+  | BREAK                              ()
+  | LET decs IN expseq END             ()
+  | LPAREN exp RPAREN                  ()
+
+decs : dec dec_rest           ()
 
 dec
-  : tydec () 
-  | vardec ()
-  | fundec ()
+  : tydec                     () 
+  | vardec                    ()
+  | fundec                    ()
 
-tydec : TYPE ID EQ ty          ()
+dec_rest
+  :                           ()
+  | dec                       ()
+
+tydec : TYPE ID EQ ty         ()
 
 ty
   : ID                        ()
@@ -71,28 +97,6 @@ vardec
 fundec
   : FUNCTION ID LPAREN tyfields RPAREN EQ exp       ()
   | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  ()
-
-exp
-  : lvalue                             ()
-  | NIL                                ()
-  | LPAREN expseq RPAREN               ()
-  | unit_exp                           ()
-  | INT                                ()
-  | STRING                             ()
-  | MINUS INT                          () (* negate *)
-  | funcall                            ()
-  | arith_exp                          ()
-  | comp_exp                           ()
-  | bool_exp                           ()
-  | record_create                      ()
-  | array_create                       ()
-  | lvalue ASSIGN exp                  ()
-  | IF exp THEN exp ELSE exp           ()
-  | WHILE exp DO exp                   ()
-  | FOR ID ASSIGN exp TO exp DO exp    ()
-  | BREAK                              ()
-  | LET decs IN expseq                 ()
-  | LPAREN exp RPAREN                  ()
 
 record_create
   : ID LBRACE record_create_list RBRACE      ()

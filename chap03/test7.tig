@@ -1,0 +1,6 @@
+let
+  var a:int := 100
+  function foo(a: int) = print("hi")
+in
+  foo(100)
+end

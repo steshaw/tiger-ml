@@ -5,9 +5,9 @@ struct
     let
       (* XXX: Ugly! *)
       fun loop n =
-        if (n < 50) then (
+        if (n <= 7) then (
           let 
-            val file = ("../testcases/test" ^ Int.toString(n) ^ ".tig") 
+            val file = ("test" ^ Int.toString(n) ^ ".tig") 
           in 
             print (file ^ ":\n"); 
             parse file
