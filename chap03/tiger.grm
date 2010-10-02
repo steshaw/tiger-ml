@@ -18,6 +18,10 @@
   | ty | tyfields | tyfields_rest
   | lvalue
   | exp_rest
+  | unit
+  | arith_exp
+  | exp_comma_rest
+  | funcall
 
 %pos int
 %verbose
@@ -73,18 +77,34 @@ fundec
 exp
   : lvalue                       ()
   | NIL                          ()
-  | LPAREN exp exp_rest RPAREN   ()
-  | LPAREN RPAREN                () (* unit *)
+  | LPAREN exp exp_rest RPAREN   () (* expression sequence *)
+  | unit                         ()
   | INT                          ()
   | STRING                       ()
   | MINUS INT                    () (* negate *)
+  | funcall                      ()
+  | arith_exp                    ()
   | LPAREN exp RPAREN            ()
+
+unit: LPAREN RPAREN              ()
+
+funcall: ID LPAREN exp exp_comma_rest RPAREN ()
+
+exp_comma_rest
+  :                              ()
+  | COMMA exp                    ()
 
 exp_rest
   :                              ()
   | SEMICOLON exp                ()
 
-lvalue
-  : ID                           ()
-  | lvalue DOT ID                ()
+arith_exp
+  : INT PLUS INT                 ()
+  | INT MINUS INT                ()
+  | INT TIMES INT                () 
+  | INT DIVIDE INT               ()
+
+lvalue 
+  : ID                           () 
+  | lvalue DOT ID                () 
   | lvalue LBRACK exp RBRACK     ()
