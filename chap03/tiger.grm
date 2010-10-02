@@ -13,15 +13,17 @@
   | FUNCTION | VAR | TYPE
 
 %nonterm  exp | program
-  | decs | dec | dec_rest
+  | decs | dec
   | tydec | vardec | fundec
-  | ty | tyfields | tyfields_rest
+  | ty | tyfields | tyfield
   | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
-  | record_create_list | record_create_field | record_create_list_rest
+  | record_create_list | record_create_list_nonempty | record_create_field
   | expseq
-  | exp_comma_rest
+  | explist
 
-%left EQ NEQ LT LE GT GE
+%nonassoc ASSIGN
+%left AND OR
+%nonassoc EQ NEQ LT LE GT GE
 %left PLUS MINUS
 %left TIMES DIVIDE
 %left UMINUS
@@ -45,7 +47,7 @@
 
 %%
 
-program	: exp                 ()
+program: exp                           ()
 
 exp
   : lvalue                             ()
@@ -69,31 +71,28 @@ exp
   | LET decs IN expseq END             ()
   | LPAREN exp RPAREN                  ()
 
-decs : dec dec_rest           ()
+decs
+  :                                    ()
+  | decs dec                           ()
 
 dec
   : tydec                     () 
   | vardec                    ()
   | fundec                    ()
 
-dec_rest
-  :                           ()
-  | dec                       ()
-
-tydec : TYPE ID EQ ty         ()
+tydec: TYPE ID EQ ty          ()
 
 ty
   : ID                        ()
   | LBRACE tyfields RBRACE    ()
   | ARRAY OF ID               ()
 
-tyfields
-  :                                    ()
-  | ID COLON ID tyfields_rest          ()
+tyfield: ID COLON ID          ()
 
-tyfields_rest
-  :                                    ()
-  | COMMA ID COLON ID                  ()
+(* FIXME: need empty list of types here too *)
+tyfields
+  : tyfield                   ()
+  | tyfields COMMA tyfield    ()
 
 vardec
   : VAR ID ASSIGN exp                  ()
@@ -107,13 +106,14 @@ record_create
   : ID LBRACE record_create_list RBRACE      ()
 
 record_create_list
-  : record_create_field record_create_list_rest   ()
+  :                                          ()
+  | record_create_list_nonempty              ()
+
+record_create_list_nonempty
+  : record_create_field                                      ()
+  | record_create_list_nonempty COMMA record_create_field    ()
 
 record_create_field: ID EQ exp         ()
-
-record_create_list_rest
-  :                                    () 
-  | COMMA record_create_field          ()
 
 array_create
   : ID LBRACK exp RBRACK OF exp        ()
@@ -125,17 +125,17 @@ expseq
 unit_exp: LPAREN RPAREN                ()
 
 funcall
-  : ID LPAREN exp exp_comma_rest RPAREN  ()
+  : ID LPAREN explist RPAREN     ()
 
-exp_comma_rest
-  :                              ()
-  | COMMA exp                    ()
+explist
+  : exp                          ()
+  | explist COMMA exp            ()
 
 arith_exp
-  : INT PLUS INT                 ()
-  | INT MINUS INT                ()
-  | INT TIMES INT                () 
-  | INT DIVIDE INT               ()
+  : exp PLUS exp                 ()
+  | exp MINUS exp                ()
+  | exp TIMES exp                () 
+  | exp DIVIDE exp               ()
 
 comp_exp
   : exp EQ exp                   ()

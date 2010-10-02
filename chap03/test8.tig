@@ -2,7 +2,7 @@ let
   var a:int := 100
   function foo(a: int) = print("hi")
 in
-  a := b;
+  a := a + 1;
   foo(a);
   print(if a > 0 then "positive" else "not positive");
   exit(0)
