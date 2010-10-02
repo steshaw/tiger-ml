@@ -5,7 +5,7 @@ struct
     let
       (* XXX: Ugly! *)
       fun loop n =
-        if (n <= 7) then (
+        if (n <= 8) then (
           let 
             val file = ("test" ^ Int.toString(n) ^ ".tig") 
           in 

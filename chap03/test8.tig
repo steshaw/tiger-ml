@@ -1,0 +1,9 @@
+let
+  var a:int := 100
+  function foo(a: int) = print("hi")
+in
+  a := b;
+  foo(a);
+  print(if a > 0 then "positive" else "not positive");
+  exit(0)
+end

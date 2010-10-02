@@ -6,7 +6,7 @@
   | INT of int | STRING of string
   | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK
   | LBRACE | RBRACE | DOT
-  | PLUS | MINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE
+  | PLUS | MINUS | UMINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE
   | AND | OR | ASSIGN
   | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF
   | BREAK | NIL
@@ -18,8 +18,13 @@
   | ty | tyfields | tyfields_rest
   | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
   | record_create_list | record_create_field | record_create_list_rest
-  | expseq | exp_seq_rest
+  | expseq
   | exp_comma_rest
+
+%left EQ NEQ LT LE GT GE
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left UMINUS
 
 %pos int
 %verbose
@@ -49,7 +54,7 @@ exp
   | unit_exp                           ()
   | INT                                ()
   | STRING                             ()
-  | MINUS INT                          () (* negate *)
+  | MINUS INT             %prec UMINUS () (* negate *)
   | funcall                            ()
   | arith_exp                          ()
   | comp_exp                           ()
@@ -113,11 +118,9 @@ record_create_list_rest
 array_create
   : ID LBRACK exp RBRACK OF exp        ()
 
-expseq: exp exp_seq_rest               ()
-
-exp_seq_rest
-  :                                    ()
-  | SEMICOLON exp                      ()
+expseq
+  : exp                                ()
+  | expseq SEMICOLON exp               ()
 
 unit_exp: LPAREN RPAREN                ()
 
