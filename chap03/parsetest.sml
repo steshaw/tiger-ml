@@ -15,8 +15,4 @@ struct
        in TextIO.closeIn file;
 	   absyn
       end handle LrParser.ParseError => raise ErrorMsg.Error
-
 end
-
-
-

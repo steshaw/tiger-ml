@@ -3,7 +3,8 @@ Group is
 tiger.lex
 errormsg.sml
 parsetest.sml
+main.sml
 tiger.grm
-smlnj-lib.cm
-ml-yacc-lib.cm
-
+$/smlnj-lib.cm
+$/ml-yacc-lib.cm
+$/basis.cm
