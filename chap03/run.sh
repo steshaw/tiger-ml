@@ -4,7 +4,7 @@
 ml-yacc tiger.grm &&
   ml-build sources.cm Main.main &&
   head -1 tiger.grm.desc &&
-  sml @SMLload=sources.x86-linux > run.actual.out &&
+  sml @SMLload=sources.x86-linux test*.tig > run.actual.out &&
   diff run.expected.out run.actual.out &&
   echo "good!"
 
