@@ -1,4 +1,3 @@
-
 signature ERRORMSG =
 sig
     val anyErrors : bool ref
@@ -51,4 +50,3 @@ struct
        raise Error)
 
 end  (* structure ErrorMsg *)
-  
