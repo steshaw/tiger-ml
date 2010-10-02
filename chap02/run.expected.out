@@ -1,0 +1,4071 @@
+../testcases/test1.tig:
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+LET   44
+TYPE   49
+ID(arrtype)     55
+EQ   63
+ARRAY   65
+OF   71
+ID(int)     74
+VAR   79
+ID(arr1)     83
+COLON   87
+ID(arrtype)     88
+ASSIGN   96
+ID(arrtype)     99
+LBRACK   107
+INT(10)   108
+RBRACK   110
+OF   112
+INT(0)   115
+IN   117
+ID(arr1)     121
+END   126
+EOF   129
+../testcases/test2.tig:
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment 1
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment s
+skipping comment i
+skipping comment n
+skipping comment c
+skipping comment e
+skipping comment  
+skipping comment e
+skipping comment x
+skipping comment p
+skipping comment r
+skipping comment e
+skipping comment s
+skipping comment s
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment 0
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment  
+skipping comment =
+skipping comment  
+skipping comment m
+skipping comment y
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment  
+LET   56
+TYPE   61
+ID(myint)     66
+EQ   72
+ID(int)     74
+TYPE   79
+ID(arrtype)     85
+EQ   93
+ARRAY   95
+OF   101
+ID(myint)     104
+VAR   112
+ID(arr1)     116
+COLON   120
+ID(arrtype)     121
+ASSIGN   129
+ID(arrtype)     132
+LBRACK   140
+INT(10)   141
+RBRACK   143
+OF   145
+INT(0)   148
+IN   150
+ID(arr1)     154
+END   159
+EOF   162
+../testcases/test3.tig:
+skipping comment  
+skipping comment a
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment a
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+LET   44
+TYPE   49
+ID(rectype)     55
+EQ   63
+LBRACE   65
+ID(name)     66
+COLON   70
+ID(string)     71
+COMMA   77
+ID(age)     79
+COLON   82
+ID(int)     83
+RBRACE   86
+VAR   89
+ID(rec1)     93
+COLON   97
+ID(rectype)     98
+ASSIGN   106
+ID(rectype)     109
+LBRACE   117
+ID(name)     118
+EQ   122
+STRING("Nobody")     123
+COMMA   131
+ID(age)     133
+EQ   136
+INT(1000)   137
+RBRACE   141
+IN   143
+ID(rec1)     147
+DOT   151
+ID(name)     152
+ASSIGN   157
+STRING("Somebody")     160
+SEMICOLON   170
+ID(rec1)     173
+END   178
+EOF   181
+../testcases/test4.tig:
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+LET   36
+skipping comment  
+skipping comment c
+skipping comment a
+skipping comment l
+skipping comment c
+skipping comment u
+skipping comment l
+skipping comment a
+skipping comment t
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment !
+skipping comment  
+FUNCTION   60
+ID(nfactor)     69
+LPAREN   76
+ID(n)     77
+COLON   78
+ID(int)     80
+RPAREN   83
+COLON   84
+ID(int)     86
+EQ   90
+IF   94
+ID(n)     98
+EQ   100
+INT(0)   102
+THEN   108
+INT(1)   113
+ELSE   118
+ID(n)     123
+TIMES   125
+ID(nfactor)     127
+LPAREN   134
+ID(n)     135
+MINUS   136
+INT(1)   137
+RPAREN   138
+IN   141
+ID(nfactor)     145
+LPAREN   152
+INT(10)   153
+RPAREN   155
+END   157
+EOF   161
+../testcases/test5.tig:
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+LET   37
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment  
+skipping comment l
+skipping comment i
+skipping comment s
+skipping comment t
+skipping comment  
+TYPE   61
+ID(intlist)     66
+EQ   74
+LBRACE   76
+ID(hd)     77
+COLON   79
+ID(int)     81
+COMMA   84
+ID(tl)     86
+COLON   88
+ID(intlist)     90
+RBRACE   97
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment  
+skipping comment t
+skipping comment r
+skipping comment e
+skipping comment e
+skipping comment  
+TYPE   121
+ID(tree)     126
+EQ   131
+LBRACE   132
+ID(key)     133
+COLON   136
+ID(int)     138
+COMMA   141
+ID(children)     143
+COLON   151
+ID(treelist)     153
+RBRACE   161
+TYPE   163
+ID(treelist)     168
+EQ   177
+LBRACE   179
+ID(hd)     180
+COLON   182
+ID(tree)     184
+COMMA   188
+ID(tl)     190
+COLON   192
+ID(treelist)     194
+RBRACE   202
+VAR   205
+ID(lis)     209
+COLON   212
+ID(intlist)     213
+ASSIGN   221
+ID(intlist)     224
+LBRACE   232
+ID(hd)     234
+EQ   236
+INT(0)   237
+COMMA   238
+ID(tl)     240
+EQ   242
+NIL   244
+RBRACE   248
+IN   252
+ID(lis)     256
+END   260
+EOF   263
+../testcases/test6.tig:
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment p
+skipping comment r
+skipping comment o
+skipping comment c
+skipping comment e
+skipping comment d
+skipping comment u
+skipping comment r
+skipping comment e
+skipping comment s
+skipping comment  
+LET   51
+FUNCTION   56
+ID(do_nothing1)     65
+LPAREN   76
+ID(a)     77
+COLON   78
+ID(int)     80
+COMMA   83
+ID(b)     85
+COLON   86
+ID(string)     88
+RPAREN   94
+EQ   95
+ID(do_nothing2)     99
+LPAREN   110
+ID(a)     111
+PLUS   112
+INT(1)   113
+RPAREN   114
+FUNCTION   117
+ID(do_nothing2)     126
+LPAREN   137
+ID(d)     138
+COLON   139
+ID(int)     141
+RPAREN   144
+EQ   146
+ID(do_nothing1)     150
+LPAREN   161
+ID(d)     162
+COMMA   163
+STRING("str")     165
+RPAREN   170
+IN   173
+ID(do_nothing1)     177
+LPAREN   188
+INT(0)   189
+COMMA   190
+STRING("str2")     192
+RPAREN   198
+END   200
+EOF   204
+../testcases/test7.tig:
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment  
+LET   50
+FUNCTION   55
+ID(do_nothing1)     64
+LPAREN   75
+ID(a)     76
+COLON   77
+ID(int)     79
+COMMA   82
+ID(b)     84
+COLON   85
+ID(string)     87
+RPAREN   93
+COLON   94
+ID(int)     95
+EQ   98
+LPAREN   102
+ID(do_nothing2)     103
+LPAREN   114
+ID(a)     115
+PLUS   116
+INT(1)   117
+RPAREN   118
+SEMICOLON   119
+INT(0)   120
+RPAREN   121
+FUNCTION   124
+ID(do_nothing2)     133
+LPAREN   144
+ID(d)     145
+COLON   146
+ID(int)     148
+RPAREN   151
+COLON   152
+ID(string)     153
+EQ   160
+LPAREN   164
+ID(do_nothing1)     165
+LPAREN   176
+ID(d)     177
+COMMA   178
+STRING("str")     180
+RPAREN   185
+SEMICOLON   186
+STRING(" ")     187
+RPAREN   190
+IN   193
+ID(do_nothing1)     197
+LPAREN   208
+INT(0)   209
+COMMA   210
+STRING("str2")     212
+RPAREN   218
+END   220
+EOF   224
+../testcases/test8.tig:
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment t
+skipping comment  
+skipping comment i
+skipping comment f
+skipping comment  
+IF   19
+LPAREN   22
+INT(10)   23
+GT   26
+INT(20)   28
+RPAREN   30
+THEN   32
+INT(30)   37
+ELSE   40
+INT(40)   45
+EOF   48
+../testcases/test9.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment n
+skipping comment  
+skipping comment -
+skipping comment  
+skipping comment e
+skipping comment l
+skipping comment s
+skipping comment e
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment  
+IF   45
+LPAREN   48
+INT(5)   49
+GT   50
+INT(4)   51
+RPAREN   52
+THEN   54
+INT(13)   59
+ELSE   62
+STRING(" ")     68
+EOF   71
+../testcases/test10.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment b
+skipping comment o
+skipping comment d
+skipping comment y
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment w
+skipping comment h
+skipping comment i
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment u
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment  
+WHILE   39
+LPAREN   44
+INT(10)   45
+GT   48
+INT(5)   50
+RPAREN   51
+DO   53
+INT(5)   56
+PLUS   57
+INT(6)   58
+EOF   59
+../testcases/test11.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment h
+skipping comment i
+skipping comment  
+skipping comment e
+skipping comment x
+skipping comment p
+skipping comment r
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment ,
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment d
+skipping comment e
+skipping comment x
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment n
+skipping comment e
+skipping comment o
+skipping comment u
+skipping comment s
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment a
+skipping comment s
+skipping comment s
+skipping comment i
+skipping comment g
+skipping comment n
+skipping comment e
+skipping comment d
+skipping comment  
+skipping comment t
+skipping comment o
+skipping comment .
+FOR   79
+ID(i)     83
+ASSIGN   84
+INT(10)   86
+TO   89
+STRING(" ")     92
+DO   96
+ID(i)     101
+ASSIGN   103
+ID(i)     106
+MINUS   108
+INT(1)   110
+EOF   111
+../testcases/test12.tig:
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment f
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment l
+skipping comment e
+skipping comment t
+skipping comment  
+LET   27
+VAR   32
+ID(a)     36
+ASSIGN   37
+INT(0)   40
+IN   42
+FOR   47
+ID(i)     51
+ASSIGN   52
+INT(0)   54
+TO   56
+INT(100)   59
+DO   63
+LPAREN   66
+ID(a)     67
+ASSIGN   68
+ID(a)     70
+PLUS   71
+INT(1)   72
+SEMICOLON   73
+LPAREN   74
+RPAREN   75
+RPAREN   76
+END   78
+EOF   81
+../testcases/test13.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment :
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment m
+skipping comment p
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment s
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment c
+skipping comment o
+skipping comment m
+skipping comment p
+skipping comment a
+skipping comment t
+skipping comment i
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+INT(3)   49
+GT   51
+STRING("df")     53
+EOF   57
+../testcases/test14.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment m
+skipping comment p
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment  
+skipping comment w
+skipping comment i
+skipping comment t
+skipping comment h
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+LET   40
+TYPE   46
+ID(arrtype)     51
+EQ   59
+ARRAY   61
+OF   67
+ID(int)     70
+TYPE   75
+ID(rectype)     80
+EQ   88
+LBRACE   90
+ID(name)     91
+COLON   95
+ID(string)     96
+COMMA   102
+ID(id)     104
+COLON   106
+ID(int)     108
+RBRACE   111
+VAR   115
+ID(rec)     119
+ASSIGN   123
+ID(rectype)     126
+LBRACE   134
+ID(name)     135
+EQ   139
+STRING("aname")     140
+COMMA   147
+ID(id)     149
+EQ   151
+INT(0)   152
+RBRACE   153
+VAR   156
+ID(arr)     160
+ASSIGN   164
+ID(arrtype)     167
+LBRACK   175
+INT(3)   176
+RBRACK   177
+OF   179
+INT(0)   182
+IN   185
+IF   189
+ID(rec)     192
+NEQ   196
+ID(arr)     199
+THEN   203
+INT(3)   208
+ELSE   210
+INT(4)   215
+END   217
+EOF   220
+../testcases/test15.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment i
+skipping comment f
+skipping comment -
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment n
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment t
+skipping comment u
+skipping comment r
+skipping comment n
+skipping comment s
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment u
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment  
+IF   42
+INT(20)   45
+THEN   48
+INT(3)   53
+EOF   54
+../testcases/test16.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment :
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment t
+skipping comment  
+skipping comment d
+skipping comment o
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment p
+skipping comment a
+skipping comment s
+skipping comment s
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment r
+skipping comment o
+skipping comment u
+skipping comment g
+skipping comment h
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+LET   81
+TYPE   87
+ID(a)     92
+EQ   93
+ID(c)     94
+TYPE   96
+ID(b)     101
+EQ   102
+ID(a)     103
+TYPE   105
+ID(c)     110
+EQ   111
+ID(d)     112
+TYPE   114
+ID(d)     119
+EQ   120
+ID(a)     121
+IN   124
+STRING("")     128
+END   131
+EOF   134
+../testcases/test17.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment :
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment u
+skipping comment p
+skipping comment t
+skipping comment e
+skipping comment d
+skipping comment  
+LET   60
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment  
+skipping comment t
+skipping comment r
+skipping comment e
+skipping comment e
+skipping comment  
+TYPE   84
+ID(tree)     89
+EQ   94
+LBRACE   95
+ID(key)     96
+COLON   99
+ID(int)     101
+COMMA   104
+ID(children)     106
+COLON   114
+ID(treelist)     116
+RBRACE   124
+VAR   126
+ID(d)     130
+COLON   131
+ID(int)     132
+ASSIGN   136
+INT(0)   138
+TYPE   140
+ID(treelist)     145
+EQ   154
+LBRACE   156
+ID(hd)     157
+COLON   159
+ID(tree)     161
+COMMA   165
+ID(tl)     167
+COLON   169
+ID(treelist)     171
+RBRACE   179
+IN   182
+ID(d)     186
+END   188
+EOF   191
+../testcases/test18.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment u
+skipping comment p
+skipping comment t
+skipping comment e
+skipping comment d
+skipping comment  
+LET   65
+FUNCTION   70
+ID(do_nothing1)     79
+LPAREN   90
+ID(a)     91
+COLON   92
+ID(int)     94
+COMMA   97
+ID(b)     99
+COLON   100
+ID(string)     102
+RPAREN   108
+COLON   109
+ID(int)     110
+EQ   113
+LPAREN   117
+ID(do_nothing2)     118
+LPAREN   129
+ID(a)     130
+PLUS   131
+INT(1)   132
+RPAREN   133
+SEMICOLON   134
+INT(0)   135
+RPAREN   136
+VAR   139
+ID(d)     143
+ASSIGN   144
+INT(0)   146
+FUNCTION   149
+ID(do_nothing2)     158
+LPAREN   169
+ID(d)     170
+COLON   171
+ID(int)     173
+RPAREN   176
+COLON   177
+ID(string)     178
+EQ   185
+LPAREN   189
+ID(do_nothing1)     190
+LPAREN   201
+ID(d)     202
+COMMA   203
+STRING("str")     205
+RPAREN   210
+SEMICOLON   211
+STRING(" ")     212
+RPAREN   215
+IN   218
+ID(do_nothing1)     222
+LPAREN   233
+INT(0)   234
+COMMA   235
+STRING("str2")     237
+RPAREN   243
+END   245
+EOF   249
+../testcases/test19.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment s
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment u
+skipping comment s
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment l
+skipping comment o
+skipping comment c
+skipping comment a
+skipping comment l
+skipping comment  
+skipping comment t
+skipping comment o
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment i
+skipping comment r
+skipping comment s
+skipping comment t
+skipping comment  
+skipping comment o
+skipping comment n
+skipping comment e
+skipping comment ,
+skipping comment  
+skipping comment u
+skipping comment n
+skipping comment d
+skipping comment e
+skipping comment c
+skipping comment l
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment d
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+LET   91
+FUNCTION   96
+ID(do_nothing1)     105
+LPAREN   116
+ID(a)     117
+COLON   118
+ID(int)     120
+COMMA   123
+ID(b)     125
+COLON   126
+ID(string)     128
+RPAREN   134
+COLON   135
+ID(int)     136
+EQ   139
+LPAREN   143
+ID(do_nothing2)     144
+LPAREN   155
+ID(a)     156
+PLUS   157
+INT(1)   158
+RPAREN   159
+SEMICOLON   160
+INT(0)   161
+RPAREN   162
+FUNCTION   165
+ID(do_nothing2)     174
+LPAREN   185
+ID(d)     186
+COLON   187
+ID(int)     189
+RPAREN   192
+COLON   193
+ID(string)     194
+EQ   201
+LPAREN   205
+ID(do_nothing1)     206
+LPAREN   217
+ID(a)     218
+COMMA   219
+STRING("str")     221
+RPAREN   226
+SEMICOLON   227
+STRING(" ")     228
+RPAREN   231
+IN   234
+ID(do_nothing1)     238
+LPAREN   249
+INT(0)   250
+COMMA   251
+STRING("str2")     253
+RPAREN   259
+END   261
+EOF   265
+../testcases/test20.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment :
+skipping comment  
+skipping comment u
+skipping comment n
+skipping comment d
+skipping comment e
+skipping comment c
+skipping comment l
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment d
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment i
+skipping comment  
+WHILE   38
+INT(10)   44
+GT   47
+INT(5)   49
+DO   51
+LPAREN   54
+ID(i)     55
+PLUS   56
+INT(1)   57
+SEMICOLON   58
+LPAREN   59
+RPAREN   60
+RPAREN   61
+EOF   62
+../testcases/test21.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment p
+skipping comment r
+skipping comment o
+skipping comment c
+skipping comment e
+skipping comment d
+skipping comment u
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment t
+skipping comment u
+skipping comment r
+skipping comment n
+skipping comment s
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment u
+skipping comment e
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment p
+skipping comment r
+skipping comment o
+skipping comment c
+skipping comment e
+skipping comment d
+skipping comment u
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment u
+skipping comment s
+skipping comment e
+skipping comment d
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment x
+skipping comment p
+skipping comment r
+skipping comment  
+LET   73
+skipping comment  
+skipping comment c
+skipping comment a
+skipping comment l
+skipping comment c
+skipping comment u
+skipping comment l
+skipping comment a
+skipping comment t
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment !
+skipping comment  
+FUNCTION   97
+ID(nfactor)     106
+LPAREN   113
+ID(n)     114
+COLON   115
+ID(int)     117
+RPAREN   120
+EQ   122
+IF   126
+ID(n)     130
+EQ   132
+INT(0)   134
+THEN   140
+INT(1)   145
+ELSE   150
+ID(n)     155
+TIMES   157
+ID(nfactor)     159
+LPAREN   166
+ID(n)     167
+MINUS   168
+INT(1)   169
+RPAREN   170
+IN   173
+ID(nfactor)     177
+LPAREN   184
+INT(10)   185
+RPAREN   187
+END   189
+EOF   193
+../testcases/test22.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment f
+skipping comment i
+skipping comment e
+skipping comment l
+skipping comment d
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+LET   42
+TYPE   48
+ID(rectype)     53
+EQ   61
+LBRACE   63
+ID(name)     64
+COLON   68
+ID(string)     69
+COMMA   76
+ID(id)     78
+COLON   80
+ID(int)     81
+RBRACE   84
+VAR   87
+ID(rec1)     91
+ASSIGN   96
+ID(rectype)     99
+LBRACE   107
+ID(name)     108
+EQ   112
+STRING("Name")     113
+COMMA   119
+ID(id)     121
+EQ   123
+INT(0)   124
+RBRACE   125
+IN   127
+ID(rec1)     131
+DOT   135
+ID(nam)     136
+ASSIGN   140
+STRING("asd")     143
+END   149
+EOF   152
+../testcases/test23.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment m
+skipping comment i
+skipping comment s
+skipping comment m
+skipping comment a
+skipping comment t
+skipping comment c
+skipping comment h
+skipping comment  
+LET   31
+TYPE   37
+ID(rectype)     42
+EQ   50
+LBRACE   52
+ID(name)     53
+COLON   57
+ID(string)     58
+COMMA   65
+ID(id)     67
+COLON   69
+ID(int)     70
+RBRACE   73
+VAR   76
+ID(rec1)     80
+ASSIGN   85
+ID(rectype)     88
+LBRACE   96
+ID(name)     97
+EQ   101
+STRING("aname")     102
+COMMA   109
+ID(id)     111
+EQ   113
+INT(0)   114
+RBRACE   115
+IN   117
+ID(rec1)     121
+DOT   125
+ID(name)     126
+ASSIGN   131
+INT(3)   134
+SEMICOLON   135
+ID(rec1)     138
+DOT   142
+ID(id)     143
+ASSIGN   146
+STRING("")     149
+END   153
+EOF   156
+../testcases/test24.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+LET   35
+VAR   41
+ID(d)     45
+ASSIGN   46
+INT(0)   48
+IN   50
+ID(d)     54
+LBRACK   55
+INT(3)   56
+RBRACK   57
+END   59
+EOF   63
+../testcases/test25.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+LET   36
+VAR   42
+ID(d)     46
+ASSIGN   47
+INT(0)   49
+IN   51
+ID(d)     55
+DOT   56
+ID(f)     57
+END   60
+EOF   64
+../testcases/test26.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment e
+skipping comment g
+skipping comment e
+skipping comment r
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment q
+skipping comment u
+skipping comment i
+skipping comment r
+skipping comment e
+skipping comment d
+skipping comment  
+INT(3)   34
+PLUS   36
+STRING("var")     38
+EOF   43
+../testcases/test27.tig:
+skipping comment  
+skipping comment l
+skipping comment o
+skipping comment c
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+skipping comment h
+skipping comment i
+skipping comment d
+skipping comment e
+skipping comment  
+skipping comment g
+skipping comment l
+skipping comment o
+skipping comment b
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+LET   28
+VAR   33
+ID(a)     37
+ASSIGN   38
+INT(0)   40
+FUNCTION   44
+ID(g)     53
+LPAREN   54
+ID(a)     55
+COLON   56
+ID(int)     57
+RPAREN   60
+COLON   61
+ID(int)     62
+EQ   66
+ID(a)     68
+IN   71
+ID(g)     75
+LPAREN   76
+INT(2)   77
+RPAREN   78
+END   80
+EOF   83
+../testcases/test28.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment n
+skipping comment t
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+LET   40
+TYPE   45
+ID(rectype1)     50
+EQ   59
+LBRACE   61
+ID(name)     62
+COLON   66
+ID(string)     67
+COMMA   74
+ID(id)     76
+COLON   78
+ID(int)     79
+RBRACE   82
+TYPE   85
+ID(rectype2)     90
+EQ   99
+LBRACE   101
+ID(name)     102
+COLON   106
+ID(string)     107
+COMMA   114
+ID(id)     116
+COLON   118
+ID(int)     119
+RBRACE   122
+VAR   126
+ID(rec1)     130
+COLON   134
+ID(rectype1)     136
+ASSIGN   145
+ID(rectype2)     148
+LBRACE   157
+ID(name)     158
+EQ   162
+STRING("Name")     163
+COMMA   169
+ID(id)     171
+EQ   173
+INT(0)   174
+RBRACE   175
+IN   177
+ID(rec1)     181
+END   186
+EOF   189
+../testcases/test29.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment n
+skipping comment t
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+LET   39
+TYPE   44
+ID(arrtype1)     49
+EQ   58
+ARRAY   60
+OF   66
+ID(int)     69
+TYPE   74
+ID(arrtype2)     79
+EQ   88
+ARRAY   90
+OF   96
+ID(int)     99
+VAR   105
+ID(arr1)     109
+COLON   113
+ID(arrtype1)     115
+ASSIGN   124
+ID(arrtype2)     127
+LBRACK   136
+INT(10)   137
+RBRACK   139
+OF   141
+INT(0)   144
+IN   146
+ID(arr1)     150
+END   155
+EOF   158
+../testcases/test30.tig:
+skipping comment  
+skipping comment s
+skipping comment y
+skipping comment n
+skipping comment o
+skipping comment n
+skipping comment y
+skipping comment m
+skipping comment s
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment  
+LET   27
+TYPE   34
+ID(a)     39
+EQ   41
+ARRAY   43
+OF   49
+ID(int)     52
+TYPE   58
+ID(b)     63
+EQ   65
+ID(a)     67
+VAR   72
+ID(arr1)     76
+COLON   80
+ID(a)     81
+ASSIGN   83
+ID(b)     86
+LBRACK   88
+INT(10)   89
+RBRACK   91
+OF   93
+INT(0)   96
+IN   98
+ID(arr1)     103
+LBRACK   107
+INT(2)   108
+RBRACK   109
+END   111
+EOF   114
+../testcases/test31.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment t
+skipping comment r
+skipping comment a
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment u
+skipping comment e
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment  
+LET   54
+VAR   60
+ID(a)     64
+COLON   65
+ID(int)     66
+ASSIGN   70
+STRING(" ")     73
+IN   77
+ID(a)     81
+END   83
+EOF   86
+../testcases/test32.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment z
+skipping comment i
+skipping comment n
+skipping comment g
+skipping comment  
+skipping comment e
+skipping comment x
+skipping comment p
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment r
+skipping comment a
+skipping comment y
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment  
+LET   56
+TYPE   61
+ID(arrayty)     66
+EQ   74
+ARRAY   76
+OF   82
+ID(int)     85
+VAR   91
+ID(a)     95
+ASSIGN   97
+ID(arrayty)     100
+LBRACK   108
+INT(10)   109
+RBRACK   111
+OF   113
+STRING(" ")     116
+IN   120
+INT(0)   124
+END   126
+EOF   129
+../testcases/test33.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment u
+skipping comment n
+skipping comment k
+skipping comment n
+skipping comment o
+skipping comment w
+skipping comment n
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+LET   29
+VAR   34
+ID(a)     38
+ASSIGN   39
+ID(rectype)     42
+LBRACE   50
+RBRACE   51
+IN   53
+INT(0)   57
+END   59
+EOF   62
+../testcases/test34.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment f
+skipping comment o
+skipping comment r
+skipping comment m
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment a
+skipping comment c
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+skipping comment h
+skipping comment a
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment n
+skipping comment t
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+LET   57
+FUNCTION   62
+ID(g)     71
+LPAREN   73
+ID(a)     74
+COLON   75
+ID(int)     76
+COMMA   80
+ID(b)     82
+COLON   83
+ID(string)     84
+RPAREN   90
+COLON   91
+ID(int)     92
+EQ   96
+ID(a)     98
+IN   100
+ID(g)     104
+LPAREN   105
+STRING("one")     106
+COMMA   111
+STRING("two")     113
+RPAREN   118
+END   120
+EOF   123
+../testcases/test35.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment f
+skipping comment o
+skipping comment r
+skipping comment m
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment m
+skipping comment o
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment c
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+LET   46
+FUNCTION   51
+ID(g)     60
+LPAREN   62
+ID(a)     63
+COLON   64
+ID(int)     65
+COMMA   69
+ID(b)     71
+COLON   72
+ID(string)     73
+RPAREN   79
+COLON   80
+ID(int)     81
+EQ   85
+ID(a)     87
+IN   89
+ID(g)     93
+LPAREN   94
+STRING("one")     95
+RPAREN   100
+END   102
+EOF   105
+../testcases/test36.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment f
+skipping comment o
+skipping comment r
+skipping comment m
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment e
+skipping comment w
+skipping comment e
+skipping comment r
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment c
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment  
+LET   47
+FUNCTION   52
+ID(g)     61
+LPAREN   63
+ID(a)     64
+COLON   65
+ID(int)     66
+COMMA   70
+ID(b)     72
+COLON   73
+ID(string)     74
+RPAREN   80
+COLON   81
+ID(int)     82
+EQ   86
+ID(a)     88
+IN   90
+ID(g)     94
+LPAREN   95
+INT(3)   96
+COMMA   97
+STRING("one")     98
+COMMA   103
+INT(5)   104
+RPAREN   105
+END   107
+EOF   110
+../testcases/test37.tig:
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment d
+skipping comment e
+skipping comment c
+skipping comment l
+skipping comment a
+skipping comment r
+skipping comment a
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment ;
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment l
+skipping comment e
+skipping comment g
+skipping comment a
+skipping comment l
+skipping comment ,
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment w
+skipping comment o
+skipping comment  
+skipping comment d
+skipping comment i
+skipping comment f
+skipping comment f
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment n
+skipping comment t
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment w
+skipping comment i
+skipping comment t
+skipping comment h
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment .
+skipping comment T
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment o
+skipping comment n
+skipping comment e
+skipping comment  
+skipping comment h
+skipping comment i
+skipping comment d
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment i
+skipping comment r
+skipping comment s
+skipping comment t
+skipping comment .
+LET   141
+VAR   146
+ID(a)     150
+ASSIGN   152
+INT(0)   155
+VAR   158
+ID(a)     162
+ASSIGN   164
+STRING(" ")     167
+IN   171
+INT(0)   175
+END   177
+EOF   180
+../testcases/test38.tig:
+skipping comment  
+skipping comment T
+skipping comment h
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment l
+skipping comment l
+skipping comment e
+skipping comment g
+skipping comment a
+skipping comment l
+skipping comment ,
+skipping comment  
+skipping comment s
+skipping comment i
+skipping comment n
+skipping comment c
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment w
+skipping comment o
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment w
+skipping comment i
+skipping comment t
+skipping comment h
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment  
+skipping comment (
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment t
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment )
+skipping comment  
+skipping comment b
+skipping comment a
+skipping comment t
+skipping comment c
+skipping comment h
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment .
+skipping comment  
+skipping comment S
+skipping comment e
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment o
+skipping comment  
+skipping comment t
+skipping comment e
+skipping comment s
+skipping comment t
+skipping comment 4
+skipping comment 7
+LET   157
+TYPE   162
+ID(a)     167
+EQ   169
+ID(int)     171
+TYPE   176
+ID(a)     181
+EQ   183
+ID(string)     185
+IN   192
+INT(0)   196
+END   198
+EOF   201
+../testcases/test39.tig:
+skipping comment  
+skipping comment T
+skipping comment h
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment l
+skipping comment l
+skipping comment e
+skipping comment g
+skipping comment a
+skipping comment l
+skipping comment ,
+skipping comment  
+skipping comment s
+skipping comment i
+skipping comment n
+skipping comment c
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment w
+skipping comment o
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment  
+skipping comment w
+skipping comment i
+skipping comment t
+skipping comment h
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment  
+skipping comment (
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment t
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment )
+skipping comment  
+skipping comment b
+skipping comment a
+skipping comment t
+skipping comment c
+skipping comment h
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment .
+skipping comment S
+skipping comment e
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment o
+skipping comment  
+skipping comment t
+skipping comment e
+skipping comment s
+skipping comment t
+skipping comment 4
+skipping comment 8
+skipping comment  
+LET   162
+FUNCTION   167
+ID(g)     176
+LPAREN   177
+ID(a)     178
+COLON   179
+ID(int)     180
+RPAREN   183
+COLON   184
+ID(int)     185
+EQ   189
+ID(a)     191
+FUNCTION   194
+ID(g)     203
+LPAREN   204
+ID(a)     205
+COLON   206
+ID(int)     207
+RPAREN   210
+COLON   211
+ID(int)     212
+EQ   216
+ID(a)     218
+IN   220
+INT(0)   224
+END   226
+EOF   229
+../testcases/test40.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment  
+skipping comment :
+skipping comment  
+skipping comment p
+skipping comment r
+skipping comment o
+skipping comment c
+skipping comment e
+skipping comment d
+skipping comment u
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment t
+skipping comment u
+skipping comment r
+skipping comment n
+skipping comment s
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment u
+skipping comment e
+skipping comment  
+LET   40
+FUNCTION   45
+ID(g)     54
+LPAREN   55
+ID(a)     56
+COLON   57
+ID(int)     58
+RPAREN   61
+EQ   63
+ID(a)     65
+IN   67
+ID(g)     72
+LPAREN   73
+INT(2)   74
+RPAREN   75
+END   77
+EOF   81
+../testcases/test41.tig:
+skipping comment  
+skipping comment l
+skipping comment o
+skipping comment c
+skipping comment a
+skipping comment l
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment h
+skipping comment i
+skipping comment d
+skipping comment e
+skipping comment  
+skipping comment g
+skipping comment l
+skipping comment o
+skipping comment b
+skipping comment a
+skipping comment l
+skipping comment  
+LET   32
+TYPE   37
+ID(a)     42
+EQ   44
+ID(int)     46
+IN   50
+LET   54
+TYPE   60
+ID(a)     65
+EQ   67
+ID(string)     69
+IN   77
+INT(0)   82
+END   85
+END   89
+EOF   92
+../testcases/test42.tig:
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment t
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment c
+skipping comment l
+skipping comment a
+skipping comment r
+skipping comment a
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment  
+LET   29
+TYPE   35
+ID(arrtype1)     40
+EQ   49
+ARRAY   51
+OF   57
+ID(int)     60
+TYPE   64
+ID(rectype1)     69
+EQ   78
+LBRACE   80
+ID(name)     81
+COLON   85
+ID(string)     86
+COMMA   92
+ID(address)     94
+COLON   101
+ID(string)     102
+COMMA   108
+ID(id)     110
+COLON   112
+ID(int)     114
+COMMA   118
+ID(age)     120
+COLON   123
+ID(int)     125
+RBRACE   128
+TYPE   130
+ID(arrtype2)     135
+EQ   144
+ARRAY   146
+OF   152
+ID(rectype1)     155
+TYPE   164
+ID(rectype2)     169
+EQ   178
+LBRACE   180
+ID(name)     181
+COLON   186
+ID(string)     188
+COMMA   194
+ID(dates)     196
+COLON   201
+ID(arrtype1)     203
+RBRACE   211
+TYPE   214
+ID(arrtype3)     219
+EQ   228
+ARRAY   230
+OF   236
+ID(string)     239
+VAR   247
+ID(arr1)     251
+ASSIGN   256
+ID(arrtype1)     259
+LBRACK   268
+INT(10)   269
+RBRACK   271
+OF   273
+INT(0)   276
+VAR   278
+ID(arr2)     282
+ASSIGN   288
+ID(arrtype2)     291
+LBRACK   300
+INT(5)   301
+RBRACK   302
+OF   304
+ID(rectype1)     307
+LBRACE   316
+ID(name)     317
+EQ   321
+STRING("aname")     322
+COMMA   329
+ID(address)     331
+EQ   338
+STRING("somewhere")     339
+COMMA   350
+ID(id)     352
+EQ   354
+INT(0)   355
+COMMA   356
+ID(age)     358
+EQ   361
+INT(0)   362
+RBRACE   363
+VAR   365
+ID(arr3)     369
+COLON   373
+ID(arrtype3)     374
+ASSIGN   383
+ID(arrtype3)     386
+LBRACK   395
+INT(100)   396
+RBRACK   399
+OF   401
+STRING("")     404
+VAR   408
+ID(rec1)     412
+ASSIGN   417
+ID(rectype1)     420
+LBRACE   429
+ID(name)     430
+EQ   434
+STRING("Kapoios")     435
+COMMA   444
+ID(address)     446
+EQ   453
+STRING("Kapou")     454
+COMMA   461
+ID(id)     463
+EQ   465
+INT(2432)   466
+COMMA   471
+ID(age)     473
+EQ   476
+INT(44)   477
+RBRACE   479
+VAR   481
+ID(rec2)     485
+ASSIGN   490
+ID(rectype2)     493
+LBRACE   502
+ID(name)     503
+EQ   507
+STRING("Allos")     508
+COMMA   515
+ID(dates)     517
+EQ   522
+ID(arrtype1)     524
+LBRACK   533
+INT(3)   534
+RBRACK   535
+OF   537
+INT(1900)   540
+RBRACE   544
+IN   547
+ID(arr1)     551
+LBRACK   555
+INT(0)   556
+RBRACK   557
+ASSIGN   559
+INT(1)   562
+SEMICOLON   563
+ID(arr1)     566
+LBRACK   570
+INT(9)   571
+RBRACK   572
+ASSIGN   574
+INT(3)   577
+SEMICOLON   578
+ID(arr2)     580
+LBRACK   584
+INT(3)   585
+RBRACK   586
+DOT   587
+ID(name)     588
+ASSIGN   593
+STRING("kati")     596
+SEMICOLON   602
+ID(arr2)     604
+LBRACK   608
+INT(1)   609
+RBRACK   610
+DOT   611
+ID(age)     612
+ASSIGN   616
+INT(23)   619
+SEMICOLON   621
+ID(arr3)     623
+LBRACK   627
+INT(34)   628
+RBRACK   630
+ASSIGN   632
+STRING("sfd")     635
+SEMICOLON   640
+ID(rec1)     643
+DOT   647
+ID(name)     648
+ASSIGN   653
+STRING("sdf")     656
+SEMICOLON   661
+ID(rec2)     663
+DOT   667
+ID(dates)     668
+LBRACK   673
+INT(0)   674
+RBRACK   675
+ASSIGN   677
+INT(2323)   680
+SEMICOLON   684
+ID(rec2)     686
+DOT   690
+ID(dates)     691
+LBRACK   696
+INT(2)   697
+RBRACK   698
+ASSIGN   700
+INT(2323)   703
+END   709
+EOF   712
+../testcases/test43.tig:
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment z
+skipping comment e
+skipping comment  
+skipping comment w
+skipping comment i
+skipping comment t
+skipping comment h
+skipping comment  
+skipping comment u
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment c
+skipping comment a
+skipping comment u
+skipping comment s
+skipping comment i
+skipping comment n
+skipping comment g
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment m
+skipping comment i
+skipping comment s
+skipping comment m
+skipping comment a
+skipping comment t
+skipping comment c
+skipping comment h
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment d
+skipping comment d
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+LET   68
+VAR   74
+ID(a)     78
+ASSIGN   80
+LPAREN   83
+RPAREN   84
+IN   86
+ID(a)     90
+PLUS   92
+INT(3)   94
+END   96
+EOF   99
+../testcases/test44.tig:
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment n
+skipping comment i
+skipping comment l
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment z
+skipping comment a
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment a
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment a
+skipping comment s
+skipping comment s
+skipping comment i
+skipping comment g
+skipping comment n
+skipping comment m
+skipping comment e
+skipping comment n
+skipping comment t
+skipping comment  
+LET   48
+TYPE   55
+ID(rectype)     60
+EQ   68
+LBRACE   70
+ID(name)     71
+COLON   75
+ID(string)     76
+COMMA   82
+ID(id)     84
+COLON   86
+ID(int)     87
+RBRACE   90
+VAR   93
+ID(b)     97
+COLON   98
+ID(rectype)     99
+ASSIGN   107
+NIL   110
+IN   115
+ID(b)     120
+ASSIGN   122
+NIL   125
+END   130
+EOF   133
+../testcases/test45.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment :
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment i
+skipping comment t
+skipping comment i
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment z
+skipping comment i
+skipping comment n
+skipping comment g
+skipping comment  
+skipping comment n
+skipping comment i
+skipping comment l
+skipping comment  
+skipping comment e
+skipping comment x
+skipping comment p
+skipping comment r
+skipping comment e
+skipping comment s
+skipping comment s
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment t
+skipping comment r
+skipping comment a
+skipping comment i
+skipping comment n
+skipping comment e
+skipping comment d
+skipping comment  
+skipping comment b
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment r
+skipping comment d
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+LET   75
+TYPE   81
+ID(rectype)     86
+EQ   94
+LBRACE   96
+ID(name)     97
+COLON   101
+ID(string)     102
+COMMA   108
+ID(id)     110
+COLON   112
+ID(int)     113
+RBRACE   116
+VAR   120
+ID(a)     124
+ASSIGN   125
+NIL   128
+IN   132
+ID(a)     136
+END   138
+EOF   141
+../testcases/test46.tig:
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment l
+skipping comment i
+skipping comment d
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment  
+skipping comment c
+skipping comment o
+skipping comment m
+skipping comment p
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment s
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment  
+LET   30
+TYPE   36
+ID(rectype)     41
+EQ   49
+LBRACE   51
+ID(name)     52
+COLON   56
+ID(string)     57
+COMMA   63
+ID(id)     65
+COLON   67
+ID(int)     68
+RBRACE   71
+VAR   74
+ID(b)     78
+COLON   79
+ID(rectype)     80
+ASSIGN   88
+NIL   91
+IN   95
+ID(b)     99
+EQ   101
+NIL   103
+SEMICOLON   106
+ID(b)     109
+NEQ   111
+NIL   114
+END   118
+EOF   121
+../testcases/test47.tig:
+skipping comment  
+skipping comment T
+skipping comment h
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment l
+skipping comment e
+skipping comment g
+skipping comment a
+skipping comment l
+skipping comment .
+skipping comment T
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment  
+skipping comment "
+skipping comment a
+skipping comment "
+skipping comment  
+skipping comment s
+skipping comment i
+skipping comment m
+skipping comment p
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment h
+skipping comment i
+skipping comment d
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment i
+skipping comment r
+skipping comment s
+skipping comment t
+skipping comment  
+skipping comment o
+skipping comment n
+skipping comment e
+skipping comment .
+skipping comment B
+skipping comment e
+skipping comment c
+skipping comment a
+skipping comment u
+skipping comment s
+skipping comment e
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment e
+skipping comment r
+skipping comment v
+skipping comment e
+skipping comment n
+skipping comment i
+skipping comment n
+skipping comment g
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment c
+skipping comment l
+skipping comment a
+skipping comment r
+skipping comment a
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment ,
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment w
+skipping comment o
+skipping comment  
+skipping comment "
+skipping comment a
+skipping comment "
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment b
+skipping comment a
+skipping comment t
+skipping comment c
+skipping comment h
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment s
+skipping comment .
+skipping comment S
+skipping comment e
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment o
+skipping comment  
+skipping comment t
+skipping comment e
+skipping comment s
+skipping comment t
+skipping comment 3
+skipping comment 8
+skipping comment  
+LET   220
+TYPE   225
+ID(a)     230
+EQ   232
+ID(int)     234
+VAR   239
+ID(b)     243
+ASSIGN   245
+INT(4)   248
+TYPE   251
+ID(a)     256
+EQ   258
+ID(string)     260
+IN   267
+INT(0)   271
+END   273
+EOF   276
+../testcases/test48.tig:
+skipping comment  
+skipping comment T
+skipping comment h
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment i
+skipping comment s
+skipping comment  
+skipping comment l
+skipping comment e
+skipping comment g
+skipping comment a
+skipping comment l
+skipping comment .
+skipping comment T
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment e
+skipping comment c
+skipping comment o
+skipping comment n
+skipping comment d
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment  
+skipping comment "
+skipping comment g
+skipping comment "
+skipping comment  
+skipping comment s
+skipping comment i
+skipping comment m
+skipping comment p
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment h
+skipping comment i
+skipping comment d
+skipping comment e
+skipping comment s
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment i
+skipping comment r
+skipping comment s
+skipping comment t
+skipping comment  
+skipping comment o
+skipping comment n
+skipping comment e
+skipping comment .
+skipping comment B
+skipping comment e
+skipping comment c
+skipping comment a
+skipping comment u
+skipping comment s
+skipping comment e
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment t
+skipping comment e
+skipping comment r
+skipping comment v
+skipping comment e
+skipping comment n
+skipping comment i
+skipping comment n
+skipping comment g
+skipping comment  
+skipping comment v
+skipping comment a
+skipping comment r
+skipping comment i
+skipping comment a
+skipping comment b
+skipping comment l
+skipping comment e
+skipping comment  
+skipping comment d
+skipping comment e
+skipping comment c
+skipping comment l
+skipping comment a
+skipping comment r
+skipping comment a
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment ,
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment t
+skipping comment w
+skipping comment o
+skipping comment  
+skipping comment "
+skipping comment g
+skipping comment "
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment a
+skipping comment r
+skipping comment e
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment i
+skipping comment n
+skipping comment  
+skipping comment t
+skipping comment h
+skipping comment e
+skipping comment  
+skipping comment s
+skipping comment a
+skipping comment m
+skipping comment e
+skipping comment b
+skipping comment a
+skipping comment t
+skipping comment c
+skipping comment h
+skipping comment  
+skipping comment o
+skipping comment f
+skipping comment  
+skipping comment m
+skipping comment u
+skipping comment t
+skipping comment u
+skipping comment a
+skipping comment l
+skipping comment l
+skipping comment y
+skipping comment  
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment u
+skipping comment r
+skipping comment s
+skipping comment i
+skipping comment v
+skipping comment e
+skipping comment  
+skipping comment f
+skipping comment u
+skipping comment n
+skipping comment c
+skipping comment t
+skipping comment i
+skipping comment o
+skipping comment n
+skipping comment s
+skipping comment .
+skipping comment  
+skipping comment S
+skipping comment e
+skipping comment e
+skipping comment  
+skipping comment a
+skipping comment l
+skipping comment s
+skipping comment o
+skipping comment  
+skipping comment t
+skipping comment e
+skipping comment s
+skipping comment t
+skipping comment 3
+skipping comment 9
+skipping comment  
+LET   233
+FUNCTION   238
+ID(g)     247
+LPAREN   248
+ID(a)     249
+COLON   250
+ID(int)     251
+RPAREN   254
+COLON   255
+ID(int)     256
+EQ   260
+ID(a)     262
+TYPE   265
+ID(t)     270
+EQ   272
+ID(int)     274
+FUNCTION   279
+ID(g)     288
+LPAREN   289
+ID(a)     290
+COLON   291
+ID(int)     292
+RPAREN   295
+COLON   296
+ID(int)     297
+EQ   301
+ID(a)     303
+IN   305
+INT(0)   309
+END   311
+EOF   314
+../testcases/test49.tig:
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment :
+skipping comment  
+skipping comment s
+skipping comment y
+skipping comment n
+skipping comment t
+skipping comment a
+skipping comment x
+skipping comment  
+skipping comment e
+skipping comment r
+skipping comment r
+skipping comment o
+skipping comment r
+skipping comment ,
+skipping comment  
+skipping comment n
+skipping comment i
+skipping comment l
+skipping comment  
+skipping comment s
+skipping comment h
+skipping comment o
+skipping comment u
+skipping comment l
+skipping comment d
+skipping comment  
+skipping comment n
+skipping comment o
+skipping comment t
+skipping comment  
+skipping comment b
+skipping comment e
+skipping comment  
+skipping comment p
+skipping comment r
+skipping comment e
+skipping comment c
+skipping comment e
+skipping comment d
+skipping comment e
+skipping comment d
+skipping comment  
+skipping comment b
+skipping comment y
+skipping comment  
+skipping comment t
+skipping comment y
+skipping comment p
+skipping comment e
+skipping comment -
+skipping comment i
+skipping comment d
+skipping comment .
+LET   69
+TYPE   75
+ID(rectype)     80
+EQ   88
+LBRACE   90
+ID(name)     91
+COLON   95
+ID(string)     96
+COMMA   102
+ID(id)     104
+COLON   106
+ID(int)     107
+RBRACE   110
+VAR   114
+ID(a)     118
+ASSIGN   119
+ID(rectype)     122
+NIL   130
+IN   134
+ID(a)     138
+END   140
+EOF   143
