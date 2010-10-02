@@ -65,6 +65,7 @@ exp
   | array_create                       ()
   | lvalue ASSIGN exp                  ()
   | IF exp THEN exp ELSE exp           ()
+  | IF exp THEN exp                    ()
   | WHILE exp DO exp                   ()
   | FOR ID ASSIGN exp TO exp DO exp    ()
   | BREAK                              ()
@@ -134,7 +135,7 @@ explist
 arith_exp
   : exp PLUS exp                 ()
   | exp MINUS exp                ()
-  | exp TIMES exp                () 
+  | exp TIMES exp                ()
   | exp DIVIDE exp               ()
 
 comp_exp
@@ -149,7 +150,7 @@ bool_exp
   : exp AND exp                  ()
   | exp OR exp                   ()
 
-lvalue 
-  : ID                           () 
-  | lvalue DOT ID                () 
+lvalue
+  : ID                           ()
+  | lvalue DOT ID                ()
   | lvalue LBRACK exp RBRACK     ()

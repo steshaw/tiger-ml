@@ -78,7 +78,7 @@ notQuote = [^"];
 
 <INITIAL>"/*"   => (YYBEGIN COMMENT; continue());
 <COMMENT>"*/"   => (YYBEGIN INITIAL; continue());
-<COMMENT>.      => (print ("skipping comment " ^ yytext ^ "\n"); continue());
+<COMMENT>.      => (continue());
 
 {space}+        => (continue());
 "\n"            => (lineNum := !lineNum+1; linePos := yypos :: !linePos; continue());
