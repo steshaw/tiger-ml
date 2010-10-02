@@ -1,0 +1,2 @@
+
+* Handle string literals correctly. Escapes like "\n" etc.
