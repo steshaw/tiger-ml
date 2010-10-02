@@ -5,6 +5,6 @@ errormsg.sml
 parsetest.sml
 main.sml
 tiger.grm
+$/basis.cm
 $/smlnj-lib.cm
 $/ml-yacc-lib.cm
-$/basis.cm

@@ -11,7 +11,10 @@
   | BREAK | NIL
   | FUNCTION | VAR | TYPE 
 
-%nonterm  exp | program
+%nonterm  exp | program 
+  | decs | dec 
+  | tydec | vardec | fundec
+  | ty | tyfields | tyfields_rest
 
 %pos int
 %verbose
@@ -32,7 +35,32 @@
 
 %%
 
-program	: exp				()
+program	: exp ()
 
-	
-exp: 			()
+decs : decs dec ()
+
+dec
+  : tydec () 
+  | vardec ()
+  | fundec ()
+
+tydec : TYPE ID EQ ty          ()
+
+ty
+  : ID                        ()
+  | LBRACE tyfields RBRACE    ()
+  | ARRAY OF ID               ()
+
+tyfields
+  :                                    ()
+  | ID COLON ID tyfields_rest          ()
+
+tyfields_rest
+  :                                    ()
+  | COMMA ID COLON ID                  ()
+
+vardec
+  : VAR ID ASSIGN exp                  ()
+  | VAR ID COLON ID ASSIGN exp         ()
+
+exp: ()
