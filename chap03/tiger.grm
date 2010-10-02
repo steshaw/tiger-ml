@@ -51,7 +51,6 @@ program: exp                           ()
 exp
   : lvalue                             ()
   | NIL                                ()
-  | LPAREN expseq RPAREN               ()
   | unit_exp                           ()
   | INT                                ()
   | STRING                             ()
@@ -69,7 +68,7 @@ exp
   | FOR ID ASSIGN exp TO exp DO exp    ()
   | BREAK                              ()
   | LET decs IN expseq END             ()
-  | LPAREN exp RPAREN                  ()
+  | LPAREN expseq RPAREN               ()
 
 decs
   :                                    ()
