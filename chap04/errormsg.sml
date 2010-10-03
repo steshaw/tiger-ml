@@ -50,4 +50,3 @@ struct
        raise Error)
 
 end  (* structure ErrorMsg *)
-  

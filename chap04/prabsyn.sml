@@ -26,7 +26,6 @@ fun print (outstream, e0) =
     | dolist d f (a::r) = (sayln ""; f(a,d+1); say ","; dolist d f r)
     | dolist d f nil = ()
 
-
   fun var(A.SimpleVar(s,p),d) = (indent d; say "SimpleVar("; 
 			         say(Symbol.name s); say ")")
     | var(A.FieldVar(v,s,p),d) = (indent d; sayln "FieldVar(";
@@ -82,7 +81,6 @@ fun print (outstream, e0) =
 	        (indent d; say "ArrayExp("; say(Symbol.name typ); sayln ",";
 		 exp(size,d+1); sayln ","; exp(init,d+1); say ")")
 
-
   and dec(A.FunctionDec l, d) = 
 	    let fun field({name,escape,typ,pos},d) = 
 			(indent d; say "("; say(Symbol.name name);
@@ -108,7 +106,7 @@ fun print (outstream, e0) =
 					    ty(t,d+1); say ")")
 	  in indent d; say "TypeDec["; dolist d tdec l; say "]"
          end
-   
+
   and ty(A.NameTy(s,p), d) = (indent d; say "NameTy("; say(Symbol.name s);
 			      say ")")
     | ty(A.RecordTy l, d) =  
@@ -125,4 +123,3 @@ fun print (outstream, e0) =
 end
 
 end
-
