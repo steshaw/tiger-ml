@@ -1,6 +1,5 @@
 (* vim: set filetype=sml: *)
 structure A = Absyn
-
 %%
 %term
     EOF
@@ -14,7 +13,21 @@ structure A = Absyn
   | BREAK | NIL
   | FUNCTION | VAR | TYPE
 
-%nonterm  exp of A.exp | program of A.exp
+%nonterm  program of A.exp | exp
+  | decs | dec
+  | tydec | vardec | fundec
+  | ty | tyfields | tyfields_nonempty | tyfield
+  | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
+  | record_create_list | record_create_list_nonempty | record_create_field
+  | expseq
+  | explist | explist_nonempty
+
+%nonassoc ASSIGN
+%left AND OR
+%nonassoc EQ NEQ LT LE GT GE
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left UMINUS
 
 %pos int
 %verbose
@@ -34,5 +47,117 @@ structure A = Absyn
 
 %%
 
-program	: exp           (exp)
-exp: NIL		(A.NilExp)
+program: exp                           (A.NilExp)
+
+exp
+  : lvalue                             ()
+  | NIL                                ()
+  | unit_exp                           ()
+  | INT                                ()
+  | STRING                             ()
+  | MINUS exp             %prec UMINUS () (* negate *)
+  | funcall                            ()
+  | arith_exp                          ()
+  | comp_exp                           ()
+  | bool_exp                           ()
+  | record_create                      ()
+  | array_create                       ()
+  | lvalue ASSIGN exp                  ()
+  | IF exp THEN exp ELSE exp           ()
+  | IF exp THEN exp                    ()
+  | WHILE exp DO exp                   ()
+  | FOR ID ASSIGN exp TO exp DO exp    ()
+  | BREAK                              ()
+  | LET decs IN expseq END             ()
+  | LPAREN expseq RPAREN               ()
+
+decs
+  :                                    ()
+  | decs dec                           ()
+
+dec
+  : tydec                     () 
+  | vardec                    ()
+  | fundec                    ()
+
+tydec: TYPE ID EQ ty          ()
+
+ty
+  : ID                        ()
+  | LBRACE tyfields RBRACE    ()
+  | ARRAY OF ID               ()
+
+tyfield: ID COLON ID          ()
+
+tyfields
+  :                           ()
+  | tyfields_nonempty         ()
+
+tyfields_nonempty
+  : tyfield                   ()
+  | tyfields COMMA tyfield    ()
+
+vardec
+  : VAR ID ASSIGN exp                  ()
+  | VAR ID COLON ID ASSIGN exp         ()
+
+fundec
+  : FUNCTION ID LPAREN tyfields RPAREN EQ exp       ()
+  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  ()
+
+record_create
+  : ID LBRACE record_create_list RBRACE      ()
+
+record_create_list
+  :                                          ()
+  | record_create_list_nonempty              ()
+
+record_create_list_nonempty
+  : record_create_field                                      ()
+  | record_create_list_nonempty COMMA record_create_field    ()
+
+record_create_field: ID EQ exp         ()
+
+array_create
+  : ID LBRACK exp RBRACK OF exp        ()
+
+expseq
+  : exp                                ()
+  | expseq SEMICOLON exp               ()
+
+unit_exp: LPAREN RPAREN                ()
+
+funcall
+  : ID LPAREN explist RPAREN     ()
+
+explist
+  :                              ()
+  | explist_nonempty             ()
+
+explist_nonempty
+  : exp                          ()
+  | explist COMMA exp            ()
+ 
+arith_exp
+  : exp PLUS exp                 ()
+  | exp MINUS exp                ()
+  | exp TIMES exp                ()
+  | exp DIVIDE exp               ()
+
+comp_exp
+  : exp EQ exp                   ()
+  | exp NEQ exp                  ()
+  | exp LT exp                   ()
+  | exp LE exp                   ()
+  | exp GT exp                   ()
+  | exp GE exp                   ()
+
+bool_exp
+  : exp AND exp                  ()
+  | exp OR exp                   ()
+
+lvalue
+  : ID                           ()
+  | ID LBRACK exp RBRACK         ()   (* redundant rule to disambiguate with array-creation-expression *)
+  | lvalue LBRACK exp RBRACK     ()
+  | lvalue DOT ID                ()
