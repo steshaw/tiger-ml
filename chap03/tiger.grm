@@ -19,7 +19,7 @@
   | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
   | record_create_list | record_create_list_nonempty | record_create_field
   | expseq
-  | explist
+  | explist | explist_nonempty
 
 %nonassoc ASSIGN
 %left AND OR
@@ -54,7 +54,7 @@ exp
   | unit_exp                           ()
   | INT                                ()
   | STRING                             ()
-  | MINUS INT             %prec UMINUS () (* negate *)
+  | MINUS exp             %prec UMINUS () (* negate *)
   | funcall                            ()
   | arith_exp                          ()
   | comp_exp                           ()
@@ -130,6 +130,10 @@ funcall
   : ID LPAREN explist RPAREN     ()
 
 explist
+  :                              ()
+  | explist_nonempty             ()
+
+explist_nonempty
   : exp                          ()
   | explist COMMA exp            ()
  

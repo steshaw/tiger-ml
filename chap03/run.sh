@@ -6,11 +6,7 @@ ml-yacc tiger.grm &&
   head -1 tiger.grm.desc &&
   sml @SMLload=sources.x86-linux \
       *.tig \
-      ../testcases/test?.tig \
-      ../testcases/test1?.tig \
-      ../testcases/test2?.tig \
-      ../testcases/test3?.tig \
-      ../testcases/test4?.tig \
+      ../testcases/*.tig \
       > run.actual.out &&
   diff run.expected.out run.actual.out &&
   echo "good!"
