@@ -44,7 +44,8 @@ let var a := 1 in a end
 --
 ../testcases/aa-test06.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(a,true,NONE,
+  IntExp(1))],
  NilExp)
 
 -- ../testcases/aa-test07.tig --
@@ -57,7 +58,8 @@ end
 --
 ../testcases/aa-test07.tig:
 LetExp([
- FunctionDec[],
+ VarDec(a,true,NONE,
+  IntExp(100)),
  FunctionDec[]],
  NilExp)
 
@@ -74,7 +76,8 @@ end
 --
 ../testcases/aa-test08.tig:
 LetExp([
- FunctionDec[],
+ VarDec(a,true,NONE,
+  IntExp(100)),
  FunctionDec[]],
  NilExp)
 
@@ -185,16 +188,26 @@ end
 --
 ../testcases/merge.tig:
 LetExp([
+ TypeDec[
+  (any,
+   RecordTy[
+    (any,true,any)])],
+ VarDec(buffer,true,NONE,
+  CallExp(getchar,[])),
+ FunctionDec[],
+ TypeDec[
+  (list,
+   RecordTy[
+    (first,true,first),
+    (rest,true,rest)])],
  FunctionDec[],
  FunctionDec[],
  FunctionDec[],
  FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ VarDec(list1,true,NONE,
+  CallExp(readlist,[])),
+ VarDec(list2,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/queens.tig --
@@ -234,12 +247,19 @@ end
 	--
 ../testcases/queens.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
+ VarDec(N,true,NONE,
+  IntExp(8)),
+ TypeDec[
+  (intArray,
+   ArrayTy(int))],
+ VarDec(row,true,NONE,
+  NilExp),
+ VarDec(col,true,NONE,
+  NilExp),
+ VarDec(diag1,true,NONE,
+  NilExp),
+ VarDec(diag2,true,NONE,
+  NilExp),
  FunctionDec[],
  FunctionDec[]],
  NilExp)
@@ -255,8 +275,11 @@ end
 --
 ../testcases/test01.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (arrtype,
+   ArrayTy(int))],
+ VarDec(arr1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test02.tig --
@@ -272,9 +295,14 @@ end
 --
 ../testcases/test02.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (myint,
+   NameTy(int))],
+ TypeDec[
+  (arrtype,
+   ArrayTy(myint))],
+ VarDec(arr1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test03.tig --
@@ -289,8 +317,13 @@ end
 --
 ../testcases/test03.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (age,true,age)])],
+ VarDec(rec1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test04.tig --
@@ -331,10 +364,23 @@ end
 --
 ../testcases/test05.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (intlist,
+   RecordTy[
+    (hd,true,hd),
+    (tl,true,tl)])],
+ TypeDec[
+  (tree,
+   RecordTy[
+    (key,true,key),
+    (children,true,children)])],
+ TypeDec[
+  (treelist,
+   RecordTy[
+    (hd,true,hd),
+    (tl,true,tl)])],
+ VarDec(lis,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test06.tig --
@@ -439,7 +485,8 @@ end
 --
 ../testcases/test12.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(a,true,NONE,
+  IntExp(0))],
  NilExp)
 
 -- ../testcases/test13.tig --
@@ -469,10 +516,18 @@ end
 --
 ../testcases/test14.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (arrtype,
+   ArrayTy(int))],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(rec,true,NONE,
+  NilExp),
+ VarDec(arr,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test15.tig --
@@ -500,10 +555,18 @@ end
 --
 ../testcases/test16.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (a,
+   NameTy(c))],
+ TypeDec[
+  (b,
+   NameTy(a))],
+ TypeDec[
+  (c,
+   NameTy(d))],
+ TypeDec[
+  (d,
+   NameTy(a))]],
  NilExp)
 
 -- ../testcases/test17.tig --
@@ -520,9 +583,18 @@ end
 --
 ../testcases/test17.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (tree,
+   RecordTy[
+    (key,true,key),
+    (children,true,children)])],
+ VarDec(d,true,NONE,
+  IntExp(0)),
+ TypeDec[
+  (treelist,
+   RecordTy[
+    (hd,true,hd),
+    (tl,true,tl)])]],
  NilExp)
 
 -- ../testcases/test18.tig --
@@ -545,7 +617,8 @@ end
 ../testcases/test18.tig:
 LetExp([
  FunctionDec[],
- FunctionDec[],
+ VarDec(d,true,NONE,
+  IntExp(0)),
  FunctionDec[]],
  NilExp)
 
@@ -614,8 +687,13 @@ end
 --
 ../testcases/test22.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(rec1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test23.tig --
@@ -631,8 +709,13 @@ end
 --
 ../testcases/test23.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(rec1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test24.tig --
@@ -646,7 +729,8 @@ end
 --
 ../testcases/test24.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(d,true,NONE,
+  IntExp(0))],
  NilExp)
 
 -- ../testcases/test25.tig --
@@ -660,7 +744,8 @@ end
 --
 ../testcases/test25.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(d,true,NONE,
+  IntExp(0))],
  NilExp)
 
 -- ../testcases/test26.tig --
@@ -685,7 +770,8 @@ end
 --
 ../testcases/test27.tig:
 LetExp([
- FunctionDec[],
+ VarDec(a,true,NONE,
+  IntExp(0)),
  FunctionDec[]],
  NilExp)
 
@@ -703,9 +789,18 @@ end
 --
 ../testcases/test28.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype1,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ TypeDec[
+  (rectype2,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(rec1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test29.tig --
@@ -722,9 +817,14 @@ end
 --
 ../testcases/test29.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (arrtype1,
+   ArrayTy(int))],
+ TypeDec[
+  (arrtype2,
+   ArrayTy(int))],
+ VarDec(arr1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test30.tig --
@@ -741,9 +841,14 @@ end
 --
 ../testcases/test30.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (a,
+   ArrayTy(int))],
+ TypeDec[
+  (b,
+   NameTy(a))],
+ VarDec(arr1,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test31.tig --
@@ -756,7 +861,8 @@ end
 --
 ../testcases/test31.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(a,true,NONE,
+  StringExp("" ""))],
  NilExp)
 
 -- ../testcases/test32.tig --
@@ -772,8 +878,11 @@ end
 --
 ../testcases/test32.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (arrayty,
+   ArrayTy(int))],
+ VarDec(a,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test33.tig --
@@ -786,7 +895,8 @@ end
 --
 ../testcases/test33.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(a,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test34.tig --
@@ -840,8 +950,10 @@ end
 --
 ../testcases/test37.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ VarDec(a,true,NONE,
+  IntExp(0)),
+ VarDec(a,true,NONE,
+  StringExp("" ""))],
  NilExp)
 
 -- ../testcases/test38.tig --
@@ -857,8 +969,12 @@ end
 --
 ../testcases/test38.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (a,
+   NameTy(int))],
+ TypeDec[
+  (a,
+   NameTy(string))]],
  NilExp)
 
 -- ../testcases/test39.tig --
@@ -906,7 +1022,9 @@ end
 --
 ../testcases/test41.tig:
 LetExp([
- FunctionDec[]],
+ TypeDec[
+  (a,
+   NameTy(int))]],
  NilExp)
 
 -- ../testcases/test42.tig --
@@ -943,16 +1061,37 @@ end
 --
 ../testcases/test42.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (arrtype1,
+   ArrayTy(int))],
+ TypeDec[
+  (rectype1,
+   RecordTy[
+    (name,true,name),
+    (address,true,address),
+    (id,true,id),
+    (age,true,age)])],
+ TypeDec[
+  (arrtype2,
+   ArrayTy(rectype1))],
+ TypeDec[
+  (rectype2,
+   RecordTy[
+    (name,true,name),
+    (dates,true,dates)])],
+ TypeDec[
+  (arrtype3,
+   ArrayTy(string))],
+ VarDec(arr1,true,NONE,
+  NilExp),
+ VarDec(arr2,true,NONE,
+  NilExp),
+ VarDec(arr3,true,NONE,
+  NilExp),
+ VarDec(rec1,true,NONE,
+  NilExp),
+ VarDec(rec2,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test43.tig --
@@ -966,7 +1105,8 @@ end
 --
 ../testcases/test43.tig:
 LetExp([
- FunctionDec[]],
+ VarDec(a,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test44.tig --
@@ -984,8 +1124,13 @@ end
 --
 ../testcases/test44.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(b,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test45.tig --
@@ -1000,8 +1145,13 @@ end
 --
 ../testcases/test45.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(a,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test46.tig --
@@ -1016,8 +1166,13 @@ end
 --
 ../testcases/test46.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(b,true,NONE,
+  NilExp)],
  NilExp)
 
 -- ../testcases/test47.tig --
@@ -1035,9 +1190,14 @@ end
 --
 ../testcases/test47.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (a,
+   NameTy(int))],
+ VarDec(b,true,NONE,
+  IntExp(4)),
+ TypeDec[
+  (a,
+   NameTy(string))]],
  NilExp)
 
 -- ../testcases/test48.tig --
@@ -1056,7 +1216,9 @@ end
 ../testcases/test48.tig:
 LetExp([
  FunctionDec[],
- FunctionDec[],
+ TypeDec[
+  (t,
+   NameTy(int))],
  FunctionDec[]],
  NilExp)
 
@@ -1073,7 +1235,15 @@ end
 ../testcases/test49.tig:
 ../testcases/test49.tig:5.18:syntax error: inserting  PLUS
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,name),
+    (id,true,id)])],
+ VarDec(a,true,NONE,
+  OpExp(PlusOp,
+   VarExp(
+    SimpleVar(rectype)),
+   NilExp))],
  NilExp)
 

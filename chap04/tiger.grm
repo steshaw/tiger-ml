@@ -30,8 +30,8 @@ fun negate(exp: A.exp, pos: int) =
 
 %nonterm  program of A.exp | exp of A.exp
   | decs of A.dec list | dec of A.dec
-  | tydec of A.exp | vardec of A.exp | fundec of A.exp
-  | ty of A.exp | tyfields of A.exp | tyfields_nonempty of A.exp | tyfield of A.exp
+  | tydec of A.dec | vardec of A.dec | fundec of A.dec
+  | ty of A.ty | tyfields of A.field list | tyfields_nonempty of A.field list | tyfield of A.field
   | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp
   | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
   | record_create_list of A.exp | record_create_list_nonempty of A.exp | record_create_field of A.exp
@@ -92,44 +92,41 @@ decs
   :                                    ([])
   | decs dec                           (decs @ [dec])
 
-(*
-and dec = FunctionDec of fundec list
-        | VarDec of {name: symbol,
-		     escape: bool ref,
-		     typ: (symbol * pos) option,
-		     init: exp,
-		     pos: pos}
-        | TypeDec of {name: symbol, ty: ty, pos: pos} list
-*)
 dec
-  : tydec                     (todoDec) 
-  | vardec                    (todoDec)
-  | fundec                    (todoDec)
+  : tydec                     (tydec) 
+  | vardec                    (vardec)
+  | fundec                    (fundec)
 
-tydec: TYPE ID EQ ty          (todoExp)
+(* XXX: Shouldn't this be a list of related/recursive types? *)
+tydec: TYPE ID EQ ty          (A.TypeDec [{name=symbol ID, ty=ty, pos=TYPEleft}])
 
 ty
-  : ID                        (todoExp)
-  | LBRACE tyfields RBRACE    (todoExp)
-  | ARRAY OF ID               (todoExp)
+  : ID                        (A.NameTy (symbol ID, IDleft))
+  | LBRACE tyfields RBRACE    (A.RecordTy tyfields)
+  | ARRAY OF ID               (A.ArrayTy (symbol ID, ARRAYleft))
 
-tyfield: ID COLON ID          (todoExp)
+tyfield: ID COLON ID          ({name=symbol ID, escape=ref true, typ=symbol ID, pos=IDleft})
 
 tyfields
-  :                           (todoExp)
-  | tyfields_nonempty         (todoExp)
+  :                           ([])
+  | tyfields_nonempty         (tyfields_nonempty)
 
 tyfields_nonempty
-  : tyfield                   (todoExp)
-  | tyfields COMMA tyfield    (todoExp)
+  : tyfield                   ([tyfield])
+  | tyfields COMMA tyfield    (tyfields @ [tyfield])
 
 vardec
-  : VAR ID ASSIGN exp                  (todoExp)
-  | VAR ID COLON ID ASSIGN exp         (todoExp)
+  : VAR ID ASSIGN exp                  (A.VarDec {name=symbol ID, escape= ref true, typ=NONE, init=exp, pos=VARleft})
+  (* FIXME: get type from ID in following *)
+  | VAR ID COLON ID ASSIGN exp         (A.VarDec {name=symbol ID, escape= ref true, 
+                                                  typ=NONE,
+                                                  init=exp, pos=VARleft})
 
 fundec
-  : FUNCTION ID LPAREN tyfields RPAREN EQ exp       (todoExp)
-  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  (todoExp)
+  (* TODO *)
+  : FUNCTION ID LPAREN tyfields RPAREN EQ exp       (A.FunctionDec [])
+  (* TODO *)
+  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  (A.FunctionDec [])
 
 record_create
   : ID LBRACE record_create_list RBRACE      (todoExp)
