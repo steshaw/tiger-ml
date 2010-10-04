@@ -36,7 +36,7 @@ fun negate(exp: A.exp, pos: int) =
   | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
   | record_create_list of A.exp | record_create_list_nonempty of A.exp | record_create_field of A.exp
   | expseq of A.exp
-  | explist of A.exp | explist_nonempty of A.exp
+  | explist of A.exp list | explist_nonempty of A.exp list
 
 %nonassoc ASSIGN
 %left AND OR
@@ -90,7 +90,7 @@ exp
 
 decs
   :                                    ([])
-  | decs dec                           (dec::decs) (* XXX: This will be the decs in reverse order, right? *)
+  | decs dec                           (decs @ [dec])
 
 (*
 and dec = FunctionDec of fundec list
@@ -154,15 +154,15 @@ expseq
 unitexp: LPAREN RPAREN                (A.NilExp)
 
 funcall
-  : ID LPAREN explist RPAREN     (todoExp)
+  : ID LPAREN explist RPAREN     (A.CallExp {func=symbol ID, args=explist, pos=IDleft})
 
 explist
-  :                              (todoExp)
-  | explist_nonempty             (todoExp)
+  :                              ([])
+  | explist_nonempty             (explist_nonempty)
 
 explist_nonempty
-  : exp                          (todoExp)
-  | explist COMMA exp            (todoExp)
+  : exp                          ([exp])
+  | explist COMMA exp            (explist @ [exp])
  
 arith_exp
   : exp PLUS exp                 (A.OpExp {left=exp1, oper=A.PlusOp, right=exp2, pos=PLUSleft})
