@@ -115,6 +115,16 @@ a[20] of ""
 ../testcases/aa-test12.tig:
 NilExp
 
+-- ../testcases/aa-test13.tig --
+print(1, 2, 3, "hi")
+--
+../testcases/aa-test13.tig:
+CallExp(print,[
+ IntExp(1),
+ IntExp(2),
+ IntExp(3),
+ StringExp(""hi"")])
+
 -- ../testcases/merge.tig --
 let 
 
