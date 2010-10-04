@@ -80,7 +80,7 @@ exp
   | lvalue ASSIGN exp                  (A.AssignExp {var=lvalue, exp=exp, pos=ASSIGNleft})
   | IF exp THEN exp ELSE exp           (A.IfExp {test=exp1, then'=exp2, else'=SOME(exp3), pos=IFleft})
   | IF exp THEN exp                    (A.IfExp {test=exp1, then'=exp2, else'=NONE, pos=IFleft})
-  | WHILE exp DO exp                   (todoExp)
+  | WHILE exp DO exp                   (A.WhileExp {test=exp1, body=exp2, pos=WHILEleft})
   | FOR ID ASSIGN exp TO exp DO exp    (todoExp)
   | BREAK                              (A.BreakExp BREAKleft)
   | LET decs IN expseq END             (todoExp)

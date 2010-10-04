@@ -63,7 +63,9 @@ IfExp(
  IntExp(13),
  StringExp("" ""))
 ../testcases/test10.tig:
-NilExp
+WhileExp(
+ NilExp,
+ NilExp)
 ../testcases/test11.tig:
 NilExp
 ../testcases/test12.tig:
@@ -85,7 +87,9 @@ NilExp
 ../testcases/test19.tig:
 NilExp
 ../testcases/test20.tig:
-NilExp
+WhileExp(
+ NilExp,
+ NilExp)
 ../testcases/test21.tig:
 NilExp
 ../testcases/test22.tig:
