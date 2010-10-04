@@ -64,7 +64,7 @@ LetExp([
   IntExp(100)),
  FunctionDec[
   (foo,[
-   (a,true,a)],
+   (a,true,int)],
 NONE,
    CallExp(print,[
     StringExp(""hi"")]))]],
@@ -89,7 +89,7 @@ LetExp([
   IntExp(100)),
  FunctionDec[
   (foo,[
-   (a,true,a)],
+   (a,true,int)],
 NONE,
    CallExp(print,[
     StringExp(""hi"")]))]],
@@ -233,7 +233,7 @@ LetExp([
  TypeDec[
   (any,
    RecordTy[
-    (any,true,any)])],
+    (any,true,int)])],
  VarDec(buffer,true,NONE,
   CallExp(getchar,[])),
  FunctionDec[
@@ -245,7 +245,7 @@ SOME(int),
      IntExp(0)),
     FunctionDec[
      (isdigit,[
-      (s,true,s)],
+      (s,true,string)],
 SOME(int),
       IfExp(
        OpExp(GeOp,
@@ -260,8 +260,7 @@ SOME(int),
           SimpleVar(buffer))]),
         CallExp(ord,[
          StringExp(""9"")])),
-       IntExp(0)))],
-    FunctionDec[
+       IntExp(0))),
      (skipto,[],
 NONE,
       WhileExp(
@@ -313,8 +312,8 @@ NONE,
  TypeDec[
   (list,
    RecordTy[
-    (first,true,first),
-    (rest,true,rest)])],
+    (first,true,int),
+    (rest,true,list)])],
  FunctionDec[
   (readlist,[],
 SOME(list),
@@ -341,11 +340,10 @@ SOME(list),
          SimpleVar(i))),
        (rest,
         CallExp(readlist,[]))]),
-      NilExp)]))],
- FunctionDec[
+      NilExp)])),
   (merge,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,list),
+   (b,true,list)],
 SOME(list),
    IfExp(
     OpExp(EqOp,
@@ -400,15 +398,14 @@ SOME(list),
          VarExp(
           FieldVar(
            SimpleVar(b),
-           rest))]))])))))],
- FunctionDec[
+           rest))]))]))))),
   (printint,[
-   (i,true,i)],
+   (i,true,int)],
 NONE,
    LetExp([
     FunctionDec[
      (f,[
-      (i,true,i)],
+      (i,true,int)],
 NONE,
       IfExp(
        OpExp(GtOp,
@@ -458,10 +455,9 @@ NONE,
         VarExp(
          SimpleVar(i))]),
        CallExp(print,[
-        StringExp(""0"")])))]))],
- FunctionDec[
+        StringExp(""0"")])))])),
   (printlist,[
-   (l,true,l)],
+   (l,true,list)],
 NONE,
    IfExp(
     OpExp(EqOp,
@@ -605,10 +601,9 @@ j,true,
       CallExp(print,[
        StringExp(""\n"")])]),
     CallExp(print,[
-     StringExp(""\n"")])])],
- FunctionDec[
+     StringExp(""\n"")])]),
   (try,[
-   (c,true,c)],
+   (c,true,int)],
 NONE,
    SeqExp[
     IfExp(
@@ -765,8 +760,7 @@ end
 LetExp([
  TypeDec[
   (myint,
-   NameTy(int))],
- TypeDec[
+   NameTy(int)),
   (arrtype,
    ArrayTy(myint))],
  VarDec(arr1,true,SOME(arrtype),
@@ -792,8 +786,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (age,true,age)])],
+    (name,true,string),
+    (age,true,int)])],
  VarDec(rec1,true,SOME(rectype),
   RecordExp(rectype,[
 
@@ -829,7 +823,7 @@ end
 LetExp([
  FunctionDec[
   (nfactor,[
-   (n,true,n)],
+   (n,true,int)],
 SOME(int),
    IfExp(
     OpExp(EqOp,
@@ -870,18 +864,16 @@ LetExp([
  TypeDec[
   (intlist,
    RecordTy[
-    (hd,true,hd),
-    (tl,true,tl)])],
- TypeDec[
+    (hd,true,int),
+    (tl,true,intlist)]),
   (tree,
    RecordTy[
-    (key,true,key),
-    (children,true,children)])],
- TypeDec[
+    (key,true,int),
+    (children,true,treelist)]),
   (treelist,
    RecordTy[
-    (hd,true,hd),
-    (tl,true,tl)])],
+    (hd,true,tree),
+    (tl,true,treelist)])],
  VarDec(lis,true,SOME(intlist),
   RecordExp(intlist,[
 
@@ -912,17 +904,16 @@ end
 LetExp([
  FunctionDec[
   (do_nothing1,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 NONE,
    CallExp(do_nothing2,[
     OpExp(PlusOp,
      VarExp(
       SimpleVar(a)),
-     IntExp(1))]))],
- FunctionDec[
+     IntExp(1))])),
   (do_nothing2,[
-   (d,true,d)],
+   (d,true,int)],
 NONE,
    CallExp(do_nothing1,[
     VarExp(
@@ -952,8 +943,8 @@ end
 LetExp([
  FunctionDec[
   (do_nothing1,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 SOME(int),
    SeqExp[
     CallExp(do_nothing2,[
@@ -961,10 +952,9 @@ SOME(int),
       VarExp(
        SimpleVar(a)),
       IntExp(1))]),
-    IntExp(0)])],
- FunctionDec[
+    IntExp(0)]),
   (do_nothing2,[
-   (d,true,d)],
+   (d,true,int)],
 SOME(string),
    SeqExp[
     CallExp(do_nothing1,[
@@ -1091,12 +1081,11 @@ end
 LetExp([
  TypeDec[
   (arrtype,
-   ArrayTy(int))],
- TypeDec[
+   ArrayTy(int)),
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(rec,true,NONE,
   RecordExp(rectype,[
 
@@ -1145,14 +1134,11 @@ end
 LetExp([
  TypeDec[
   (a,
-   NameTy(c))],
- TypeDec[
+   NameTy(c)),
   (b,
-   NameTy(a))],
- TypeDec[
+   NameTy(a)),
   (c,
-   NameTy(d))],
- TypeDec[
+   NameTy(d)),
   (d,
    NameTy(a))]],
  SeqExp[
@@ -1175,15 +1161,15 @@ LetExp([
  TypeDec[
   (tree,
    RecordTy[
-    (key,true,key),
-    (children,true,children)])],
+    (key,true,int),
+    (children,true,treelist)])],
  VarDec(d,true,SOME(int),
   IntExp(0)),
  TypeDec[
   (treelist,
    RecordTy[
-    (hd,true,hd),
-    (tl,true,tl)])]],
+    (hd,true,tree),
+    (tl,true,treelist)])]],
  SeqExp[
   VarExp(
    SimpleVar(d))])
@@ -1209,8 +1195,8 @@ end
 LetExp([
  FunctionDec[
   (do_nothing1,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 SOME(int),
    SeqExp[
     CallExp(do_nothing2,[
@@ -1223,7 +1209,7 @@ SOME(int),
   IntExp(0)),
  FunctionDec[
   (do_nothing2,[
-   (d,true,d)],
+   (d,true,int)],
 SOME(string),
    SeqExp[
     CallExp(do_nothing1,[
@@ -1255,8 +1241,8 @@ end
 LetExp([
  FunctionDec[
   (do_nothing1,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 SOME(int),
    SeqExp[
     CallExp(do_nothing2,[
@@ -1264,10 +1250,9 @@ SOME(int),
       VarExp(
        SimpleVar(a)),
       IntExp(1))]),
-    IntExp(0)])],
- FunctionDec[
+    IntExp(0)]),
   (do_nothing2,[
-   (d,true,d)],
+   (d,true,int)],
 SOME(string),
    SeqExp[
     CallExp(do_nothing1,[
@@ -1316,7 +1301,7 @@ end
 LetExp([
  FunctionDec[
   (nfactor,[
-   (n,true,n)],
+   (n,true,int)],
 NONE,
    IfExp(
     OpExp(EqOp,
@@ -1351,8 +1336,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(rec1,true,NONE,
   RecordExp(rectype,[
 
@@ -1383,8 +1368,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(rec1,true,NONE,
   RecordExp(rectype,[
 
@@ -1468,7 +1453,7 @@ LetExp([
   IntExp(0)),
  FunctionDec[
   (g,[
-   (a,true,a)],
+   (a,true,int)],
 SOME(int),
    VarExp(
     SimpleVar(a)))]],
@@ -1493,13 +1478,12 @@ LetExp([
  TypeDec[
   (rectype1,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
- TypeDec[
+    (name,true,string),
+    (id,true,int)]),
   (rectype2,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(rec1,true,SOME(rectype1),
   RecordExp(rectype2,[
 
@@ -1527,8 +1511,7 @@ end
 LetExp([
  TypeDec[
   (arrtype1,
-   ArrayTy(int))],
- TypeDec[
+   ArrayTy(int)),
   (arrtype2,
    ArrayTy(int))],
  VarDec(arr1,true,SOME(arrtype1),
@@ -1555,8 +1538,7 @@ end
 LetExp([
  TypeDec[
   (a,
-   ArrayTy(int))],
- TypeDec[
+   ArrayTy(int)),
   (b,
    NameTy(a))],
  VarDec(arr1,true,SOME(a),
@@ -1636,8 +1618,8 @@ end
 LetExp([
  FunctionDec[
   (g,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 SOME(int),
    VarExp(
     SimpleVar(a)))]],
@@ -1658,8 +1640,8 @@ end
 LetExp([
  FunctionDec[
   (g,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 SOME(int),
    VarExp(
     SimpleVar(a)))]],
@@ -1679,8 +1661,8 @@ end
 LetExp([
  FunctionDec[
   (g,[
-   (a,true,a),
-   (b,true,b)],
+   (a,true,int),
+   (b,true,string)],
 SOME(int),
    VarExp(
     SimpleVar(a)))]],
@@ -1724,8 +1706,7 @@ end
 LetExp([
  TypeDec[
   (a,
-   NameTy(int))],
- TypeDec[
+   NameTy(int)),
   (a,
    NameTy(string))]],
  SeqExp[
@@ -1746,13 +1727,12 @@ end
 LetExp([
  FunctionDec[
   (g,[
-   (a,true,a)],
+   (a,true,int)],
 SOME(int),
    VarExp(
-    SimpleVar(a)))],
- FunctionDec[
+    SimpleVar(a))),
   (g,[
-   (a,true,a)],
+   (a,true,int)],
 SOME(int),
    VarExp(
     SimpleVar(a)))]],
@@ -1772,7 +1752,7 @@ end
 LetExp([
  FunctionDec[
   (g,[
-   (a,true,a)],
+   (a,true,int)],
 NONE,
    VarExp(
     SimpleVar(a)))]],
@@ -1841,23 +1821,19 @@ end
 LetExp([
  TypeDec[
   (arrtype1,
-   ArrayTy(int))],
- TypeDec[
+   ArrayTy(int)),
   (rectype1,
    RecordTy[
-    (name,true,name),
-    (address,true,address),
-    (id,true,id),
-    (age,true,age)])],
- TypeDec[
+    (name,true,string),
+    (address,true,string),
+    (id,true,int),
+    (age,true,int)]),
   (arrtype2,
-   ArrayTy(rectype1))],
- TypeDec[
+   ArrayTy(rectype1)),
   (rectype2,
    RecordTy[
-    (name,true,name),
-    (dates,true,dates)])],
- TypeDec[
+    (name,true,string),
+    (dates,true,arrtype1)]),
   (arrtype3,
    ArrayTy(string))],
  VarDec(arr1,true,NONE,
@@ -1988,8 +1964,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(b,true,SOME(rectype),
   NilExp)],
  SeqExp[
@@ -2012,8 +1988,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(a,true,NONE,
   NilExp)],
  SeqExp[
@@ -2035,8 +2011,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(b,true,SOME(rectype),
   NilExp)],
  SeqExp[
@@ -2092,7 +2068,7 @@ end
 LetExp([
  FunctionDec[
   (g,[
-   (a,true,a)],
+   (a,true,int)],
 SOME(int),
    VarExp(
     SimpleVar(a)))],
@@ -2101,7 +2077,7 @@ SOME(int),
    NameTy(int))],
  FunctionDec[
   (g,[
-   (a,true,a)],
+   (a,true,int)],
 SOME(int),
    VarExp(
     SimpleVar(a)))]],
@@ -2124,8 +2100,8 @@ LetExp([
  TypeDec[
   (rectype,
    RecordTy[
-    (name,true,name),
-    (id,true,id)])],
+    (name,true,string),
+    (id,true,int)])],
  VarDec(a,true,NONE,
   OpExp(PlusOp,
    VarExp(

@@ -23,9 +23,12 @@ fun negate(exp: A.exp, pos: int) =
   | BREAK | NIL
   | FUNCTION | VAR | TYPE
 
+        
 %nonterm  program of A.exp | exp of A.exp
   | decs of A.dec list | dec of A.dec
-  | tydec of A.dec | vardec of A.dec | fundec of A.fundec | fundeclist of A.fundec list
+  (* TODO: create a type alias 'typdec' similar to fundec in Absyn *)
+  | tydec of {name: symbol, ty: A.ty, pos: pos} | tydeclist of {name: symbol, ty: A.ty, pos: pos} list
+  | vardec of A.dec | fundec of A.fundec | fundeclist of A.fundec list
   | ty of A.ty | tyfields of A.field list | tyfields_nonempty of A.field list | tyfield of A.field
   | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp
   | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
@@ -89,12 +92,15 @@ decs
   | decs dec                           (decs @ [dec])
 
 dec
-  : tydec                     (tydec) 
+  : tydeclist                 (A.TypeDec tydeclist) 
   | vardec                    (vardec)
   | fundeclist                (A.FunctionDec fundeclist)
 
-(* XXX: Shouldn't this be a list of related/recursive types? *)
-tydec: TYPE ID EQ ty          (A.TypeDec [{name=symbol ID, ty=ty, pos=TYPEleft}])
+tydeclist
+  : tydec                     ([tydec])
+  | tydeclist tydec           (tydeclist @ [tydec])
+
+tydec: TYPE ID EQ ty          ({name=symbol ID, ty=ty, pos=TYPEleft})
 
 ty
   : ID                        (A.NameTy (symbol ID, IDleft))
@@ -121,7 +127,6 @@ fundeclist
   : fundec                    ([fundec])
   | fundeclist fundec         (fundeclist @ [fundec])
 
-(* XXX: Shouldn't this be a list of related, mutally recursive functions? *)
 fundec
   : FUNCTION ID LPAREN tyfields RPAREN EQ exp           ({name=symbol ID, params=tyfields, 
                                                           result=NONE, body=exp,
