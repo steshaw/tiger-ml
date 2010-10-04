@@ -172,6 +172,10 @@ CallExp(print,[
 
 -- ../testcases/aa-test14.tig --
 let 
+  var a1 := 1 + 2 + 3 + 4
+  var a2 := 1 - 2 - 3 - 4
+  var a3 := 1 * 2 * 3 * 4
+  var a4 := 1 / 2 / 3 / 4
   var t1 := 1 + 2 * 3
   var t2 := 2 * 3 + 1
   var t2 := 2 * (3 + 1)
@@ -183,6 +187,38 @@ end
 --
 ../testcases/aa-test14.tig:
 LetExp([
+ VarDec(a1,true,NONE,
+  OpExp(PlusOp,
+   OpExp(PlusOp,
+    OpExp(PlusOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(a2,true,NONE,
+  OpExp(MinusOp,
+   OpExp(MinusOp,
+    OpExp(MinusOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(a3,true,NONE,
+  OpExp(TimesOp,
+   OpExp(TimesOp,
+    OpExp(TimesOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(a4,true,NONE,
+  OpExp(DivideOp,
+   OpExp(DivideOp,
+    OpExp(DivideOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
  VarDec(t1,true,NONE,
   OpExp(PlusOp,
    IntExp(1),
