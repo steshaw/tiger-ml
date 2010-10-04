@@ -60,7 +60,7 @@ end
 --
 ../testcases/aa-test07.tig:
 LetExp([
- VarDec(a,true,NONE,
+ VarDec(a,true,SOME(int),
   IntExp(100)),
  FunctionDec[]],
  SeqExp[
@@ -80,7 +80,7 @@ end
 --
 ../testcases/aa-test08.tig:
 LetExp([
- VarDec(a,true,NONE,
+ VarDec(a,true,SOME(int),
   IntExp(100)),
  FunctionDec[]],
  SeqExp[
@@ -316,7 +316,7 @@ LetExp([
  TypeDec[
   (arrtype,
    ArrayTy(int))],
- VarDec(arr1,true,NONE,
+ VarDec(arr1,true,SOME(arrtype),
   NilExp)],
  SeqExp[
   VarExp(
@@ -341,7 +341,7 @@ LetExp([
  TypeDec[
   (arrtype,
    ArrayTy(myint))],
- VarDec(arr1,true,NONE,
+ VarDec(arr1,true,SOME(arrtype),
   NilExp)],
  SeqExp[
   VarExp(
@@ -364,8 +364,13 @@ LetExp([
    RecordTy[
     (name,true,name),
     (age,true,age)])],
- VarDec(rec1,true,NONE,
-  NilExp)],
+ VarDec(rec1,true,SOME(rectype),
+  RecordExp(rectype,[
+
+   (name,
+    StringExp(""Nobody"")),
+   (age,
+    IntExp(1000))]))],
  SeqExp[
   AssignExp(
    FieldVar(
@@ -430,8 +435,13 @@ LetExp([
    RecordTy[
     (hd,true,hd),
     (tl,true,tl)])],
- VarDec(lis,true,NONE,
-  NilExp)],
+ VarDec(lis,true,SOME(intlist),
+  RecordExp(intlist,[
+
+   (hd,
+    IntExp(0)),
+   (tl,
+    NilExp)]))],
  SeqExp[
   VarExp(
    SimpleVar(lis))])
@@ -605,7 +615,12 @@ LetExp([
     (name,true,name),
     (id,true,id)])],
  VarDec(rec,true,NONE,
-  NilExp),
+  RecordExp(rectype,[
+
+   (name,
+    StringExp(""aname"")),
+   (id,
+    IntExp(0))])),
  VarDec(arr,true,NONE,
   NilExp)],
  SeqExp[
@@ -677,7 +692,7 @@ LetExp([
    RecordTy[
     (key,true,key),
     (children,true,children)])],
- VarDec(d,true,NONE,
+ VarDec(d,true,SOME(int),
   IntExp(0)),
  TypeDec[
   (treelist,
@@ -797,7 +812,12 @@ LetExp([
     (name,true,name),
     (id,true,id)])],
  VarDec(rec1,true,NONE,
-  NilExp)],
+  RecordExp(rectype,[
+
+   (name,
+    StringExp(""Name"")),
+   (id,
+    IntExp(0))]))],
  SeqExp[
   AssignExp(
    FieldVar(
@@ -824,7 +844,12 @@ LetExp([
     (name,true,name),
     (id,true,id)])],
  VarDec(rec1,true,NONE,
-  NilExp)],
+  RecordExp(rectype,[
+
+   (name,
+    StringExp(""aname"")),
+   (id,
+    IntExp(0))]))],
  SeqExp[
   AssignExp(
    FieldVar(
@@ -928,8 +953,13 @@ LetExp([
    RecordTy[
     (name,true,name),
     (id,true,id)])],
- VarDec(rec1,true,NONE,
-  NilExp)],
+ VarDec(rec1,true,SOME(rectype1),
+  RecordExp(rectype2,[
+
+   (name,
+    StringExp(""Name"")),
+   (id,
+    IntExp(0))]))],
  SeqExp[
   VarExp(
    SimpleVar(rec1))])
@@ -954,7 +984,7 @@ LetExp([
  TypeDec[
   (arrtype2,
    ArrayTy(int))],
- VarDec(arr1,true,NONE,
+ VarDec(arr1,true,SOME(arrtype1),
   NilExp)],
  SeqExp[
   VarExp(
@@ -980,7 +1010,7 @@ LetExp([
  TypeDec[
   (b,
    NameTy(a))],
- VarDec(arr1,true,NONE,
+ VarDec(arr1,true,SOME(a),
   NilExp)],
  SeqExp[
   VarExp(
@@ -998,7 +1028,7 @@ end
 --
 ../testcases/test31.tig:
 LetExp([
- VarDec(a,true,NONE,
+ VarDec(a,true,SOME(int),
   StringExp("" ""))],
  SeqExp[
   VarExp(
@@ -1036,7 +1066,8 @@ end
 ../testcases/test33.tig:
 LetExp([
  VarDec(a,true,NONE,
-  NilExp)],
+  RecordExp(rectype,[
+]))],
  SeqExp[
   IntExp(0)])
 
@@ -1247,12 +1278,26 @@ LetExp([
   NilExp),
  VarDec(arr2,true,NONE,
   NilExp),
- VarDec(arr3,true,NONE,
+ VarDec(arr3,true,SOME(arrtype3),
   NilExp),
  VarDec(rec1,true,NONE,
-  NilExp),
+  RecordExp(rectype1,[
+
+   (name,
+    StringExp(""Kapoios"")),
+   (address,
+    StringExp(""Kapou"")),
+   (id,
+    IntExp(2432)),
+   (age,
+    IntExp(44))])),
  VarDec(rec2,true,NONE,
-  NilExp)],
+  RecordExp(rectype2,[
+
+   (name,
+    StringExp(""Allos"")),
+   (dates,
+    NilExp)]))],
  SeqExp[
   AssignExp(
    SubscriptVar(
@@ -1342,7 +1387,7 @@ LetExp([
    RecordTy[
     (name,true,name),
     (id,true,id)])],
- VarDec(b,true,NONE,
+ VarDec(b,true,SOME(rectype),
   NilExp)],
  SeqExp[
   AssignExp(
@@ -1389,7 +1434,7 @@ LetExp([
    RecordTy[
     (name,true,name),
     (id,true,id)])],
- VarDec(b,true,NONE,
+ VarDec(b,true,SOME(rectype),
   NilExp)],
  SeqExp[
   OpExp(EqOp,

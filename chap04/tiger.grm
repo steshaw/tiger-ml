@@ -34,7 +34,8 @@ fun negate(exp: A.exp, pos: int) =
   | ty of A.ty | tyfields of A.field list | tyfields_nonempty of A.field list | tyfield of A.field
   | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp
   | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
-  | record_create_list of A.exp | record_create_list_nonempty of A.exp | record_create_field of A.exp
+  | record_create_list of (A.symbol * A.exp * int) list | record_create_list_nonempty of (A.symbol * A.exp * int) list
+  | record_create_field of (A.symbol * A.exp * int)
   | expseq of (A.exp * pos) list
   | explist of A.exp list | explist_nonempty of A.exp list
 
@@ -128,17 +129,17 @@ fundec
   | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  (A.FunctionDec [])
 
 record_create
-  : ID LBRACE record_create_list RBRACE      (todoExp)
+  : ID LBRACE record_create_list RBRACE      (A.RecordExp {fields=record_create_list, typ=symbol ID, pos=IDleft})
 
 record_create_list
-  :                                          (todoExp)
-  | record_create_list_nonempty              (todoExp)
+  :                                          ([])
+  | record_create_list_nonempty              (record_create_list_nonempty)
 
 record_create_list_nonempty
-  : record_create_field                                      (todoExp)
-  | record_create_list_nonempty COMMA record_create_field    (todoExp)
+  : record_create_field                                      ([record_create_field])
+  | record_create_list_nonempty COMMA record_create_field    (record_create_list_nonempty @ [record_create_field])
 
-record_create_field: ID EQ exp         (todoExp)
+record_create_field: ID EQ exp         ((symbol ID, exp, IDleft))
 
 array_create
   : ID LBRACK exp RBRACK OF exp        (todoExp)
