@@ -234,14 +234,149 @@ LetExp([
     (any,true,any)])],
  VarDec(buffer,true,NONE,
   CallExp(getchar,[])),
- FunctionDec[],
+ FunctionDec[
+  (readint,[
+   (any,true,any)],
+SOME(int),
+   LetExp([
+    VarDec(i,true,NONE,
+     IntExp(0)),
+    FunctionDec[
+     (isdigit,[
+      (s,true,s)],
+SOME(int),
+      NilExp)],
+    FunctionDec[
+     (skipto,[],
+NONE,
+      WhileExp(
+       NilExp,
+       AssignExp(
+        SimpleVar(buffer),
+        CallExp(getchar,[]))))]],
+    SeqExp[
+     CallExp(skipto,[]),
+     AssignExp(
+      FieldVar(
+       SimpleVar(any),
+       any),
+      CallExp(isdigit,[
+       VarExp(
+        SimpleVar(buffer))])),
+     WhileExp(
+      CallExp(isdigit,[
+       VarExp(
+        SimpleVar(buffer))]),
+      SeqExp[
+       AssignExp(
+        SimpleVar(i),
+        OpExp(MinusOp,
+         OpExp(PlusOp,
+          OpExp(TimesOp,
+           VarExp(
+            SimpleVar(i)),
+           IntExp(10)),
+          CallExp(ord,[
+           VarExp(
+            SimpleVar(buffer))])),
+         CallExp(ord,[
+          StringExp(""0"")]))),
+       AssignExp(
+        SimpleVar(buffer),
+        CallExp(getchar,[]))]),
+     VarExp(
+      SimpleVar(i))]))],
  TypeDec[
   (list,
    RecordTy[
     (first,true,first),
     (rest,true,rest)])],
- FunctionDec[],
- FunctionDec[],
+ FunctionDec[
+  (readlist,[],
+SOME(list),
+   LetExp([
+    VarDec(any,true,NONE,
+     RecordExp(any,[
+
+      (any,
+       IntExp(0))])),
+    VarDec(i,true,NONE,
+     CallExp(readint,[
+      VarExp(
+       SimpleVar(any))]))],
+    SeqExp[
+     IfExp(
+      VarExp(
+       FieldVar(
+        SimpleVar(any),
+        any)),
+      RecordExp(list,[
+
+       (first,
+        VarExp(
+         SimpleVar(i))),
+       (rest,
+        CallExp(readlist,[]))]),
+      NilExp)]))],
+ FunctionDec[
+  (merge,[
+   (a,true,a),
+   (b,true,b)],
+SOME(list),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(a)),
+     NilExp),
+    VarExp(
+     SimpleVar(b)),
+    IfExp(
+     OpExp(EqOp,
+      VarExp(
+       SimpleVar(b)),
+      NilExp),
+     VarExp(
+      SimpleVar(a)),
+     IfExp(
+      OpExp(LtOp,
+       VarExp(
+        FieldVar(
+         SimpleVar(a),
+         first)),
+       VarExp(
+        FieldVar(
+         SimpleVar(b),
+         first))),
+      RecordExp(list,[
+
+       (first,
+        VarExp(
+         FieldVar(
+          SimpleVar(a),
+          first))),
+       (rest,
+        CallExp(merge,[
+         VarExp(
+          FieldVar(
+           SimpleVar(a),
+           rest)),
+         VarExp(
+          SimpleVar(b))]))]),
+      RecordExp(list,[
+
+       (first,
+        VarExp(
+         FieldVar(
+          SimpleVar(b),
+          first))),
+       (rest,
+        CallExp(merge,[
+         VarExp(
+          SimpleVar(a)),
+         VarExp(
+          FieldVar(
+           SimpleVar(b),
+           rest))]))])))))],
  FunctionDec[
   (printint,[
    (i,true,i)],
@@ -610,7 +745,24 @@ end
 --
 ../testcases/test04.tig:
 LetExp([
- FunctionDec[]],
+ FunctionDec[
+  (nfactor,[
+   (n,true,n)],
+SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(0)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(nfactor,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
  SeqExp[
   CallExp(nfactor,[
    IntExp(10)])])
@@ -716,8 +868,28 @@ end
 --
 ../testcases/test07.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,a),
+   (b,true,b)],
+SOME(int),
+   SeqExp[
+    CallExp(do_nothing2,[
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))]),
+    IntExp(0)])],
+ FunctionDec[
+  (do_nothing2,[
+   (d,true,d)],
+SOME(string),
+   SeqExp[
+    CallExp(do_nothing1,[
+     VarExp(
+      SimpleVar(d)),
+     StringExp(""str"")]),
+    StringExp("" "")])]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
@@ -951,10 +1123,30 @@ end
 --
 ../testcases/test18.tig:
 LetExp([
- FunctionDec[],
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,a),
+   (b,true,b)],
+SOME(int),
+   SeqExp[
+    CallExp(do_nothing2,[
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))]),
+    IntExp(0)])],
  VarDec(d,true,NONE,
   IntExp(0)),
- FunctionDec[]],
+ FunctionDec[
+  (do_nothing2,[
+   (d,true,d)],
+SOME(string),
+   SeqExp[
+    CallExp(do_nothing1,[
+     VarExp(
+      SimpleVar(d)),
+     StringExp(""str"")]),
+    StringExp("" "")])]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
@@ -977,8 +1169,28 @@ end
 --
 ../testcases/test19.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,a),
+   (b,true,b)],
+SOME(int),
+   SeqExp[
+    CallExp(do_nothing2,[
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))]),
+    IntExp(0)])],
+ FunctionDec[
+  (do_nothing2,[
+   (d,true,d)],
+SOME(string),
+   SeqExp[
+    CallExp(do_nothing1,[
+     VarExp(
+      SimpleVar(a)),
+     StringExp(""str"")]),
+    StringExp("" "")])]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
@@ -1170,7 +1382,12 @@ end
 LetExp([
  VarDec(a,true,NONE,
   IntExp(0)),
- FunctionDec[]],
+ FunctionDec[
+  (g,[
+   (a,true,a)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
  SeqExp[
   CallExp(g,[
    IntExp(2)])])
@@ -1327,7 +1544,13 @@ end
 --
 ../testcases/test34.tig:
 LetExp([
- FunctionDec[]],
+ FunctionDec[
+  (g,[
+   (a,true,a),
+   (b,true,b)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
  SeqExp[
   CallExp(g,[
    StringExp(""one""),
@@ -1343,7 +1566,13 @@ end
 --
 ../testcases/test35.tig:
 LetExp([
- FunctionDec[]],
+ FunctionDec[
+  (g,[
+   (a,true,a),
+   (b,true,b)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
  SeqExp[
   CallExp(g,[
    StringExp(""one"")])])
@@ -1358,7 +1587,13 @@ end
 --
 ../testcases/test36.tig:
 LetExp([
- FunctionDec[]],
+ FunctionDec[
+  (g,[
+   (a,true,a),
+   (b,true,b)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
  SeqExp[
   CallExp(g,[
    IntExp(3),
@@ -1419,8 +1654,18 @@ end
 --
 ../testcases/test39.tig:
 LetExp([
- FunctionDec[],
- FunctionDec[]],
+ FunctionDec[
+  (g,[
+   (a,true,a)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))],
+ FunctionDec[
+  (g,[
+   (a,true,a)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
  SeqExp[
   IntExp(0)])
 
@@ -1738,11 +1983,21 @@ end
 --
 ../testcases/test48.tig:
 LetExp([
- FunctionDec[],
+ FunctionDec[
+  (g,[
+   (a,true,a)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))],
  TypeDec[
   (t,
    NameTy(int))],
- FunctionDec[]],
+ FunctionDec[
+  (g,[
+   (a,true,a)],
+SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
  SeqExp[
   IntExp(0)])
 

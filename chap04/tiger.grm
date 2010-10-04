@@ -120,28 +120,15 @@ vardec
                                                   typ=SOME (symbol ID2, ID2left),
                                                   init=exp, pos=VARleft})
 
-(*
-and dec = FunctionDec of fundec list
-withtype field = {name: symbol, escape: bool ref, 
-		  typ: symbol, pos: pos}
-   and   fundec = {name: symbol,
-		   params: field list,
-		   result: (symbol * pos) option,
-		   body: exp,
-		   pos: pos}
-*)
 (* XXX: Shouldn't this be a list of related, mutally recursive functions? *)
 fundec
   : FUNCTION ID LPAREN tyfields RPAREN EQ exp           (A.FunctionDec [{name=symbol ID, params=tyfields, 
                                                            result=NONE, body=exp,
                                                            pos=FUNCTIONleft}])
   | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  
-                                                        (A.FunctionDec [])
-(*
                                                         (A.FunctionDec [{name=symbol ID1, params=tyfields,
-                                                           result=SOME(symbol ID2), body=exp,
+                                                           result=SOME (symbol ID2, ID2left), body=exp,
                                                            pos=FUNCTIONleft}])
-*)
 
 record_create
   : ID LBRACE record_create_list RBRACE      (A.RecordExp {fields=record_create_list, typ=symbol ID, pos=IDleft})
