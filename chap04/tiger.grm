@@ -32,7 +32,7 @@ fun negate(exp: A.exp, pos: int) =
   | decs of A.dec list | dec of A.dec
   | tydec of A.exp | vardec of A.exp | fundec of A.exp
   | ty of A.exp | tyfields of A.exp | tyfields_nonempty of A.exp | tyfield of A.exp
-  | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp 
+  | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp
   | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
   | record_create_list of A.exp | record_create_list_nonempty of A.exp | record_create_field of A.exp
   | expseq of A.exp
@@ -86,7 +86,7 @@ exp
                                                   body=exp3, pos=FORleft})
   | BREAK                              (A.BreakExp BREAKleft)
   | LET decs IN expseq END             (A.LetExp {decs=decs, body=expseq, pos=LETleft})
-  | LPAREN expseq RPAREN               (todoExp)
+  | LPAREN expseq RPAREN               (expseq)
 
 decs
   :                                    ([])
