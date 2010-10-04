@@ -9,7 +9,10 @@ NilExp
 ../testcases/aa-test04.tig:
 NilExp
 ../testcases/aa-test05.tig:
-NilExp
+IfExp(
+ NilExp,
+ StringExp(""yep""),
+ StringExp(""nah""))
 ../testcases/aa-test06.tig:
 NilExp
 ../testcases/aa-test07.tig:
@@ -50,9 +53,15 @@ NilExp
 ../testcases/test07.tig:
 NilExp
 ../testcases/test08.tig:
-NilExp
+IfExp(
+ NilExp,
+ IntExp(30),
+ IntExp(40))
 ../testcases/test09.tig:
-NilExp
+IfExp(
+ NilExp,
+ IntExp(13),
+ StringExp("" ""))
 ../testcases/test10.tig:
 NilExp
 ../testcases/test11.tig:
@@ -64,7 +73,9 @@ NilExp
 ../testcases/test14.tig:
 NilExp
 ../testcases/test15.tig:
-NilExp
+IfExp(
+ IntExp(20),
+ IntExp(3))
 ../testcases/test16.tig:
 NilExp
 ../testcases/test17.tig:
