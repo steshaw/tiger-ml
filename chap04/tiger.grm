@@ -7,7 +7,12 @@ val todoExp = A.NilExp
 val todoVar = A.SimpleVar((symbol ""), 0)
 val todoExpPos = 0
 
+fun i(i: int) = A.IntExp(i)
+
 fun simpleVar(id: string, pos: int) = A.SimpleVar((symbol id), pos)
+
+fun negate(exp: A.exp, pos: int) = 
+  A.OpExp({left = i(0), oper = A.MinusOp, right = exp, pos = pos})
 
 %%
 %term
@@ -65,7 +70,7 @@ exp
   | unitexp                            (unitexp)
   | INT                                (A.IntExp INT)
   | STRING                             (A.StringExp(STRING, STRINGleft))
-  | MINUS exp             %prec UMINUS (todoExp) (* negate *)
+  | MINUS exp             %prec UMINUS (negate(exp, MINUSleft))
   | funcall                            (todoExp)
   | arith_exp                          (todoExp)
   | comp_exp                           (todoExp)
