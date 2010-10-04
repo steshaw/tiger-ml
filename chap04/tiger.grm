@@ -78,7 +78,7 @@ exp
   | bool_exp                           (bool_exp)
   | record_create                      (record_create)
   | array_create                       (array_create)
-  | lvalue ASSIGN exp                  (A.AssignExp {var=lvalue, exp=exp, pos=ASSIGNleft})
+  | lvalue ASSIGN exp                  (A.AssignExp {var=lvalue, exp=exp, pos=lvalueleft})
   | IF exp THEN exp ELSE exp           (A.IfExp {test=exp1, then'=exp2, else'=SOME(exp3), pos=IFleft})
   | IF exp THEN exp                    (A.IfExp {test=exp1, then'=exp2, else'=NONE, pos=IFleft})
   | WHILE exp DO exp                   (A.WhileExp {test=exp1, body=exp2, pos=WHILEleft})
@@ -170,18 +170,18 @@ explist_nonempty
   | explist COMMA exp                 (explist @ [exp])
 
 arith_exp
-  : exp PLUS exp                      (A.OpExp {left=exp1, oper=A.PlusOp, right=exp2, pos=PLUSleft})
-  | exp MINUS exp                     (A.OpExp {left=exp1, oper=A.MinusOp, right=exp2, pos=MINUSleft})
-  | exp TIMES exp                     (A.OpExp {left=exp1, oper=A.TimesOp, right=exp2, pos=TIMESleft})
-  | exp DIVIDE exp                    (A.OpExp {left=exp1, oper=A.DivideOp, right=exp2, pos=DIVIDEleft})
+  : exp PLUS exp                      (A.OpExp {left=exp1, oper=A.PlusOp, right=exp2, pos=exp1left})
+  | exp MINUS exp                     (A.OpExp {left=exp1, oper=A.MinusOp, right=exp2, pos=exp1left})
+  | exp TIMES exp                     (A.OpExp {left=exp1, oper=A.TimesOp, right=exp2, pos=exp1left})
+  | exp DIVIDE exp                    (A.OpExp {left=exp1, oper=A.DivideOp, right=exp2, pos=exp1left})
 
 comp_exp
-  : exp EQ exp                        (A.OpExp {left=exp1, oper=A.EqOp, right=exp2, pos=EQleft})
-  | exp NEQ exp                       (A.OpExp {left=exp1, oper=A.NeqOp, right=exp2, pos=NEQleft})
-  | exp LT exp                        (A.OpExp {left=exp1, oper=A.LtOp, right=exp2, pos=LTleft})
-  | exp LE exp                        (A.OpExp {left=exp1, oper=A.LeOp, right=exp2, pos=LEleft})
-  | exp GT exp                        (A.OpExp {left=exp1, oper=A.GtOp, right=exp2, pos=GTleft})
-  | exp GE exp                        (A.OpExp {left=exp1, oper=A.GeOp, right=exp2, pos=GEleft})
+  : exp EQ exp                        (A.OpExp {left=exp1, oper=A.EqOp, right=exp2, pos=exp1left})
+  | exp NEQ exp                       (A.OpExp {left=exp1, oper=A.NeqOp, right=exp2, pos=exp1left})
+  | exp LT exp                        (A.OpExp {left=exp1, oper=A.LtOp, right=exp2, pos=exp1left})
+  | exp LE exp                        (A.OpExp {left=exp1, oper=A.LeOp, right=exp2, pos=exp1left})
+  | exp GT exp                        (A.OpExp {left=exp1, oper=A.GtOp, right=exp2, pos=exp1left})
+  | exp GE exp                        (A.OpExp {left=exp1, oper=A.GeOp, right=exp2, pos=exp1left})
 
 bool_exp
   : exp AND exp                       (A.IfExp {test=exp1, then'=exp2, else'=SOME(i(0)), pos=expleft})
@@ -189,7 +189,7 @@ bool_exp
 
 lvalue
   : ID                                (simpleVar(ID, IDleft))
-  | ID LBRACK exp RBRACK              (A.SubscriptVar(simpleVar(ID, IDleft), exp, LBRACKleft))
+  | ID LBRACK exp RBRACK              (A.SubscriptVar(simpleVar(ID, IDleft), exp, IDleft))
     (* redundant rule to disambiguate with array-creation-expression *)
-  | lvalue LBRACK exp RBRACK          (A.SubscriptVar(lvalue, exp, LBRACKleft))
-  | lvalue DOT ID                     (A.FieldVar(lvalue, (symbol ID), DOTleft))
+  | lvalue LBRACK exp RBRACK          (A.SubscriptVar(lvalue, exp, lvalueleft))
+  | lvalue DOT ID                     (A.FieldVar(lvalue, (symbol ID), lvalueleft))
