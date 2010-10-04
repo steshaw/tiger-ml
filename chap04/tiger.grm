@@ -3,8 +3,8 @@ structure A = Absyn
 
 open Symbol
 
-val todoExp = A.NilExp
-val todoPos = 0
+val todoExp = A.NilExp (* FIXME: remove *)
+val todoPos = 0 (* FIXME: remove *)
 
 fun i(i: int) = A.IntExp(i)
 
@@ -178,8 +178,8 @@ comp_exp
   | exp GE exp                   (A.OpExp {left=exp1, oper=A.GeOp, right=exp2, pos=GEleft})
 
 bool_exp
-  : exp AND exp                  (todoExp)
-  | exp OR exp                   (todoExp)
+  : exp AND exp                  (A.IfExp {test=exp1, then'=exp2, else'=SOME(i(0)), pos=expleft})
+  | exp OR exp                   (A.IfExp {test=exp1, then'=i(1), else'=SOME(exp2), pos=expleft})
 
 lvalue
   : ID                           (simpleVar(ID, IDleft))

@@ -247,12 +247,34 @@ SOME(int),
      (isdigit,[
       (s,true,s)],
 SOME(int),
-      NilExp)],
+      IfExp(
+       OpExp(GeOp,
+        CallExp(ord,[
+         VarExp(
+          SimpleVar(buffer))]),
+        CallExp(ord,[
+         StringExp(""0"")])),
+       OpExp(LeOp,
+        CallExp(ord,[
+         VarExp(
+          SimpleVar(buffer))]),
+        CallExp(ord,[
+         StringExp(""9"")])),
+       IntExp(0)))],
     FunctionDec[
      (skipto,[],
 NONE,
       WhileExp(
-       NilExp,
+       IfExp(
+        OpExp(EqOp,
+         VarExp(
+          SimpleVar(buffer)),
+         StringExp("" "")),
+        IntExp(1),
+        OpExp(EqOp,
+         VarExp(
+          SimpleVar(buffer)),
+         StringExp(""\n""))),
        AssignExp(
         SimpleVar(buffer),
         CallExp(getchar,[]))))]],
@@ -604,7 +626,39 @@ r,true,
         SimpleVar(N)),
        IntExp(1)),
       IfExp(
-       NilExp,
+       IfExp(
+        IfExp(
+         OpExp(EqOp,
+          VarExp(
+           SubscriptVar(
+            SimpleVar(row),
+            VarExp(
+             SimpleVar(r)))),
+          IntExp(0)),
+         OpExp(EqOp,
+          VarExp(
+           SubscriptVar(
+            SimpleVar(diag1),
+            OpExp(PlusOp,
+             VarExp(
+              SimpleVar(r)),
+             VarExp(
+              SimpleVar(c))))),
+          IntExp(0)),
+         IntExp(0)),
+        OpExp(EqOp,
+         VarExp(
+          SubscriptVar(
+           SimpleVar(diag2),
+           OpExp(MinusOp,
+            OpExp(PlusOp,
+             VarExp(
+              SimpleVar(r)),
+             IntExp(7)),
+            VarExp(
+             SimpleVar(c))))),
+         IntExp(0)),
+        IntExp(0)),
        SeqExp[
         AssignExp(
          SubscriptVar(
