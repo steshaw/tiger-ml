@@ -19,7 +19,10 @@ NilExp
 ../testcases/aa-test09.tig:
 NilExp
 ../testcases/aa-test10.tig:
-NilExp
+VarExp(
+ SubscriptVar(
+  SimpleVar(a),
+  NilExp))
 ../testcases/aa-test11.tig:
 NilExp
 ../testcases/aa-test12.tig:
