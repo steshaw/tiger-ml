@@ -3,9 +3,6 @@ structure A = Absyn
 
 open Symbol
 
-val todoExp = A.NilExp (* FIXME: remove *)
-val todoPos = 0 (* FIXME: remove *)
-
 fun i(i: int) = A.IntExp(i)
 
 fun simpleVar(id: string, pos: int) = A.SimpleVar((symbol id), pos)
@@ -147,8 +144,8 @@ array_create
   : ID LBRACK exp RBRACK OF exp        (A.ArrayExp {typ=symbol ID, size=exp1, init=exp2, pos=IDleft})
 
 expseq
-  : exp                                ([(exp, todoPos)])
-  | expseq SEMICOLON exp               (expseq @ [(exp, todoPos)])
+  : exp                                ([(exp, expleft)])
+  | expseq SEMICOLON exp               (expseq @ [(exp, expleft)])
 
 unitexp: LPAREN RPAREN                (A.NilExp)
 
