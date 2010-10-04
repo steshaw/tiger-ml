@@ -14,7 +14,7 @@ IntExp(1)
 "hello"
 --
 ../testcases/aa-test02.tig:
-StringExp(""hello"")
+StringExp("hello")
 
 -- ../testcases/aa-test03.tig --
 ()
@@ -36,8 +36,8 @@ IfExp(
  OpExp(LtOp,
   IntExp(1),
   IntExp(2)),
- StringExp(""yep""),
- StringExp(""nah""))
+ StringExp("yep"),
+ StringExp("nah"))
 
 -- ../testcases/aa-test06.tig --
 let var a := 1 in a end
@@ -67,7 +67,7 @@ LetExp([
    (a,true,int)],
 NONE,
    CallExp(print,[
-    StringExp(""hi"")]))]],
+    StringExp("hi")]))]],
  SeqExp[
   CallExp(foo,[
    IntExp(100)])])
@@ -92,7 +92,7 @@ LetExp([
    (a,true,int)],
 NONE,
    CallExp(print,[
-    StringExp(""hi"")]))]],
+    StringExp("hi")]))]],
  SeqExp[
   AssignExp(
    SimpleVar(a),
@@ -109,8 +109,8 @@ NONE,
      VarExp(
       SimpleVar(a)),
      IntExp(0)),
-    StringExp(""positive""),
-    StringExp(""not positive""))]),
+    StringExp("positive"),
+    StringExp("not positive"))]),
   CallExp(exit,[
    IntExp(0)])])
 
@@ -127,7 +127,7 @@ LetExp([
   (noargs,[],
 NONE,
    CallExp(print,[
-    StringExp(""no-arg function"")]))]],
+    StringExp("no-arg function")]))]],
  SeqExp[
   CallExp(noargs,[
    VarExp(
@@ -150,7 +150,7 @@ AssignExp(
  SubscriptVar(
   SimpleVar(a),
   IntExp(0)),
- StringExp(""hello""))
+ StringExp("hello"))
 
 -- ../testcases/aa-test12.tig --
 a[20] of ""
@@ -158,7 +158,7 @@ a[20] of ""
 ../testcases/aa-test12.tig:
 ArrayExp(a,
  IntExp(20),
- StringExp(""""))
+ StringExp(""))
 
 -- ../testcases/aa-test13.tig --
 print(1, 2, 3, "hi")
@@ -168,7 +168,7 @@ CallExp(print,[
  IntExp(1),
  IntExp(2),
  IntExp(3),
- StringExp(""hi"")])
+ StringExp("hi")])
 
 -- ../testcases/merge.tig --
 let 
@@ -253,13 +253,13 @@ SOME(int),
          VarExp(
           SimpleVar(buffer))]),
         CallExp(ord,[
-         StringExp(""0"")])),
+         StringExp("0")])),
        OpExp(LeOp,
         CallExp(ord,[
          VarExp(
           SimpleVar(buffer))]),
         CallExp(ord,[
-         StringExp(""9"")])),
+         StringExp("9")])),
        IntExp(0))),
      (skipto,[],
 NONE,
@@ -268,12 +268,12 @@ NONE,
         OpExp(EqOp,
          VarExp(
           SimpleVar(buffer)),
-         StringExp("" "")),
+         StringExp(" ")),
         IntExp(1),
         OpExp(EqOp,
          VarExp(
           SimpleVar(buffer)),
-         StringExp(""\n""))),
+         StringExp("\n"))),
        AssignExp(
         SimpleVar(buffer),
         CallExp(getchar,[]))))]],
@@ -303,7 +303,7 @@ NONE,
            VarExp(
             SimpleVar(buffer))])),
          CallExp(ord,[
-          StringExp(""0"")]))),
+          StringExp("0")]))),
        AssignExp(
         SimpleVar(buffer),
         CallExp(getchar,[]))]),
@@ -431,7 +431,7 @@ NONE,
               IntExp(10)),
              IntExp(10))),
            CallExp(ord,[
-            StringExp(""0"")]))])])]))]],
+            StringExp("0")]))])])]))]],
     SeqExp[
      IfExp(
       OpExp(LtOp,
@@ -440,7 +440,7 @@ NONE,
        IntExp(0)),
       SeqExp[
        CallExp(print,[
-        StringExp(""-"")]),
+        StringExp("-")]),
        CallExp(f,[
         OpExp(MinusOp,
          IntExp(0),
@@ -455,7 +455,7 @@ NONE,
         VarExp(
          SimpleVar(i))]),
        CallExp(print,[
-        StringExp(""0"")])))])),
+        StringExp("0")])))])),
   (printlist,[
    (l,true,list)],
 NONE,
@@ -465,7 +465,7 @@ NONE,
       SimpleVar(l)),
      NilExp),
     CallExp(print,[
-     StringExp(""\n"")]),
+     StringExp("\n")]),
     SeqExp[
      CallExp(printint,[
       VarExp(
@@ -473,7 +473,7 @@ NONE,
         SimpleVar(l),
         first))]),
      CallExp(print,[
-      StringExp("" "")]),
+      StringExp(" ")]),
      CallExp(printlist,[
       VarExp(
        FieldVar(
@@ -596,12 +596,12 @@ j,true,
              SimpleVar(i)))),
           VarExp(
            SimpleVar(j))),
-         StringExp("" O""),
-         StringExp("" .""))])),
+         StringExp(" O"),
+         StringExp(" ."))])),
       CallExp(print,[
-       StringExp(""\n"")])]),
+       StringExp("\n")])]),
     CallExp(print,[
-     StringExp(""\n"")])]),
+     StringExp("\n")])]),
   (try,[
    (c,true,int)],
 NONE,
@@ -792,7 +792,7 @@ LetExp([
   RecordExp(rectype,[
 
    (name,
-    StringExp(""Nobody"")),
+    StringExp("Nobody")),
    (age,
     IntExp(1000))]))],
  SeqExp[
@@ -800,7 +800,7 @@ LetExp([
    FieldVar(
     SimpleVar(rec1),
     name),
-   StringExp(""Somebody"")),
+   StringExp("Somebody")),
   VarExp(
    SimpleVar(rec1))])
 
@@ -918,11 +918,11 @@ NONE,
    CallExp(do_nothing1,[
     VarExp(
      SimpleVar(d)),
-    StringExp(""str"")]))]],
+    StringExp("str")]))]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
-   StringExp(""str2"")])])
+   StringExp("str2")])])
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -960,12 +960,12 @@ SOME(string),
     CallExp(do_nothing1,[
      VarExp(
       SimpleVar(d)),
-     StringExp(""str"")]),
-    StringExp("" "")])]],
+     StringExp("str")]),
+    StringExp(" ")])]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
-   StringExp(""str2"")])])
+   StringExp("str2")])])
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -992,7 +992,7 @@ IfExp(
    IntExp(5),
    IntExp(4))],
  IntExp(13),
- StringExp("" ""))
+ StringExp(" "))
 
 -- ../testcases/test10.tig --
 /* error : body of while not unit */
@@ -1017,7 +1017,7 @@ for i:=10 to " " do
 ForExp(
 i,true,
  IntExp(10),
- StringExp("" ""),
+ StringExp(" "),
  AssignExp(
   SimpleVar(i),
   OpExp(MinusOp,
@@ -1060,7 +1060,7 @@ i,true,
 ../testcases/test13.tig:
 OpExp(GtOp,
  IntExp(3),
- StringExp(""df""))
+ StringExp("df"))
 
 -- ../testcases/test14.tig --
 /* error : compare rec with array */
@@ -1090,7 +1090,7 @@ LetExp([
   RecordExp(rectype,[
 
    (name,
-    StringExp(""aname"")),
+    StringExp("aname")),
    (id,
     IntExp(0))])),
  VarDec(arr,true,NONE,
@@ -1142,7 +1142,7 @@ LetExp([
   (d,
    NameTy(a))]],
  SeqExp[
-  StringExp("""")])
+  StringExp("")])
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -1215,12 +1215,12 @@ SOME(string),
     CallExp(do_nothing1,[
      VarExp(
       SimpleVar(d)),
-     StringExp(""str"")]),
-    StringExp("" "")])]],
+     StringExp("str")]),
+    StringExp(" ")])]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
-   StringExp(""str2"")])])
+   StringExp("str2")])])
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */
@@ -1258,12 +1258,12 @@ SOME(string),
     CallExp(do_nothing1,[
      VarExp(
       SimpleVar(a)),
-     StringExp(""str"")]),
-    StringExp("" "")])]],
+     StringExp("str")]),
+    StringExp(" ")])]],
  SeqExp[
   CallExp(do_nothing1,[
    IntExp(0),
-   StringExp(""str2"")])])
+   StringExp("str2")])])
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
@@ -1342,7 +1342,7 @@ LetExp([
   RecordExp(rectype,[
 
    (name,
-    StringExp(""Name"")),
+    StringExp("Name")),
    (id,
     IntExp(0))]))],
  SeqExp[
@@ -1350,7 +1350,7 @@ LetExp([
    FieldVar(
     SimpleVar(rec1),
     nam),
-   StringExp(""asd""))])
+   StringExp("asd"))])
 
 -- ../testcases/test23.tig --
 /* error : type mismatch */
@@ -1374,7 +1374,7 @@ LetExp([
   RecordExp(rectype,[
 
    (name,
-    StringExp(""aname"")),
+    StringExp("aname")),
    (id,
     IntExp(0))]))],
  SeqExp[
@@ -1387,7 +1387,7 @@ LetExp([
    FieldVar(
     SimpleVar(rec1),
     id),
-   StringExp(""""))])
+   StringExp(""))])
 
 -- ../testcases/test24.tig --
 /* error : variable not array */
@@ -1435,7 +1435,7 @@ LetExp([
 ../testcases/test26.tig:
 OpExp(PlusOp,
  IntExp(3),
- StringExp(""var""))
+ StringExp("var"))
 
 -- ../testcases/test27.tig --
 /* locals hide globals */
@@ -1488,7 +1488,7 @@ LetExp([
   RecordExp(rectype2,[
 
    (name,
-    StringExp(""Name"")),
+    StringExp("Name")),
    (id,
     IntExp(0))]))],
  SeqExp[
@@ -1562,7 +1562,7 @@ end
 ../testcases/test31.tig:
 LetExp([
  VarDec(a,true,SOME(int),
-  StringExp("" ""))],
+  StringExp(" "))],
  SeqExp[
   VarExp(
    SimpleVar(a))])
@@ -1586,7 +1586,7 @@ LetExp([
  VarDec(a,true,NONE,
   ArrayExp(arrayty,
    IntExp(10),
-   StringExp("" "")))],
+   StringExp(" ")))],
  SeqExp[
   IntExp(0)])
 
@@ -1625,8 +1625,8 @@ SOME(int),
     SimpleVar(a)))]],
  SeqExp[
   CallExp(g,[
-   StringExp(""one""),
-   StringExp(""two"")])])
+   StringExp("one"),
+   StringExp("two")])])
 
 -- ../testcases/test35.tig --
 /* error : formals are more then actuals */
@@ -1647,7 +1647,7 @@ SOME(int),
     SimpleVar(a)))]],
  SeqExp[
   CallExp(g,[
-   StringExp(""one"")])])
+   StringExp("one")])])
 
 -- ../testcases/test36.tig --
 /* error : formals are fewer then actuals */
@@ -1669,7 +1669,7 @@ SOME(int),
  SeqExp[
   CallExp(g,[
    IntExp(3),
-   StringExp(""one""),
+   StringExp("one"),
    IntExp(5)])])
 
 -- ../testcases/test37.tig --
@@ -1687,7 +1687,7 @@ LetExp([
  VarDec(a,true,NONE,
   IntExp(0)),
  VarDec(a,true,NONE,
-  StringExp("" ""))],
+  StringExp(" "))],
  SeqExp[
   IntExp(0)])
 
@@ -1846,9 +1846,9 @@ LetExp([
    RecordExp(rectype1,[
 
     (name,
-     StringExp(""aname"")),
+     StringExp("aname")),
     (address,
-     StringExp(""somewhere"")),
+     StringExp("somewhere")),
     (id,
      IntExp(0)),
     (age,
@@ -1856,14 +1856,14 @@ LetExp([
  VarDec(arr3,true,SOME(arrtype3),
   ArrayExp(arrtype3,
    IntExp(100),
-   StringExp(""""))),
+   StringExp(""))),
  VarDec(rec1,true,NONE,
   RecordExp(rectype1,[
 
    (name,
-    StringExp(""Kapoios"")),
+    StringExp("Kapoios")),
    (address,
-    StringExp(""Kapou"")),
+    StringExp("Kapou")),
    (id,
     IntExp(2432)),
    (age,
@@ -1872,7 +1872,7 @@ LetExp([
   RecordExp(rectype2,[
 
    (name,
-    StringExp(""Allos"")),
+    StringExp("Allos")),
    (dates,
     ArrayExp(arrtype1,
      IntExp(3),
@@ -1894,7 +1894,7 @@ LetExp([
      SimpleVar(arr2),
      IntExp(3)),
     name),
-   StringExp(""kati"")),
+   StringExp("kati")),
   AssignExp(
    FieldVar(
     SubscriptVar(
@@ -1906,12 +1906,12 @@ LetExp([
    SubscriptVar(
     SimpleVar(arr3),
     IntExp(34)),
-   StringExp(""sfd"")),
+   StringExp("sfd")),
   AssignExp(
    FieldVar(
     SimpleVar(rec1),
     name),
-   StringExp(""sdf"")),
+   StringExp("sdf")),
   AssignExp(
    SubscriptVar(
     FieldVar(

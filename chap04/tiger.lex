@@ -10,6 +10,9 @@ fun err(p1,p2) = ErrorMsg.error p1
 
 fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,pos) end
 
+fun stringWithoutQuotes(s: string) =
+  String.extract (s, 1, SOME(String.size s - 2))
+
 exception NotAnInt
 
 fun getInt(optionInt : int option) = case optionInt of
@@ -74,7 +77,7 @@ notQuote = [^"];
 
 <INITIAL>{id}                       => (Tokens.ID(yytext, yypos, yypos + size yytext));
 <INITIAL>{digit}+                   => (Tokens.INT(getInt (Int.fromString yytext), yypos, yypos + size yytext));
-<INITIAL>{quote}{notQuote}*{quote}  => (Tokens.STRING(yytext, yypos, yypos + size yytext));
+<INITIAL>{quote}{notQuote}*{quote}  => (Tokens.STRING(stringWithoutQuotes(yytext), yypos, yypos + size yytext));
 
 <INITIAL>"/*"   => (YYBEGIN COMMENT; continue());
 <COMMENT>"*/"   => (YYBEGIN INITIAL; continue());
