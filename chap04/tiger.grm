@@ -144,7 +144,7 @@ record_create_list_nonempty
 record_create_field: ID EQ exp         ((symbol ID, exp, IDleft))
 
 array_create
-  : ID LBRACK exp RBRACK OF exp        (todoExp)
+  : ID LBRACK exp RBRACK OF exp        (A.ArrayExp {typ=symbol ID, size=exp1, init=exp2, pos=IDleft})
 
 expseq
   : exp                                ([(exp, todoPos)])

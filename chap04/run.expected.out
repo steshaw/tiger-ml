@@ -156,7 +156,9 @@ AssignExp(
 a[20] of ""
 --
 ../testcases/aa-test12.tig:
-NilExp
+ArrayExp(a,
+ IntExp(20),
+ StringExp(""""))
 
 -- ../testcases/aa-test13.tig --
 print(1, 2, 3, "hi")
@@ -518,13 +520,35 @@ LetExp([
   (intArray,
    ArrayTy(int))],
  VarDec(row,true,NONE,
-  NilExp),
+  ArrayExp(intArray,
+   VarExp(
+    SimpleVar(N)),
+   IntExp(0))),
  VarDec(col,true,NONE,
-  NilExp),
+  ArrayExp(intArray,
+   VarExp(
+    SimpleVar(N)),
+   IntExp(0))),
  VarDec(diag1,true,NONE,
-  NilExp),
+  ArrayExp(intArray,
+   OpExp(MinusOp,
+    OpExp(PlusOp,
+     VarExp(
+      SimpleVar(N)),
+     VarExp(
+      SimpleVar(N))),
+    IntExp(1)),
+   IntExp(0))),
  VarDec(diag2,true,NONE,
-  NilExp),
+  ArrayExp(intArray,
+   OpExp(MinusOp,
+    OpExp(PlusOp,
+     VarExp(
+      SimpleVar(N)),
+     VarExp(
+      SimpleVar(N))),
+    IntExp(1)),
+   IntExp(0))),
  FunctionDec[
   (printboard,[],
 NONE,
@@ -665,7 +689,9 @@ LetExp([
   (arrtype,
    ArrayTy(int))],
  VarDec(arr1,true,SOME(arrtype),
-  NilExp)],
+  ArrayExp(arrtype,
+   IntExp(10),
+   IntExp(0)))],
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
@@ -690,7 +716,9 @@ LetExp([
   (arrtype,
    ArrayTy(myint))],
  VarDec(arr1,true,SOME(arrtype),
-  NilExp)],
+  ArrayExp(arrtype,
+   IntExp(10),
+   IntExp(0)))],
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
@@ -1023,7 +1051,9 @@ LetExp([
    (id,
     IntExp(0))])),
  VarDec(arr,true,NONE,
-  NilExp)],
+  ArrayExp(arrtype,
+   IntExp(3),
+   IntExp(0)))],
  SeqExp[
   IfExp(
    OpExp(NeqOp,
@@ -1448,7 +1478,9 @@ LetExp([
   (arrtype2,
    ArrayTy(int))],
  VarDec(arr1,true,SOME(arrtype1),
-  NilExp)],
+  ArrayExp(arrtype2,
+   IntExp(10),
+   IntExp(0)))],
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
@@ -1474,7 +1506,9 @@ LetExp([
   (b,
    NameTy(a))],
  VarDec(arr1,true,SOME(a),
-  NilExp)],
+  ArrayExp(b,
+   IntExp(10),
+   IntExp(0)))],
  SeqExp[
   VarExp(
    SubscriptVar(
@@ -1514,7 +1548,9 @@ LetExp([
   (arrayty,
    ArrayTy(int))],
  VarDec(a,true,NONE,
-  NilExp)],
+  ArrayExp(arrayty,
+   IntExp(10),
+   StringExp("" "")))],
  SeqExp[
   IntExp(0)])
 
@@ -1771,11 +1807,26 @@ LetExp([
   (arrtype3,
    ArrayTy(string))],
  VarDec(arr1,true,NONE,
-  NilExp),
+  ArrayExp(arrtype1,
+   IntExp(10),
+   IntExp(0))),
  VarDec(arr2,true,NONE,
-  NilExp),
+  ArrayExp(arrtype2,
+   IntExp(5),
+   RecordExp(rectype1,[
+
+    (name,
+     StringExp(""aname"")),
+    (address,
+     StringExp(""somewhere"")),
+    (id,
+     IntExp(0)),
+    (age,
+     IntExp(0))]))),
  VarDec(arr3,true,SOME(arrtype3),
-  NilExp),
+  ArrayExp(arrtype3,
+   IntExp(100),
+   StringExp(""""))),
  VarDec(rec1,true,NONE,
   RecordExp(rectype1,[
 
@@ -1793,7 +1844,9 @@ LetExp([
    (name,
     StringExp(""Allos"")),
    (dates,
-    NilExp)]))],
+    ArrayExp(arrtype1,
+     IntExp(3),
+     IntExp(1900)))]))],
  SeqExp[
   AssignExp(
    SubscriptVar(
