@@ -1,49 +1,178 @@
+-- ../testcases/aaa-nil.tig --
+nil
+--
 ../testcases/aaa-nil.tig:
 NilExp
+
+-- ../testcases/aa-test01.tig --
+1
+--
 ../testcases/aa-test01.tig:
 IntExp(1)
+
+-- ../testcases/aa-test02.tig --
+"hello"
+--
 ../testcases/aa-test02.tig:
 StringExp(""hello"")
+
+-- ../testcases/aa-test03.tig --
+()
+--
 ../testcases/aa-test03.tig:
 NilExp
+
+-- ../testcases/aa-test04.tig --
+nil
+--
 ../testcases/aa-test04.tig:
 NilExp
+
+-- ../testcases/aa-test05.tig --
+if 1 < 2 then "yep" else "nah"
+--
 ../testcases/aa-test05.tig:
 IfExp(
- NilExp,
+ OpExp(LtOp,
+  IntExp(1),
+  IntExp(2)),
  StringExp(""yep""),
  StringExp(""nah""))
+
+-- ../testcases/aa-test06.tig --
+let var a := 1 in a end
+--
 ../testcases/aa-test06.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/aa-test07.tig --
+let
+  var a:int := 100
+  function foo(a: int) = print("hi")
+in
+  foo(100)
+end
+--
 ../testcases/aa-test07.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/aa-test08.tig --
+let
+  var a:int := 100
+  function foo(a: int) = print("hi")
+in
+  a := a + 1;
+  foo(a);
+  print(if a > 0 then "positive" else "not positive");
+  exit(0)
+end
+--
 ../testcases/aa-test08.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/aa-test09.tig --
+let
+  function noargs() = print("no-arg function")
+in
+  noargs(a)
+end
+--
 ../testcases/aa-test09.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/aa-test10.tig --
+a[0]
+--
 ../testcases/aa-test10.tig:
 VarExp(
  SubscriptVar(
   SimpleVar(a),
   IntExp(0)))
+
+-- ../testcases/aa-test11.tig --
+a[0] := "hello"
+--
 ../testcases/aa-test11.tig:
 AssignExp(
  SubscriptVar(
   SimpleVar(a),
   IntExp(0)),
  StringExp(""hello""))
+
+-- ../testcases/aa-test12.tig --
+a[20] of ""
+--
 ../testcases/aa-test12.tig:
 NilExp
+
+-- ../testcases/merge.tig --
+let 
+
+ type any = {any : int}
+ var buffer := getchar()
+
+function readint(any: any) : int =
+ let var i := 0
+     function isdigit(s : string) : int = 
+		  ord(buffer)>=ord("0") & ord(buffer)<=ord("9")
+     function skipto() =
+       while buffer=" " | buffer="\n"
+         do buffer := getchar()
+  in skipto();
+     any.any := isdigit(buffer);
+     while isdigit(buffer)
+       do (i := i*10+ord(buffer)-ord("0"); buffer := getchar());
+     i
+ end
+
+ type list = {first: int, rest: list}
+
+ function readlist() : list =
+    let var any := any{any=0}
+        var i := readint(any)
+     in if any.any
+         then list{first=i,rest=readlist()}
+         else nil
+    end
+
+ function merge(a: list, b: list) : list =
+   if a=nil then b
+   else if b=nil then a
+   else if a.first < b.first 
+      then list{first=a.first,rest=merge(a.rest,b)}
+      else list{first=b.first,rest=merge(a,b.rest)}
+
+ function printint(i: int) =
+  let function f(i:int) = if i>0 
+	     then (f(i/10); print(chr(i-i/10*10+ord("0"))))
+   in if i<0 then (print("-"); f(-i))
+      else if i>0 then f(i)
+      else print("0")
+  end
+
+ function printlist(l: list) =
+   if l=nil then print("\n")
+   else (printint(l.first); print(" "); printlist(l.rest))
+
+   var list1 := readlist()
+   var list2 := (buffer:=getchar(); readlist())
+
+
+  /* BODY OF MAIN PROGRAM */
+ in printlist(merge(list1,list2))
+end
+
+--
 ../testcases/merge.tig:
 LetExp([
  FunctionDec[],
@@ -57,6 +186,42 @@ LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/queens.tig --
+/* A program to solve the 8-queens problem */
+
+let
+    var N := 8
+
+    type intArray = array of int
+
+    var row := intArray [ N ] of 0
+    var col := intArray [ N ] of 0
+    var diag1 := intArray [N+N-1] of 0
+    var diag2 := intArray [N+N-1] of 0
+
+    function printboard() =
+       (for i := 0 to N-1
+	 do (for j := 0 to N-1 
+	      do print(if col[i]=j then " O" else " .");
+	     print("\n"));
+         print("\n"))
+
+    function try(c:int) = 
+( /*  for i:= 0 to c do print("."); print("\n"); flush();*/
+     if c=N
+     then printboard()
+     else for r := 0 to N-1
+	   do if row[r]=0 & diag1[r+c]=0 & diag2[r+7-c]=0
+	           then (row[r]:=1; diag1[r+c]:=1; diag2[r+7-c]:=1;
+		         col[c]:=r;
+	                 try(c+1);
+			 row[r]:=0; diag1[r+c]:=0; diag2[r+7-c]:=0)
+
+)
+ in try(0)
+end
+	--
 ../testcases/queens.tig:
 LetExp([
  FunctionDec[],
@@ -68,26 +233,92 @@ LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test01.tig --
+/* an array type and an array variable */
+let
+	type  arrtype = array of int
+	var arr1:arrtype := arrtype [10] of 0
+in
+	arr1
+end
+--
 ../testcases/test01.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test02.tig --
+/* arr1 is valid since expression 0 is int = myint */
+let
+	type myint = int
+	type  arrtype = array of myint
+
+	var arr1:arrtype := arrtype [10] of 0
+in
+	arr1
+end
+--
 ../testcases/test02.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test03.tig --
+/* a record type and a record variable */
+let
+	type  rectype = {name:string, age:int}
+	var rec1:rectype := rectype {name="Nobody", age=1000}
+in
+	rec1.name := "Somebody";
+	rec1
+end
+--
 ../testcases/test03.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test04.tig --
+/* define a recursive function */
+let
+
+/* calculate n! */
+function nfactor(n: int): int =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
 ../testcases/test04.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test05.tig --
+/* define valid recursive types */
+let
+/* define a list */
+type intlist = {hd: int, tl: intlist} 
+
+/* define a tree */
+type tree ={key: int, children: treelist}
+type treelist = {hd: tree, tl: treelist}
+
+var lis:intlist := intlist { hd=0, tl= nil } 
+
+in
+	lis
+end
+--
 ../testcases/test05.tig:
 LetExp([
  FunctionDec[],
@@ -95,30 +326,86 @@ LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test06.tig --
+/* define valid mutually recursive procedures */
+let
+
+function do_nothing1(a: int, b: string)=
+		do_nothing2(a+1)
+
+function do_nothing2(d: int) =
+		do_nothing1(d, "str")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
 ../testcases/test06.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test07.tig --
+/* define valid mutually recursive functions */
+let
+
+function do_nothing1(a: int, b: string):int=
+		(do_nothing2(a+1);0)
+
+function do_nothing2(d: int):string =
+		(do_nothing1(d, "str");" ")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
 ../testcases/test07.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test08.tig --
+/* correct if */
+if (10 > 20) then 30 else 40	
+--
 ../testcases/test08.tig:
 IfExp(
  NilExp,
  IntExp(30),
  IntExp(40))
+
+-- ../testcases/test09.tig --
+/* error : types of then - else differ */
+
+if (5>4) then 13 else  " "
+--
 ../testcases/test09.tig:
 IfExp(
  NilExp,
  IntExp(13),
  StringExp("" ""))
+
+-- ../testcases/test10.tig --
+/* error : body of while not unit */
+while(10 > 5) do 5+6
+--
 ../testcases/test10.tig:
 WhileExp(
  NilExp,
- NilExp)
+ OpExp(PlusOp,
+  IntExp(5),
+  IntExp(6)))
+
+-- ../testcases/test11.tig --
+/* error hi expr is not int, and index variable erroneously assigned to.  */
+for i:=10 to " " do 
+	i := i - 1
+--
 ../testcases/test11.tig:
 ForExp(
 i,true,
@@ -126,13 +413,50 @@ i,true,
  StringExp("" ""),
  AssignExp(
   SimpleVar(i),
-  NilExp))
+  OpExp(MinusOp,
+   VarExp(
+    SimpleVar(i)),
+   IntExp(1))))
+
+-- ../testcases/test12.tig --
+/* valid for and let */
+
+let
+	var a:= 0
+in 
+	for i:=0 to 100 do (a:=a+1;())
+end
+--
 ../testcases/test12.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test13.tig --
+/* error: comparison of incompatible types */
+
+3 > "df"
+--
 ../testcases/test13.tig:
-NilExp
+OpExp(GtOp,
+ IntExp(3),
+ StringExp(""df""))
+
+-- ../testcases/test14.tig --
+/* error : compare rec with array */
+
+let
+
+	type arrtype = array of int
+	type rectype = {name:string, id: int}
+
+	var rec := rectype {name="aname", id=0}
+	var arr := arrtype [3] of 0
+
+in
+	if rec <> arr then 3 else 4
+end
+--
 ../testcases/test14.tig:
 LetExp([
  FunctionDec[],
@@ -140,10 +464,30 @@ LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test15.tig --
+/* error : if-then returns non unit */
+
+if 20 then 3
+--
 ../testcases/test15.tig:
 IfExp(
  IntExp(20),
  IntExp(3))
+
+-- ../testcases/test16.tig --
+/* error: mutually recursive types thet do not pass through record or array */
+let 
+
+type a=c
+type b=a
+type c=d
+type d=a
+
+in
+ ""
+end
+--
 ../testcases/test16.tig:
 LetExp([
  FunctionDec[],
@@ -151,122 +495,442 @@ LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test17.tig --
+/* error: definition of recursive types is interrupted */
+let
+/* define a tree */
+type tree ={key: int, children: treelist}
+var d:int :=0
+type treelist = {hd: tree, tl: treelist}
+
+in
+	d
+end
+--
 ../testcases/test17.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test18.tig --
+/* error : definition of recursive functions is interrupted */
+let
+
+function do_nothing1(a: int, b: string):int=
+		(do_nothing2(a+1);0)
+
+var d:=0
+
+function do_nothing2(d: int):string =
+		(do_nothing1(d, "str");" ")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
 ../testcases/test18.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test19.tig --
+/* error : second function uses variables local to the first one, undeclared variable */
+let
+
+function do_nothing1(a: int, b: string):int=
+		(do_nothing2(a+1);0)
+
+function do_nothing2(d: int):string =
+		(do_nothing1(a, "str");" ")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
 ../testcases/test19.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test20.tig --
+/* error: undeclared variable i */
+
+while 10 > 5 do (i+1;())
+--
 ../testcases/test20.tig:
 WhileExp(
- NilExp,
+ OpExp(GtOp,
+  IntExp(10),
+  IntExp(5)),
  NilExp)
+
+-- ../testcases/test21.tig --
+/* error : procedure returns value  and procedure is used in arexpr */
+let
+
+/* calculate n! */
+function nfactor(n: int) =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
 ../testcases/test21.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test22.tig --
+/* error : field not in record type */
+
+let 
+	type rectype = {name:string , id:int}
+	var rec1 := rectype {name="Name", id=0}
+in
+	rec1.nam := "asd"
+end
+--
 ../testcases/test22.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test23.tig --
+/* error : type mismatch */
+
+let 
+	type rectype = {name:string , id:int}
+	var rec1 := rectype {name="aname", id=0}
+in
+	rec1.name := 3;
+	rec1.id := "" 
+end
+--
 ../testcases/test23.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test24.tig --
+/* error : variable not array */
+let 
+	var d:=0
+in
+	d[3]
+end
+
+--
 ../testcases/test24.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test25.tig --
+/* error : variable not record */
+let 
+	var d:=0
+in
+	d.f 
+end
+
+--
 ../testcases/test25.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test26.tig --
+/* error : integer required */
+
+3 + "var"
+--
 ../testcases/test26.tig:
-NilExp
+OpExp(PlusOp,
+ IntExp(3),
+ StringExp(""var""))
+
+-- ../testcases/test27.tig --
+/* locals hide globals */
+let
+	var a:=0
+
+	function g(a:int):int = a 
+in
+ g(2)
+end
+--
 ../testcases/test27.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test28.tig --
+/* error : different record types */
+
+let
+	type rectype1 = {name:string , id:int}
+	type rectype2 = {name:string , id:int}
+
+	var rec1: rectype1 := rectype2 {name="Name", id=0}
+in
+	rec1
+end
+--
 ../testcases/test28.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test29.tig --
+/* error : different array types */
+
+let
+	type arrtype1 = array of int
+	type arrtype2 = array of int
+
+	var arr1: arrtype1 := arrtype2 [10] of 0
+in
+	arr1
+end
+--
 ../testcases/test29.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test30.tig --
+/* synonyms are fine */
+
+let 
+		type a = array of int
+		type b = a
+
+		var arr1:a := b [10] of 0
+in
+		arr1[2] 
+end
+--
 ../testcases/test30.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test31.tig --
+/* error : type constraint and init value differ */
+let 
+	var a:int := " "
+in
+	a
+end
+--
 ../testcases/test31.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test32.tig --
+/* error : initializing exp and array type differ */
+
+let
+	type arrayty = array of int
+
+	var a := arrayty [10] of " "
+in
+	0
+end
+--
 ../testcases/test32.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test33.tig --
+/* error : unknown type */
+let
+	var a:= rectype {}
+in
+	0
+end
+--
 ../testcases/test33.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test34.tig --
+/* error : formals and actuals have different types */
+let
+	function g (a:int , b:string):int = a
+in
+	g("one", "two")
+end
+--
 ../testcases/test34.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test35.tig --
+/* error : formals are more then actuals */
+let
+	function g (a:int , b:string):int = a
+in
+	g("one")
+end
+--
 ../testcases/test35.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test36.tig --
+/* error : formals are fewer then actuals */
+let
+	function g (a:int , b:string):int = a
+in
+	g(3,"one",5)
+end
+--
 ../testcases/test36.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test37.tig --
+/* redeclaration of variable; this is legal, there are two different
+   variables with the same name.  The second one hides the first.  */
+let
+	var a := 0
+	var a := " "
+in
+	0
+end
+--
 ../testcases/test37.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test38.tig --
+/* This is illegal, since there are two types with the same name
+    in the same (consecutive) batch of mutually recursive types. 
+    See also test47  */
+let
+	type a = int
+	type a = string
+in
+	0
+end
+--
 ../testcases/test38.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test39.tig --
+/* This is illegal, since there are two functions with the same name
+    in the same (consecutive) batch of mutually recursive functions.
+   See also test48 */
+let
+	function g(a:int):int = a
+	function g(a:int):int = a
+in
+	0
+end
+--
 ../testcases/test39.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test40.tig --
+/* error : procedure returns value */
+let
+	function g(a:int) = a
+in 
+	g(2)
+end
+
+--
 ../testcases/test40.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test41.tig --
+/* local types hide global */
+let
+	type a = int
+in
+	let
+		type a = string
+	in
+		0
+	end
+end
+--
 ../testcases/test41.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test42.tig --
+/* correct declarations */
+let 
+
+type arrtype1 = array of int
+type rectype1 = {name:string, address:string, id: int , age: int}
+type arrtype2 = array of rectype1
+type rectype2 = {name : string, dates: arrtype1}
+
+type arrtype3 = array of string
+
+var arr1 := arrtype1 [10] of 0
+var arr2  := arrtype2 [5] of rectype1 {name="aname", address="somewhere", id=0, age=0}
+var arr3:arrtype3 := arrtype3 [100] of ""
+
+var rec1 := rectype1 {name="Kapoios", address="Kapou", id=02432, age=44}
+var rec2 := rectype2 {name="Allos", dates= arrtype1 [3] of 1900}
+
+in
+
+arr1[0] := 1; 
+arr1[9] := 3;
+arr2[3].name := "kati";
+arr2[1].age := 23;
+arr3[34] := "sfd";
+
+rec1.name := "sdf";
+rec2.dates[0] := 2323;
+rec2.dates[2] := 2323
+
+end
+--
 ../testcases/test42.tig:
 LetExp([
  FunctionDec[],
@@ -280,40 +944,126 @@ LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test43.tig --
+/* initialize with unit and causing type mismatch in addition */
+
+let 
+	var a := ()
+in
+	a + 3
+end
+--
 ../testcases/test43.tig:
 LetExp([
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test44.tig --
+/* valid nil initialization and assignment */
+let 
+
+	type rectype = {name:string, id:int}
+	var b:rectype := nil
+
+in
+
+	b := nil
+
+end
+--
 ../testcases/test44.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test45.tig --
+/* error: initializing nil expressions not constrained by record type */
+let 
+	type rectype = {name:string, id:int}
+
+	var a:= nil
+in
+	a
+end
+--
 ../testcases/test45.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test46.tig --
+/* valid rec comparisons */
+let 
+	type rectype = {name:string, id:int}
+	var b:rectype := nil
+in
+	b = nil;
+	b <> nil
+end
+--
 ../testcases/test46.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test47.tig --
+/* This is legal.  The second type "a" simply hides the first one.
+   Because of the intervening variable declaration, the two "a" types
+   are not in the same  batch of mutually recursive types.
+   See also test38 */
+let
+	type a = int
+	var b := 4
+	type a = string
+in
+	0
+end
+--
 ../testcases/test47.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test48.tig --
+/* This is legal.  The second function "g" simply hides the first one.
+   Because of the intervening variable declaration, the two "g" functions
+   are not in the same  batch of mutually recursive functions. 
+   See also test39 */
+let
+	function g(a:int):int = a
+	type t = int
+	function g(a:int):int = a
+in
+	0
+end
+--
 ../testcases/test48.tig:
 LetExp([
  FunctionDec[],
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+
+-- ../testcases/test49.tig --
+/* error: syntax error, nil should not be preceded by type-id.  */
+let 
+	type rectype = {name:string, id:int}
+
+	var a:= rectype nil
+in
+	a
+end
+--
 ../testcases/test49.tig:
 ../testcases/test49.tig:5.18:syntax error: inserting  PLUS
 LetExp([
  FunctionDec[],
  FunctionDec[]],
  NilExp)
+

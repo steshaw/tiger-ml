@@ -165,18 +165,18 @@ explist_nonempty
   | explist COMMA exp            (todoExp)
  
 arith_exp
-  : exp PLUS exp                 (todoExp)
-  | exp MINUS exp                (todoExp)
-  | exp TIMES exp                (todoExp)
-  | exp DIVIDE exp               (todoExp)
+  : exp PLUS exp                 (A.OpExp {left=exp1, oper=A.PlusOp, right=exp2, pos=PLUSleft})
+  | exp MINUS exp                (A.OpExp {left=exp1, oper=A.MinusOp, right=exp2, pos=MINUSleft})
+  | exp TIMES exp                (A.OpExp {left=exp1, oper=A.TimesOp, right=exp2, pos=TIMESleft})
+  | exp DIVIDE exp               (A.OpExp {left=exp1, oper=A.DivideOp, right=exp2, pos=DIVIDEleft})
 
 comp_exp
-  : exp EQ exp                   (todoExp)
-  | exp NEQ exp                  (todoExp)
-  | exp LT exp                   (todoExp)
-  | exp LE exp                   (todoExp)
-  | exp GT exp                   (todoExp)
-  | exp GE exp                   (todoExp)
+  : exp EQ exp                   (A.OpExp {left=exp1, oper=A.EqOp, right=exp2, pos=EQleft})
+  | exp NEQ exp                  (A.OpExp {left=exp1, oper=A.NeqOp, right=exp2, pos=NEQleft})
+  | exp LT exp                   (A.OpExp {left=exp1, oper=A.LtOp, right=exp2, pos=LTleft})
+  | exp LE exp                   (A.OpExp {left=exp1, oper=A.LeOp, right=exp2, pos=LEleft})
+  | exp GT exp                   (A.OpExp {left=exp1, oper=A.GtOp, right=exp2, pos=GTleft})
+  | exp GE exp                   (A.OpExp {left=exp1, oper=A.GeOp, right=exp2, pos=GEleft})
 
 bool_exp
   : exp AND exp                  (todoExp)
