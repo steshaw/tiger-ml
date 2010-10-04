@@ -81,7 +81,8 @@ exp
   | IF exp THEN exp ELSE exp           (A.IfExp {test=exp1, then'=exp2, else'=SOME(exp3), pos=IFleft})
   | IF exp THEN exp                    (A.IfExp {test=exp1, then'=exp2, else'=NONE, pos=IFleft})
   | WHILE exp DO exp                   (A.WhileExp {test=exp1, body=exp2, pos=WHILEleft})
-  | FOR ID ASSIGN exp TO exp DO exp    (todoExp)
+  | FOR ID ASSIGN exp TO exp DO exp    (A.ForExp {var=symbol ID, escape= ref true, lo=exp1, hi=exp2, 
+                                                  body=exp3, pos=FORleft})
   | BREAK                              (A.BreakExp BREAKleft)
   | LET decs IN expseq END             (todoExp)
   | LPAREN expseq RPAREN               (todoExp)

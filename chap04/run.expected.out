@@ -67,7 +67,13 @@ WhileExp(
  NilExp,
  NilExp)
 ../testcases/test11.tig:
-NilExp
+ForExp(
+i,true,
+ IntExp(10),
+ StringExp("" ""),
+ AssignExp(
+  SimpleVar(i),
+  NilExp))
 ../testcases/test12.tig:
 NilExp
 ../testcases/test13.tig:
