@@ -1,9 +1,9 @@
 ../testcases/aaa-nil.tig:
 NilExp
 ../testcases/aa-test01.tig:
-NilExp
+IntExp(1)
 ../testcases/aa-test02.tig:
-NilExp
+StringExp(""hello"")
 ../testcases/aa-test03.tig:
 NilExp
 ../testcases/aa-test04.tig:
@@ -22,7 +22,7 @@ NilExp
 VarExp(
  SubscriptVar(
   SimpleVar(a),
-  NilExp))
+  IntExp(0)))
 ../testcases/aa-test11.tig:
 NilExp
 ../testcases/aa-test12.tig:

@@ -64,7 +64,7 @@ exp
   | NIL                                (A.NilExp)
   | unitexp                            (unitexp)
   | INT                                (A.IntExp INT)
-  | STRING                             (todoExp)
+  | STRING                             (A.StringExp(STRING, STRINGleft))
   | MINUS exp             %prec UMINUS (todoExp) (* negate *)
   | funcall                            (todoExp)
   | arith_exp                          (todoExp)
