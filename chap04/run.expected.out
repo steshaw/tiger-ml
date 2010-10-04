@@ -46,7 +46,9 @@ let var a := 1 in a end
 LetExp([
  VarDec(a,true,NONE,
   IntExp(1))],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
 
 -- ../testcases/aa-test07.tig --
 let
@@ -61,7 +63,9 @@ LetExp([
  VarDec(a,true,NONE,
   IntExp(100)),
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(foo,[
+   IntExp(100)])])
 
 -- ../testcases/aa-test08.tig --
 let
@@ -79,7 +83,26 @@ LetExp([
  VarDec(a,true,NONE,
   IntExp(100)),
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  AssignExp(
+   SimpleVar(a),
+   OpExp(PlusOp,
+    VarExp(
+     SimpleVar(a)),
+    IntExp(1))),
+  CallExp(foo,[
+   VarExp(
+    SimpleVar(a))]),
+  CallExp(print,[
+   IfExp(
+    OpExp(GtOp,
+     VarExp(
+      SimpleVar(a)),
+     IntExp(0)),
+    StringExp(""positive""),
+    StringExp(""not positive""))]),
+  CallExp(exit,[
+   IntExp(0)])])
 
 -- ../testcases/aa-test09.tig --
 let
@@ -91,7 +114,10 @@ end
 ../testcases/aa-test09.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(noargs,[
+   VarExp(
+    SimpleVar(a))])])
 
 -- ../testcases/aa-test10.tig --
 a[0]
@@ -207,8 +233,18 @@ LetExp([
  VarDec(list1,true,NONE,
   CallExp(readlist,[])),
  VarDec(list2,true,NONE,
-  NilExp)],
- NilExp)
+  SeqExp[
+   AssignExp(
+    SimpleVar(buffer),
+    CallExp(getchar,[])),
+   CallExp(readlist,[])])],
+ SeqExp[
+  CallExp(printlist,[
+   CallExp(merge,[
+    VarExp(
+     SimpleVar(list1)),
+    VarExp(
+     SimpleVar(list2))])])])
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
@@ -262,7 +298,9 @@ LetExp([
   NilExp),
  FunctionDec[],
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(try,[
+   IntExp(0)])])
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -280,7 +318,9 @@ LetExp([
    ArrayTy(int))],
  VarDec(arr1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(arr1))])
 
 -- ../testcases/test02.tig --
 /* arr1 is valid since expression 0 is int = myint */
@@ -303,7 +343,9 @@ LetExp([
    ArrayTy(myint))],
  VarDec(arr1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(arr1))])
 
 -- ../testcases/test03.tig --
 /* a record type and a record variable */
@@ -324,7 +366,14 @@ LetExp([
     (age,true,age)])],
  VarDec(rec1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    name),
+   StringExp(""Somebody"")),
+  VarExp(
+   SimpleVar(rec1))])
 
 -- ../testcases/test04.tig --
 /* define a recursive function */
@@ -344,7 +393,9 @@ end
 ../testcases/test04.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
 
 -- ../testcases/test05.tig --
 /* define valid recursive types */
@@ -381,7 +432,9 @@ LetExp([
     (tl,true,tl)])],
  VarDec(lis,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(lis))])
 
 -- ../testcases/test06.tig --
 /* define valid mutually recursive procedures */
@@ -402,7 +455,10 @@ end
 LetExp([
  FunctionDec[],
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp(""str2"")])])
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -423,7 +479,10 @@ end
 LetExp([
  FunctionDec[],
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp(""str2"")])])
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -431,7 +490,10 @@ if (10 > 20) then 30 else 40
 --
 ../testcases/test08.tig:
 IfExp(
- NilExp,
+ SeqExp[
+  OpExp(GtOp,
+   IntExp(10),
+   IntExp(20))],
  IntExp(30),
  IntExp(40))
 
@@ -442,7 +504,10 @@ if (5>4) then 13 else  " "
 --
 ../testcases/test09.tig:
 IfExp(
- NilExp,
+ SeqExp[
+  OpExp(GtOp,
+   IntExp(5),
+   IntExp(4))],
  IntExp(13),
  StringExp("" ""))
 
@@ -452,7 +517,10 @@ while(10 > 5) do 5+6
 --
 ../testcases/test10.tig:
 WhileExp(
- NilExp,
+ SeqExp[
+  OpExp(GtOp,
+   IntExp(10),
+   IntExp(5))],
  OpExp(PlusOp,
   IntExp(5),
   IntExp(6)))
@@ -487,7 +555,19 @@ end
 LetExp([
  VarDec(a,true,NONE,
   IntExp(0))],
- NilExp)
+ SeqExp[
+  ForExp(
+i,true,
+   IntExp(0),
+   IntExp(100),
+   SeqExp[
+    AssignExp(
+     SimpleVar(a),
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))),
+    NilExp])])
 
 -- ../testcases/test13.tig --
 /* error: comparison of incompatible types */
@@ -528,7 +608,15 @@ LetExp([
   NilExp),
  VarDec(arr,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  IfExp(
+   OpExp(NeqOp,
+    VarExp(
+     SimpleVar(rec)),
+    VarExp(
+     SimpleVar(arr))),
+   IntExp(3),
+   IntExp(4))])
 
 -- ../testcases/test15.tig --
 /* error : if-then returns non unit */
@@ -567,7 +655,8 @@ LetExp([
  TypeDec[
   (d,
    NameTy(a))]],
- NilExp)
+ SeqExp[
+  StringExp("""")])
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -595,7 +684,9 @@ LetExp([
    RecordTy[
     (hd,true,hd),
     (tl,true,tl)])]],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(d))])
 
 -- ../testcases/test18.tig --
 /* error : definition of recursive functions is interrupted */
@@ -620,7 +711,10 @@ LetExp([
  VarDec(d,true,NONE,
   IntExp(0)),
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp(""str2"")])])
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */
@@ -641,7 +735,10 @@ end
 LetExp([
  FunctionDec[],
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp(""str2"")])])
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
@@ -653,7 +750,12 @@ WhileExp(
  OpExp(GtOp,
   IntExp(10),
   IntExp(5)),
- NilExp)
+ SeqExp[
+  OpExp(PlusOp,
+   VarExp(
+    SimpleVar(i)),
+   IntExp(1)),
+  NilExp])
 
 -- ../testcases/test21.tig --
 /* error : procedure returns value  and procedure is used in arexpr */
@@ -673,7 +775,9 @@ end
 ../testcases/test21.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
 
 -- ../testcases/test22.tig --
 /* error : field not in record type */
@@ -694,7 +798,12 @@ LetExp([
     (id,true,id)])],
  VarDec(rec1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    nam),
+   StringExp(""asd""))])
 
 -- ../testcases/test23.tig --
 /* error : type mismatch */
@@ -716,7 +825,17 @@ LetExp([
     (id,true,id)])],
  VarDec(rec1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    name),
+   IntExp(3)),
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    id),
+   StringExp(""""))])
 
 -- ../testcases/test24.tig --
 /* error : variable not array */
@@ -731,7 +850,11 @@ end
 LetExp([
  VarDec(d,true,NONE,
   IntExp(0))],
- NilExp)
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(d),
+    IntExp(3)))])
 
 -- ../testcases/test25.tig --
 /* error : variable not record */
@@ -746,7 +869,11 @@ end
 LetExp([
  VarDec(d,true,NONE,
   IntExp(0))],
- NilExp)
+ SeqExp[
+  VarExp(
+   FieldVar(
+    SimpleVar(d),
+    f))])
 
 -- ../testcases/test26.tig --
 /* error : integer required */
@@ -773,7 +900,9 @@ LetExp([
  VarDec(a,true,NONE,
   IntExp(0)),
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(g,[
+   IntExp(2)])])
 
 -- ../testcases/test28.tig --
 /* error : different record types */
@@ -801,7 +930,9 @@ LetExp([
     (id,true,id)])],
  VarDec(rec1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(rec1))])
 
 -- ../testcases/test29.tig --
 /* error : different array types */
@@ -825,7 +956,9 @@ LetExp([
    ArrayTy(int))],
  VarDec(arr1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(arr1))])
 
 -- ../testcases/test30.tig --
 /* synonyms are fine */
@@ -849,7 +982,11 @@ LetExp([
    NameTy(a))],
  VarDec(arr1,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(arr1),
+    IntExp(2)))])
 
 -- ../testcases/test31.tig --
 /* error : type constraint and init value differ */
@@ -863,7 +1000,9 @@ end
 LetExp([
  VarDec(a,true,NONE,
   StringExp("" ""))],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
 
 -- ../testcases/test32.tig --
 /* error : initializing exp and array type differ */
@@ -883,7 +1022,8 @@ LetExp([
    ArrayTy(int))],
  VarDec(a,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test33.tig --
 /* error : unknown type */
@@ -897,7 +1037,8 @@ end
 LetExp([
  VarDec(a,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test34.tig --
 /* error : formals and actuals have different types */
@@ -910,7 +1051,10 @@ end
 ../testcases/test34.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(g,[
+   StringExp(""one""),
+   StringExp(""two"")])])
 
 -- ../testcases/test35.tig --
 /* error : formals are more then actuals */
@@ -923,7 +1067,9 @@ end
 ../testcases/test35.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(g,[
+   StringExp(""one"")])])
 
 -- ../testcases/test36.tig --
 /* error : formals are fewer then actuals */
@@ -936,7 +1082,11 @@ end
 ../testcases/test36.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(g,[
+   IntExp(3),
+   StringExp(""one""),
+   IntExp(5)])])
 
 -- ../testcases/test37.tig --
 /* redeclaration of variable; this is legal, there are two different
@@ -954,7 +1104,8 @@ LetExp([
   IntExp(0)),
  VarDec(a,true,NONE,
   StringExp("" ""))],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test38.tig --
 /* This is illegal, since there are two types with the same name
@@ -975,7 +1126,8 @@ LetExp([
  TypeDec[
   (a,
    NameTy(string))]],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test39.tig --
 /* This is illegal, since there are two functions with the same name
@@ -992,7 +1144,8 @@ end
 LetExp([
  FunctionDec[],
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test40.tig --
 /* error : procedure returns value */
@@ -1006,7 +1159,9 @@ end
 ../testcases/test40.tig:
 LetExp([
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  CallExp(g,[
+   IntExp(2)])])
 
 -- ../testcases/test41.tig --
 /* local types hide global */
@@ -1025,7 +1180,13 @@ LetExp([
  TypeDec[
   (a,
    NameTy(int))]],
- NilExp)
+ SeqExp[
+  LetExp([
+   TypeDec[
+    (a,
+     NameTy(string))]],
+   SeqExp[
+    IntExp(0)])])
 
 -- ../testcases/test42.tig --
 /* correct declarations */
@@ -1092,7 +1253,55 @@ LetExp([
   NilExp),
  VarDec(rec2,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(arr1),
+    IntExp(0)),
+   IntExp(1)),
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(arr1),
+    IntExp(9)),
+   IntExp(3)),
+  AssignExp(
+   FieldVar(
+    SubscriptVar(
+     SimpleVar(arr2),
+     IntExp(3)),
+    name),
+   StringExp(""kati"")),
+  AssignExp(
+   FieldVar(
+    SubscriptVar(
+     SimpleVar(arr2),
+     IntExp(1)),
+    age),
+   IntExp(23)),
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(arr3),
+    IntExp(34)),
+   StringExp(""sfd"")),
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    name),
+   StringExp(""sdf"")),
+  AssignExp(
+   SubscriptVar(
+    FieldVar(
+     SimpleVar(rec2),
+     dates),
+    IntExp(0)),
+   IntExp(2323)),
+  AssignExp(
+   SubscriptVar(
+    FieldVar(
+     SimpleVar(rec2),
+     dates),
+    IntExp(2)),
+   IntExp(2323))])
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
@@ -1107,7 +1316,11 @@ end
 LetExp([
  VarDec(a,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  OpExp(PlusOp,
+   VarExp(
+    SimpleVar(a)),
+   IntExp(3))])
 
 -- ../testcases/test44.tig --
 /* valid nil initialization and assignment */
@@ -1131,7 +1344,10 @@ LetExp([
     (id,true,id)])],
  VarDec(b,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  AssignExp(
+   SimpleVar(b),
+   NilExp)])
 
 -- ../testcases/test45.tig --
 /* error: initializing nil expressions not constrained by record type */
@@ -1152,7 +1368,9 @@ LetExp([
     (id,true,id)])],
  VarDec(a,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
 
 -- ../testcases/test46.tig --
 /* valid rec comparisons */
@@ -1173,7 +1391,15 @@ LetExp([
     (id,true,id)])],
  VarDec(b,true,NONE,
   NilExp)],
- NilExp)
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(b)),
+   NilExp),
+  OpExp(NeqOp,
+   VarExp(
+    SimpleVar(b)),
+   NilExp)])
 
 -- ../testcases/test47.tig --
 /* This is legal.  The second type "a" simply hides the first one.
@@ -1198,7 +1424,8 @@ LetExp([
  TypeDec[
   (a,
    NameTy(string))]],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test48.tig --
 /* This is legal.  The second function "g" simply hides the first one.
@@ -1220,7 +1447,8 @@ LetExp([
   (t,
    NameTy(int))],
  FunctionDec[]],
- NilExp)
+ SeqExp[
+  IntExp(0)])
 
 -- ../testcases/test49.tig --
 /* error: syntax error, nil should not be preceded by type-id.  */
@@ -1245,5 +1473,7 @@ LetExp([
    VarExp(
     SimpleVar(rectype)),
    NilExp))],
- NilExp)
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
 

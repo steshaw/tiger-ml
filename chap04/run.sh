@@ -15,5 +15,5 @@ ml-yacc tiger.grm &&
   done
 ) > run.actual.out
 
-diff run.expected.out run.actual.out && echo "good!"
+diff -u run.expected.out run.actual.out && echo "good!"
 echo status=$?

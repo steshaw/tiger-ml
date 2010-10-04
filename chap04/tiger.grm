@@ -5,7 +5,7 @@ open Symbol
 
 val todoExp = A.NilExp
 val todoVar = A.SimpleVar((symbol ""), 0)
-val todoExpPos = 0
+val todoPos = 0
 val todoDec = A.FunctionDec []
 
 fun i(i: int) = A.IntExp(i)
@@ -35,7 +35,7 @@ fun negate(exp: A.exp, pos: int) =
   | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp
   | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
   | record_create_list of A.exp | record_create_list_nonempty of A.exp | record_create_field of A.exp
-  | expseq of A.exp
+  | expseq of (A.exp * pos) list
   | explist of A.exp list | explist_nonempty of A.exp list
 
 %nonassoc ASSIGN
@@ -85,8 +85,8 @@ exp
   | FOR ID ASSIGN exp TO exp DO exp    (A.ForExp {var=symbol ID, escape= ref true, lo=exp1, hi=exp2, 
                                                   body=exp3, pos=FORleft})
   | BREAK                              (A.BreakExp BREAKleft)
-  | LET decs IN expseq END             (A.LetExp {decs=decs, body=expseq, pos=LETleft})
-  | LPAREN expseq RPAREN               (expseq)
+  | LET decs IN expseq END             (A.LetExp {decs=decs, body=A.SeqExp expseq, pos=LETleft})
+  | LPAREN expseq RPAREN               (A.SeqExp expseq)
 
 decs
   :                                    ([])
@@ -145,8 +145,8 @@ array_create
   : ID LBRACK exp RBRACK OF exp        (todoExp)
 
 expseq
-  : exp                                (todoExp)
-  | expseq SEMICOLON exp               (todoExp)
+  : exp                                ([(exp, todoPos)])
+  | expseq SEMICOLON exp               (expseq @ [(exp, todoPos)])
 
 unitexp: LPAREN RPAREN                (A.NilExp)
 
