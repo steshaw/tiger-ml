@@ -24,7 +24,11 @@ VarExp(
   SimpleVar(a),
   IntExp(0)))
 ../testcases/aa-test11.tig:
-NilExp
+AssignExp(
+ SubscriptVar(
+  SimpleVar(a),
+  IntExp(0)),
+ StringExp(""hello""))
 ../testcases/aa-test12.tig:
 NilExp
 ../testcases/merge.tig:
