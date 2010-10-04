@@ -1,5 +1,8 @@
 (* vim: set filetype=sml: *)
 structure A = Absyn
+
+val todo = A.NilExp
+
 %%
 %term
     EOF
@@ -13,14 +16,15 @@ structure A = Absyn
   | BREAK | NIL
   | FUNCTION | VAR | TYPE
 
-%nonterm  program of A.exp | exp
-  | decs | dec
-  | tydec | vardec | fundec
-  | ty | tyfields | tyfields_nonempty | tyfield
-  | lvalue | unit_exp | arith_exp | funcall | comp_exp | bool_exp | record_create | array_create
-  | record_create_list | record_create_list_nonempty | record_create_field
-  | expseq
-  | explist | explist_nonempty
+%nonterm  program of A.exp | exp of A.exp
+  | decs of A.exp | dec of A.exp
+  | tydec of A.exp | vardec of A.exp | fundec of A.exp
+  | ty of A.exp | tyfields of A.exp | tyfields_nonempty of A.exp | tyfield of A.exp
+  | lvalue of A.exp | unit_exp of A.exp | arith_exp of A.exp | funcall of A.exp 
+  | comp_exp of A.exp | bool_exp of A.exp | record_create of A.exp | array_create of A.exp
+  | record_create_list of A.exp | record_create_list_nonempty of A.exp | record_create_field of A.exp
+  | expseq of A.exp
+  | explist of A.exp | explist_nonempty of A.exp
 
 %nonassoc ASSIGN
 %left AND OR
@@ -47,117 +51,117 @@ structure A = Absyn
 
 %%
 
-program: exp                           (A.NilExp)
+program: exp                           (todo)
 
 exp
-  : lvalue                             ()
-  | NIL                                ()
-  | unit_exp                           ()
-  | INT                                ()
-  | STRING                             ()
-  | MINUS exp             %prec UMINUS () (* negate *)
-  | funcall                            ()
-  | arith_exp                          ()
-  | comp_exp                           ()
-  | bool_exp                           ()
-  | record_create                      ()
-  | array_create                       ()
-  | lvalue ASSIGN exp                  ()
-  | IF exp THEN exp ELSE exp           ()
-  | IF exp THEN exp                    ()
-  | WHILE exp DO exp                   ()
-  | FOR ID ASSIGN exp TO exp DO exp    ()
-  | BREAK                              ()
-  | LET decs IN expseq END             ()
-  | LPAREN expseq RPAREN               ()
+  : lvalue                             (todo)
+  | NIL                                (todo)
+  | unit_exp                           (todo)
+  | INT                                (todo)
+  | STRING                             (todo)
+  | MINUS exp             %prec UMINUS (todo) (* negate *)
+  | funcall                            (todo)
+  | arith_exp                          (todo)
+  | comp_exp                           (todo)
+  | bool_exp                           (todo)
+  | record_create                      (todo)
+  | array_create                       (todo)
+  | lvalue ASSIGN exp                  (todo)
+  | IF exp THEN exp ELSE exp           (todo)
+  | IF exp THEN exp                    (todo)
+  | WHILE exp DO exp                   (todo)
+  | FOR ID ASSIGN exp TO exp DO exp    (todo)
+  | BREAK                              (todo)
+  | LET decs IN expseq END             (todo)
+  | LPAREN expseq RPAREN               (todo)
 
 decs
-  :                                    ()
-  | decs dec                           ()
+  :                                    (todo)
+  | decs dec                           (todo)
 
 dec
-  : tydec                     () 
-  | vardec                    ()
-  | fundec                    ()
+  : tydec                     (todo) 
+  | vardec                    (todo)
+  | fundec                    (todo)
 
-tydec: TYPE ID EQ ty          ()
+tydec: TYPE ID EQ ty          (todo)
 
 ty
-  : ID                        ()
-  | LBRACE tyfields RBRACE    ()
-  | ARRAY OF ID               ()
+  : ID                        (todo)
+  | LBRACE tyfields RBRACE    (todo)
+  | ARRAY OF ID               (todo)
 
-tyfield: ID COLON ID          ()
+tyfield: ID COLON ID          (todo)
 
 tyfields
-  :                           ()
-  | tyfields_nonempty         ()
+  :                           (todo)
+  | tyfields_nonempty         (todo)
 
 tyfields_nonempty
-  : tyfield                   ()
-  | tyfields COMMA tyfield    ()
+  : tyfield                   (todo)
+  | tyfields COMMA tyfield    (todo)
 
 vardec
-  : VAR ID ASSIGN exp                  ()
-  | VAR ID COLON ID ASSIGN exp         ()
+  : VAR ID ASSIGN exp                  (todo)
+  | VAR ID COLON ID ASSIGN exp         (todo)
 
 fundec
-  : FUNCTION ID LPAREN tyfields RPAREN EQ exp       ()
-  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  ()
+  : FUNCTION ID LPAREN tyfields RPAREN EQ exp       (todo)
+  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  (todo)
 
 record_create
-  : ID LBRACE record_create_list RBRACE      ()
+  : ID LBRACE record_create_list RBRACE      (todo)
 
 record_create_list
-  :                                          ()
-  | record_create_list_nonempty              ()
+  :                                          (todo)
+  | record_create_list_nonempty              (todo)
 
 record_create_list_nonempty
-  : record_create_field                                      ()
-  | record_create_list_nonempty COMMA record_create_field    ()
+  : record_create_field                                      (todo)
+  | record_create_list_nonempty COMMA record_create_field    (todo)
 
-record_create_field: ID EQ exp         ()
+record_create_field: ID EQ exp         (todo)
 
 array_create
-  : ID LBRACK exp RBRACK OF exp        ()
+  : ID LBRACK exp RBRACK OF exp        (todo)
 
 expseq
-  : exp                                ()
-  | expseq SEMICOLON exp               ()
+  : exp                                (todo)
+  | expseq SEMICOLON exp               (todo)
 
-unit_exp: LPAREN RPAREN                ()
+unit_exp: LPAREN RPAREN                (todo)
 
 funcall
-  : ID LPAREN explist RPAREN     ()
+  : ID LPAREN explist RPAREN     (todo)
 
 explist
-  :                              ()
-  | explist_nonempty             ()
+  :                              (todo)
+  | explist_nonempty             (todo)
 
 explist_nonempty
-  : exp                          ()
-  | explist COMMA exp            ()
+  : exp                          (todo)
+  | explist COMMA exp            (todo)
  
 arith_exp
-  : exp PLUS exp                 ()
-  | exp MINUS exp                ()
-  | exp TIMES exp                ()
-  | exp DIVIDE exp               ()
+  : exp PLUS exp                 (todo)
+  | exp MINUS exp                (todo)
+  | exp TIMES exp                (todo)
+  | exp DIVIDE exp               (todo)
 
 comp_exp
-  : exp EQ exp                   ()
-  | exp NEQ exp                  ()
-  | exp LT exp                   ()
-  | exp LE exp                   ()
-  | exp GT exp                   ()
-  | exp GE exp                   ()
+  : exp EQ exp                   (todo)
+  | exp NEQ exp                  (todo)
+  | exp LT exp                   (todo)
+  | exp LE exp                   (todo)
+  | exp GT exp                   (todo)
+  | exp GE exp                   (todo)
 
 bool_exp
-  : exp AND exp                  ()
-  | exp OR exp                   ()
+  : exp AND exp                  (todo)
+  | exp OR exp                   (todo)
 
 lvalue
-  : ID                           ()
-  | ID LBRACK exp RBRACK         ()   (* redundant rule to disambiguate with array-creation-expression *)
-  | lvalue LBRACK exp RBRACK     ()
-  | lvalue DOT ID                ()
+  : ID                           (todo)
+  | ID LBRACK exp RBRACK         (todo)   (* redundant rule to disambiguate with array-creation-expression *)
+  | lvalue LBRACK exp RBRACK     (todo)
+  | lvalue DOT ID                (todo)
