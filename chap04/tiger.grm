@@ -117,9 +117,8 @@ tyfields_nonempty
 
 vardec
   : VAR ID ASSIGN exp                  (A.VarDec {name=symbol ID, escape= ref true, typ=NONE, init=exp, pos=VARleft})
-  (* FIXME: get type from ID in following *)
-  | VAR ID COLON ID ASSIGN exp         (A.VarDec {name=symbol ID, escape= ref true, 
-                                                  typ=NONE,
+  | VAR ID COLON ID ASSIGN exp         (A.VarDec {name=symbol ID1, escape= ref true, 
+                                                  typ=SOME (symbol ID2, ID2left),
                                                   init=exp, pos=VARleft})
 
 fundec
