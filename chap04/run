@@ -9,7 +9,7 @@ ml-yacc tiger.grm &&
       echo -- $tigerSource --
       cat $tigerSource
       echo --
-      sml @SMLload=sources.x86-linux $tigerSource
+      ./tigerc $tigerSource
       echo
     done
   ) > run.actual.out &&

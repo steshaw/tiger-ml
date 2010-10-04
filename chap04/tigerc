@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sml @SMLload=sources.x86-linux "$@"

@@ -170,6 +170,63 @@ CallExp(print,[
  IntExp(3),
  StringExp("hi")])
 
+-- ../testcases/aa-test14.tig --
+let 
+  var t1 := 1 + 2 * 3
+  var t2 := 2 * 3 + 1
+  var t2 := 2 * (3 + 1)
+  var t3 := a < 1 | a > 10
+  var t4 := a >= 1 & a <= 10
+in
+  1
+end
+--
+../testcases/aa-test14.tig:
+LetExp([
+ VarDec(t1,true,NONE,
+  OpExp(PlusOp,
+   IntExp(1),
+   OpExp(TimesOp,
+    IntExp(2),
+    IntExp(3)))),
+ VarDec(t2,true,NONE,
+  OpExp(PlusOp,
+   OpExp(TimesOp,
+    IntExp(2),
+    IntExp(3)),
+   IntExp(1))),
+ VarDec(t2,true,NONE,
+  OpExp(TimesOp,
+   IntExp(2),
+   SeqExp[
+    OpExp(PlusOp,
+     IntExp(3),
+     IntExp(1))])),
+ VarDec(t3,true,NONE,
+  IfExp(
+   OpExp(LtOp,
+    VarExp(
+     SimpleVar(a)),
+    IntExp(1)),
+   IntExp(1),
+   OpExp(GtOp,
+    VarExp(
+     SimpleVar(a)),
+    IntExp(10)))),
+ VarDec(t4,true,NONE,
+  IfExp(
+   OpExp(GeOp,
+    VarExp(
+     SimpleVar(a)),
+    IntExp(1)),
+   OpExp(LeOp,
+    VarExp(
+     SimpleVar(a)),
+    IntExp(10)),
+   IntExp(0)))],
+ SeqExp[
+  IntExp(1)])
+
 -- ../testcases/merge.tig --
 let 
 
