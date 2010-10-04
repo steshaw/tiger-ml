@@ -8,7 +8,7 @@ fun i(i: int) = A.IntExp(i)
 
 fun simpleVar(id: string, pos: int) = A.SimpleVar((symbol id), pos)
 
-fun negate(exp: A.exp, pos: int) = 
+fun negate(exp: A.exp, pos: int) =
   A.OpExp({left = i(0), oper = A.MinusOp, right = exp, pos = pos})
 
 %%
@@ -19,7 +19,7 @@ fun negate(exp: A.exp, pos: int) =
   | INT of int | STRING of string
   | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK
   | LBRACE | RBRACE | DOT
-  | PLUS | MINUS | UMINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE | AND | OR 
+  | PLUS | MINUS | UMINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE | AND | OR
   | ASSIGN
   | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF
   | BREAK | NIL
@@ -82,7 +82,7 @@ exp
   | IF exp THEN exp ELSE exp           (A.IfExp {test=exp1, then'=exp2, else'=SOME(exp3), pos=IFleft})
   | IF exp THEN exp                    (A.IfExp {test=exp1, then'=exp2, else'=NONE, pos=IFleft})
   | WHILE exp DO exp                   (A.WhileExp {test=exp1, body=exp2, pos=WHILEleft})
-  | FOR ID ASSIGN exp TO exp DO exp    (A.ForExp {var=symbol ID, escape= ref true, lo=exp1, hi=exp2, 
+  | FOR ID ASSIGN exp TO exp DO exp    (A.ForExp {var=symbol ID, escape= ref true, lo=exp1, hi=exp2,
                                                   body=exp3, pos=FORleft})
   | BREAK                              (A.BreakExp BREAKleft)
   | LET decs IN expseq END             (A.LetExp {decs=decs, body=A.SeqExp expseq, pos=LETleft})
@@ -93,7 +93,7 @@ decs
   | decs dec                           (decs @ [dec])
 
 dec
-  : tydeclist                          (A.TypeDec tydeclist) 
+  : tydeclist                          (A.TypeDec tydeclist)
   | vardec                             (vardec)
   | fundeclist                         (A.FunctionDec fundeclist)
 
@@ -120,7 +120,7 @@ tyfields_nonempty
 
 vardec
   : VAR ID ASSIGN exp                  (A.VarDec {name=symbol ID, escape= ref true, typ=NONE, init=exp, pos=VARleft})
-  | VAR ID COLON ID ASSIGN exp         (A.VarDec {name=symbol ID1, escape= ref true, 
+  | VAR ID COLON ID ASSIGN exp         (A.VarDec {name=symbol ID1, escape= ref true,
                                                   typ=SOME (symbol ID2, ID2left),
                                                   init=exp, pos=VARleft})
 
@@ -129,10 +129,10 @@ fundeclist
   | fundeclist fundec                  (fundeclist @ [fundec])
 
 fundec
-  : FUNCTION ID LPAREN tyfields RPAREN EQ exp           ({name=symbol ID, params=tyfields, 
+  : FUNCTION ID LPAREN tyfields RPAREN EQ exp           ({name=symbol ID, params=tyfields,
                                                           result=NONE, body=exp,
                                                           pos=FUNCTIONleft})
-  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  
+  | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp
                                                         ({name=symbol ID1, params=tyfields,
                                                           result=SOME (symbol ID2, ID2left), body=exp,
                                                           pos=FUNCTIONleft})
@@ -168,7 +168,7 @@ explist
 explist_nonempty
   : exp                               ([exp])
   | explist COMMA exp                 (explist @ [exp])
- 
+
 arith_exp
   : exp PLUS exp                      (A.OpExp {left=exp1, oper=A.PlusOp, right=exp2, pos=PLUSleft})
   | exp MINUS exp                     (A.OpExp {left=exp1, oper=A.MinusOp, right=exp2, pos=MINUSleft})
