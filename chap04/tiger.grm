@@ -6,6 +6,7 @@ open Symbol
 val todoExp = A.NilExp
 val todoVar = A.SimpleVar((symbol ""), 0)
 val todoExpPos = 0
+val todoDec = A.FunctionDec []
 
 fun i(i: int) = A.IntExp(i)
 
@@ -28,7 +29,7 @@ fun negate(exp: A.exp, pos: int) =
   | FUNCTION | VAR | TYPE
 
 %nonterm  program of A.exp | exp of A.exp
-  | decs of A.exp | dec of A.exp
+  | decs of A.dec list | dec of A.dec
   | tydec of A.exp | vardec of A.exp | fundec of A.exp
   | ty of A.exp | tyfields of A.exp | tyfields_nonempty of A.exp | tyfield of A.exp
   | lvalue of A.var | unitexp of A.exp | arith_exp of A.exp | funcall of A.exp 
@@ -84,17 +85,26 @@ exp
   | FOR ID ASSIGN exp TO exp DO exp    (A.ForExp {var=symbol ID, escape= ref true, lo=exp1, hi=exp2, 
                                                   body=exp3, pos=FORleft})
   | BREAK                              (A.BreakExp BREAKleft)
-  | LET decs IN expseq END             (todoExp)
+  | LET decs IN expseq END             (A.LetExp {decs=decs, body=expseq, pos=LETleft})
   | LPAREN expseq RPAREN               (todoExp)
 
 decs
-  :                                    (todoExp)
-  | decs dec                           (todoExp)
+  :                                    ([])
+  | decs dec                           (dec::decs) (* XXX: This will be the decs in reverse order, right? *)
 
+(*
+and dec = FunctionDec of fundec list
+        | VarDec of {name: symbol,
+		     escape: bool ref,
+		     typ: (symbol * pos) option,
+		     init: exp,
+		     pos: pos}
+        | TypeDec of {name: symbol, ty: ty, pos: pos} list
+*)
 dec
-  : tydec                     (todoExp) 
-  | vardec                    (todoExp)
-  | fundec                    (todoExp)
+  : tydec                     (todoDec) 
+  | vardec                    (todoDec)
+  | fundec                    (todoDec)
 
 tydec: TYPE ID EQ ty          (todoExp)
 

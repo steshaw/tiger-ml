@@ -14,13 +14,23 @@ IfExp(
  StringExp(""yep""),
  StringExp(""nah""))
 ../testcases/aa-test06.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/aa-test07.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/aa-test08.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/aa-test09.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/aa-test10.tig:
 VarExp(
  SubscriptVar(
@@ -35,23 +45,66 @@ AssignExp(
 ../testcases/aa-test12.tig:
 NilExp
 ../testcases/merge.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/queens.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test01.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test02.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test03.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test04.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test05.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test06.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test07.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test08.tig:
 IfExp(
  NilExp,
@@ -75,83 +128,192 @@ i,true,
   SimpleVar(i),
   NilExp))
 ../testcases/test12.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test13.tig:
 NilExp
 ../testcases/test14.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test15.tig:
 IfExp(
  IntExp(20),
  IntExp(3))
 ../testcases/test16.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test17.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test18.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test19.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test20.tig:
 WhileExp(
  NilExp,
  NilExp)
 ../testcases/test21.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test22.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test23.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test24.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test25.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test26.tig:
 NilExp
 ../testcases/test27.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test28.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test29.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test30.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test31.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test32.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test33.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test34.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test35.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test36.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test37.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test38.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test39.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test40.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test41.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test42.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test43.tig:
-NilExp
+LetExp([
+ FunctionDec[]],
+ NilExp)
 ../testcases/test44.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test45.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test46.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test47.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test48.tig:
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
 ../testcases/test49.tig:
 ../testcases/test49.tig:5.18:syntax error: inserting  PLUS
-NilExp
+LetExp([
+ FunctionDec[],
+ FunctionDec[]],
+ NilExp)
