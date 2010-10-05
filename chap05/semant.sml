@@ -28,6 +28,14 @@ struct
 
   val error = ErrorMsg.error
 
+  fun lookupTy(pos, tenv, ty) =
+    case S.look(tenv, ty)
+      of SOME ty => ty
+       | NONE   => (error pos "type does not exist"; T.NIL)
+
+  fun digType(pos, tenv, T.NAME (sym, _)) = digType(pos, tenv, lookupTy(pos, tenv, sym))
+    | digType(pos, tenv, ty) = ty
+
   (* TODO: allow type aliases/synonyms *)
   fun checkInt({exp, ty}, pos) =
     case ty
@@ -41,15 +49,27 @@ struct
       | _ => error pos "unit required"
 
   (* TODO: allow type aliases/synonyms *)
-  fun reqSameType({exp=_, ty=ty1}, {exp=_, ty=ty2}, pos) =
-    if ty1 <> ty2 then
-      error pos "types do not match" (* TODO: better msg here *)
-    else ()
+  (* TODO: allow records to be compatible with NIL *)
+  fun reqSameType(pos, tenv, {exp=_, ty=ty1}, {exp=_, ty=ty2}) =
+    let val t1 = digType(pos, tenv, ty1)
+        val t2 = digType(pos, tenv, ty2)
+    in
+      if t1 <> t2 then
+        case t1 
+          of T.RECORD _ => if t2 = T.NIL then () else (error pos "types do not match"; ())
+           | _          => error pos "types do not match" (* TODO: better msg here *)
+      else ()
+    end
 
-  fun lookupTy(pos, tenv, ty) =
-    case S.look(tenv, ty)
-      of SOME ty => ty
-       | NONE   => (error pos "type does not exist"; T.NIL)
+  fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
+    case S.look(venv, sym)
+      of SOME(E.VarEntry {ty}) => ty
+       | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
+       | _ => (error pos "Variable does not exist"; T.NIL)
+(*
+    | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) = T.NIL (* TODO *)
+    | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) = T.NIL (* TODO *)
+*)
 
   and transVar(venv, tenv, var) = todoExpTy
 
@@ -64,10 +84,7 @@ struct
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
         val SOME(decTy) = S.look(tenv, symbol)
     in (
-      if decTy <> ty then
-        (error pos "declared type does not match inferred type"; (* TODO: include types etc in message *)
-        ())
-      else ();
+      reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
       {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
     )
     end
@@ -110,12 +127,19 @@ struct
     let
 (*
   | CallExp of {func: symbol, args: exp list, pos: pos}
-  | AssignExp of {var: var, exp: exp, pos: pos}
   | ForExp of {var: symbol, escape: bool ref,
                lo: exp, hi: exp, body: exp, pos: pos}
-  | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
 *)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
+
+        | trexp(A.AssignExp {var, exp, pos}) =
+          let
+            val expA = trexp exp
+            val varTy = findVarType(tenv, venv, var)
+          in
+            reqSameType(pos, tenv, {exp=(), ty=varTy}, expA);
+            {exp=todoTrExp, ty=T.UNIT}
+          end
 
         | trexp(A.ArrayExp {typ=tySymbol, size=sizeExp, init=initExp, pos}) =
           let
@@ -125,8 +149,8 @@ struct
           in
             checkInt(sizeA, pos);
             case recordTy
-              of T.ARRAY (ty, unique) => 
-                  (reqSameType(initA, {exp=(), ty=ty}, pos);
+              of T.ARRAY (ty, unique) =>
+                  (reqSameType(pos, tenv, {exp=(), ty=ty}, initA);
                    {exp=todoTrExp, ty=recordTy})
                | _ => (error pos "type is not an array";
                       {exp=todoTrExp, ty=T.UNIT})
@@ -150,7 +174,7 @@ struct
             val {exp=_, ty=resTy} = thenA
           in
             checkInt(testA, pos);
-            reqSameType(thenA, elseA, pos);
+            reqSameType(pos, tenv, thenA, elseA);
             {exp=todoTrExp, ty=resTy}
           end
 

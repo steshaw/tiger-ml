@@ -27,5 +27,5 @@ struct
   val base_tenv = S.enter(S.enter(S.empty, S.symbol "int", T.INT), S.symbol "string", T.STRING)
     (* TODO: use fold here *)
       
-  val base_venv = S.empty (* TODO *)
+  val base_venv = S.enter(S.empty, S.symbol "nil", VarEntry {ty=T.NIL})
 end

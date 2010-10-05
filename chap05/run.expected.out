@@ -914,7 +914,6 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
-../testcases/test02.tig:6.22:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test03.tig --
@@ -1715,7 +1714,7 @@ LetExp([
   VarExp(
    SimpleVar(rec1))])
 type check =>
-../testcases/test28.tig:7.2:declared type does not match inferred type
+../testcases/test28.tig:7.2:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test29.tig --
@@ -1746,7 +1745,7 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
-../testcases/test29.tig:7.2:declared type does not match inferred type
+../testcases/test29.tig:7.2:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test30.tig --
@@ -1780,7 +1779,7 @@ LetExp([
     IntExp(2)))])
 type check =>
 ../testcases/test30.tig:7.17:type is not an array
-../testcases/test30.tig:7.3:declared type does not match inferred type
+../testcases/test30.tig:7.3:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test31.tig --
@@ -1800,7 +1799,7 @@ LetExp([
   VarExp(
    SimpleVar(a))])
 type check =>
-../testcases/test31.tig:3.2:declared type does not match inferred type
+../testcases/test31.tig:3.2:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test32.tig --
@@ -2243,8 +2242,6 @@ LetExp([
    SimpleVar(b),
    NilExp)])
 type check =>
-../testcases/test44.tig:5.2:declared type does not match inferred type
-type check failed with unknown exception
 
 -- ../testcases/test45.tig --
 /* error: initializing nil expressions not constrained by record type */
@@ -2302,7 +2299,6 @@ LetExp([
     SimpleVar(b)),
    NilExp)])
 type check =>
-../testcases/test46.tig:4.2:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test47.tig --
