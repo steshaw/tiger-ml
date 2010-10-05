@@ -4,7 +4,10 @@ sig
 
   (* XXX: Don't think these function below really need exporting. Just need their types defined *)
   (* XXX: because I'm using pattern matching to define them below *)
-  (*val transExp: venv * tenv * A.exp -> expty; *)
+  type expty
+  type tenv
+  type venv
+  val transExp: venv * tenv * Absyn.exp -> expty;
 end =
 struct
   structure A = Absyn
@@ -13,6 +16,7 @@ struct
   val todoTrExp = ()
 
   type ty = Types.ty
+  type expty = {exp: Translate.exp, ty: Types.ty}
 
   type tenv = ty Symbol.table
   type venv = Env.enventry Symbol.table
@@ -23,7 +27,6 @@ struct
 
   fun transProg(exp: A.exp):unit = ()
 
-  type expty = {exp: Translate.exp, ty: Types.ty}
 
   fun checkInt({exp, ty}, pos) = 
       case ty
@@ -42,12 +45,8 @@ struct
       val {exp=_, ty=tyleft} = transExp(venv, tenv, left)
       val {exp=_, ty=tyright} = transExp(venv, tenv, right)
     in
-      case tyleft 
-        of Types.INT => ()
-        | _ => error pos "integer required";
-      case tyright
-        of Types.INT => ()
-        | _ => error pos "integer required";
+      checkInt({exp=todoTrExp, ty=tyleft}, pos);
+      checkInt({exp=todoTrExp, ty=tyright}, pos);
       {exp=todoTrExp, ty=Types.INT}
     end
 
