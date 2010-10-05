@@ -34,20 +34,36 @@ struct
 
   and actual_ty(ty) = todoTy (* TODO *)
 
-
-(*
-  and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) = {venv=venv, tenv=tenv}
-*)
   and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
     in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=ty})}
     end
+
+  |   transDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
+    let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
+        val SOME(decTy) = S.look(tenv, symbol)
+    in (
+      if decTy <> ty then
+        (error pos "declared type does not match inferred type"; (* TODO: include types etc in message *)
+        ())
+      else ();
+      {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
+    )
+    end
+
+  |  transDec(venv, tenv, A.TypeDec typeDecList) = 
+      let
+        fun transTyDec({name, ty, pos}) =
+          {tenv=S.enter(tenv, name, ty), venv=venv}
+      in
+          {tenv=tenv, venv=venv} (* TODO fold over the typeDecList here *)
+      end
+
+  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTy, resPos)}]) = 
+      {tenv=tenv, venv=venv} (* TODO *)
+
 (* TODO other VarDec + FunctionDec and TypeDec *)
 (*
-    | transDec(venv, tenv, A.VarDec {name, escape, SOME(symbol, pos), init, pos}) =
-    let val {trExp, ty} = transExp(init)
-    in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=ty})}
-    end
 *)
 (*
   = FunctionDec of fundec list
