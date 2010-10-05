@@ -1173,7 +1173,7 @@ WhileExp(
   IntExp(5),
   IntExp(6)))
 type check =>
-../testcases/test10.tig:2.1:types do not match
+../testcases/test10.tig:2.1:unit required
 
 -- ../testcases/test11.tig --
 /* error hi expr is not int, and index variable erroneously assigned to.  */
@@ -1297,7 +1297,7 @@ IfExp(
  IntExp(20),
  IntExp(3))
 type check =>
-../testcases/test15.tig:3.1:types do not match
+../testcases/test15.tig:3.1:unit required
 
 -- ../testcases/test16.tig --
 /* error: mutually recursive types thet do not pass through record or array */

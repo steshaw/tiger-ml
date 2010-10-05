@@ -120,7 +120,7 @@ struct
             val bodyA = trexp bodyExp
           in
             checkInt(testA, pos);
-            reqSameType(bodyA, {exp=(), ty=T.UNIT}, pos); (* body must be UNIT *)
+            checkUnit(bodyA, pos);
             {exp=todoTrExp, ty=T.UNIT}
           end
 
@@ -143,8 +143,7 @@ struct
             val {exp=_, ty=resTy} = thenA
           in
             checkInt(testA, pos);
-            reqSameType(thenA, {exp=(), ty=T.UNIT}, pos); (* XXX: silly to construct the record here to pass
-                                                             reqSameType should operate on types alone *)
+            checkUnit(thenA, pos);
             {exp=todoTrExp, ty=T.UNIT}
           end
 
