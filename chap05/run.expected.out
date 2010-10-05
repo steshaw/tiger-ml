@@ -1715,6 +1715,7 @@ LetExp([
   VarExp(
    SimpleVar(rec1))])
 type check =>
+../testcases/test28.tig:7.2:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test29.tig --
@@ -1796,6 +1797,7 @@ LetExp([
   VarExp(
    SimpleVar(a))])
 type check =>
+../testcases/test31.tig:3.2:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test32.tig --
@@ -1841,6 +1843,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
+../testcases/test33.tig:3.10:record type does not exist
 
 -- ../testcases/test34.tig --
 /* error : formals and actuals have different types */
@@ -2237,6 +2240,7 @@ LetExp([
    SimpleVar(b),
    NilExp)])
 type check =>
+../testcases/test44.tig:5.2:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test45.tig --
@@ -2295,6 +2299,7 @@ LetExp([
     SimpleVar(b)),
    NilExp)])
 type check =>
+../testcases/test46.tig:4.2:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test47.tig --

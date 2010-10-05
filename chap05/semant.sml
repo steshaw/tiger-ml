@@ -14,13 +14,14 @@ struct
   structure A = Absyn
   structure S = Symbol
   structure E = Env
+  structure T = Types
 
   open List
 
-  type expty = {exp: Translate.exp, ty: Types.ty}
+  type expty = {exp: Translate.exp, ty: T.ty}
 
   val todoAccess = ()
-  val todoTy = Types.INT
+  val todoTy = T.INT
   val todoTrExp = ()
   val todoExpTy = {exp=(), ty=todoTy}
   val todoDecValEntTyEnv = {venv=E.base_venv, tenv=E.base_tenv}
@@ -29,8 +30,13 @@ struct
 
   fun checkInt({exp, ty}, pos) =
     case ty
-      of Types.INT => ()
+      of T.INT => ()
       | _ => error pos "integer required"
+
+  fun lookupTy(pos, tenv, ty) =
+    case S.look(tenv, ty)
+      of SOME ty => ty
+       | NONE   => (error pos "type does not exist"; T.NIL)
 
   and transVar(venv, tenv, var) = todoExpTy
 
@@ -53,13 +59,29 @@ struct
     )
     end
 
-  |  transDec(venv, tenv, A.TypeDec typeDecList) =
-    let
-      fun transTyDec({name, ty, pos}) =
-        {tenv=S.enter(tenv, name, ty), venv=venv}
-    in
-        {tenv=tenv, venv=venv} (* TODO fold over the typeDecList here *)
-    end
+(*
+    = RECORD of (Symbol.symbol * ty) list * unique
+    | ARRAY of ty * unique
+    | NAME of Symbol.symbol * ty option ref
+
+  = NameTy of symbol * pos
+  | RecordTy of field list
+  | ArrayTy of symbol * pos
+
+withtype field = {name: symbol, escape: bool ref,
+                  typ: symbol, pos: pos}
+*)
+
+  |  transDec(venv, tenv, A.TypeDec []) = {tenv=tenv, venv=venv}
+  |  transDec(venv, tenv, A.TypeDec ({name, ty, pos}::decs)) =
+      let
+        val ty = case ty 
+          of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* XXX: what's the NAME type? with ty option ref? *)
+           | A.RecordTy fields => T.RECORD ([(*TODO fields *)], ref ()) (* TODO: convert field *)
+           | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv, sym), ref ())
+      in
+        transDec(venv, S.enter(tenv, name, ty), A.TypeDec decs)
+      end
 
   |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTySy, resPos)}]) =
     (* TODO: Much left out here see MCI/ML p119 *)
@@ -95,22 +117,23 @@ struct
                lo: exp, hi: exp, body: exp, pos: pos}
   | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
 *)
-      fun trexp(A.NilExp) = {exp=todoTrExp, ty=Types.NIL}
-(*
+      fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
+
         | trexp(A.RecordExp {fields, typ, pos}) = 
+          (
             (* TODO check fields match record type *)
             case S.look(tenv, typ) 
               of SOME t => {exp=todoTrExp, ty=t}
-              |  NONE   => (error pos "record type does not exist"; {exp=todoTrExp, ty=})
-*)
-        | trexp(A.IntExp _) = {exp=todoTrExp, ty=Types.INT}
-        | trexp(A.StringExp _) = {exp=todoTrExp, ty=Types.STRING}
-        | trexp(A.BreakExp pos) = {exp=todoTrExp, ty=Types.UNIT}
+              |  NONE   => (error pos "record type does not exist"; {exp=todoTrExp, ty=T.NIL})
+          )
+
+        | trexp(A.IntExp _) = {exp=todoTrExp, ty=T.INT}
+        | trexp(A.StringExp _) = {exp=todoTrExp, ty=T.STRING}
+        | trexp(A.BreakExp pos) = {exp=todoTrExp, ty=T.UNIT}
         | trexp(A.OpExp{left, oper, right, pos}) =
           (checkInt(trexp left, pos);
            checkInt(trexp right, pos);
-           {exp=todoTrExp, ty=Types.INT})
-        | trexp(A.RecordExp {fields, typ, pos}) = todoExpTy
+           {exp=todoTrExp, ty=T.INT})
         | trexp(A.LetExp {decs, body, pos}) =
             let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
             in transExp(venv', tenv', body) (* book has transExp(venv', tenv') body *)
@@ -126,7 +149,7 @@ struct
         (case S.look(venv, id)
           of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actual_ty ty}
           |  NONE                  => (error pos ("undefined variable " ^ S.name id);
-                                       {exp=todoTrExp, ty=Types.INT})
+                                       {exp=todoTrExp, ty=T.INT})
         )
         | trvar(A.FieldVar(var, sym, pos)) = todoExpTy
         | trvar(A.SubscriptVar(var, exp, pos)) = todoExpTy
@@ -134,7 +157,7 @@ struct
       trexp(exp)
     end
 
-  and transTy (            tenv: E.tenv, ty: A.ty): Types.ty = todoTy
+  and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy
 
   and transProg(exp: A.exp):unit =
     (transExp(E.base_venv, E.base_tenv, exp);
