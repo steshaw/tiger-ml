@@ -50,7 +50,6 @@ IfExp(
  StringExp("yep"),
  StringExp("nah"))
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/aa-test06.tig --
 let var a := 1 in a end
@@ -1141,7 +1140,6 @@ IfExp(
  IntExp(30),
  IntExp(40))
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test09.tig --
 /* error : types of then - else differ */
@@ -1158,7 +1156,7 @@ IfExp(
  IntExp(13),
  StringExp(" "))
 type check =>
-type check failed with unknown exception
+../testcases/test09.tig:3.1:types do not match
 
 -- ../testcases/test10.tig --
 /* error : body of while not unit */
@@ -1299,7 +1297,7 @@ IfExp(
  IntExp(20),
  IntExp(3))
 type check =>
-type check failed with unknown exception
+../testcases/test15.tig:3.1:types do not match
 
 -- ../testcases/test16.tig --
 /* error: mutually recursive types thet do not pass through record or array */

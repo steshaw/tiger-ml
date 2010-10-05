@@ -33,6 +33,11 @@ struct
       of T.INT => ()
       | _ => error pos "integer required"
 
+  fun reqSameType({exp=_, ty=ty1}, {exp=_, ty=ty2}, pos) =
+    if ty1 <> ty2 then
+      error pos "types do not match" (* TODO: better msg here *)
+    else ()
+
   fun lookupTy(pos, tenv, ty) =
     case S.look(tenv, ty)
       of SOME ty => ty
@@ -58,19 +63,6 @@ struct
       {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
     )
     end
-
-(*
-    = RECORD of (Symbol.symbol * ty) list * unique
-    | ARRAY of ty * unique
-    | NAME of Symbol.symbol * ty option ref
-
-  = NameTy of symbol * pos
-  | RecordTy of field list
-  | ArrayTy of symbol * pos
-
-withtype field = {name: symbol, escape: bool ref,
-                  typ: symbol, pos: pos}
-*)
 
   |  transDec(venv, tenv, A.TypeDec []) = {tenv=tenv, venv=venv}
   |  transDec(venv, tenv, A.TypeDec ({name, ty, pos}::decs)) =
@@ -118,6 +110,30 @@ withtype field = {name: symbol, escape: bool ref,
   | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
 *)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
+
+        | trexp(A.IfExp {test=testExp, then'=thenExp, else'=SOME elseExp, pos}) =
+          let
+            val testA = trexp testExp
+            val thenA = trexp thenExp
+            val elseA = trexp elseExp
+            val {exp=_, ty=resTy} = thenA
+          in
+            checkInt(testA, pos);
+            reqSameType(thenA, elseA, pos);
+            {exp=todoTrExp, ty=resTy}
+          end
+
+        | trexp(A.IfExp {test=testExp, then'=thenExp, else'=NONE, pos}) =
+          let
+            val testA = trexp testExp
+            val thenA = trexp thenExp
+            val {exp=_, ty=resTy} = thenA
+          in
+            checkInt(testA, pos);
+            reqSameType(thenA, {exp=(), ty=T.UNIT}, pos); (* XXX: silly to construct the record here to pass
+                                                             reqSameType should operate on types alone *)
+            {exp=todoTrExp, ty=T.UNIT}
+          end
 
         | trexp(A.RecordExp {fields, typ, pos}) = 
           (
