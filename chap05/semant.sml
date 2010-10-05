@@ -54,7 +54,7 @@ struct
     )
     end
 
-  |  transDec(venv, tenv, A.TypeDec typeDecList) = 
+  |  transDec(venv, tenv, A.TypeDec typeDecList) =
     let
       fun transTyDec({name, ty, pos}) =
         {tenv=S.enter(tenv, name, ty), venv=venv}
@@ -72,7 +72,7 @@ struct
       val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
       fun enterParam({name, ty}, venv) =
         S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-      val venv'' = foldl enterParam venv' params' 
+      val venv'' = foldl enterParam venv' params'
           (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
     in
       transExp(venv'', tenv, body);
@@ -87,13 +87,26 @@ struct
 
   and transExp(venv, tenv, exp) =
     let
+(*
+  | CallExp of {func: symbol, args: exp list, pos: pos}
+  | RecordExp of {fields: (symbol * exp * pos) list,
+                  typ: symbol, pos: pos}
+  | SeqExp of (exp * pos) list
+  | AssignExp of {var: var, exp: exp, pos: pos}
+  | IfExp of {test: exp, then': exp, else': exp option, pos: pos}
+  | WhileExp of {test: exp, body: exp, pos: pos}
+  | ForExp of {var: symbol, escape: bool ref,
+               lo: exp, hi: exp, body: exp, pos: pos}
+  | BreakExp of pos
+  | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
+*)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=Types.NIL}
         | trexp(A.IntExp _) = {exp=todoTrExp, ty=Types.INT}
         | trexp(A.StringExp _) = {exp=todoTrExp, ty=Types.STRING}
-        | trexp(A.OpExp{left, oper=A.PlusOp, right, pos}) =
-        (checkInt(trexp left, pos);
-         checkInt(trexp right, pos);
-         {exp=todoTrExp, ty=Types.INT})
+        | trexp(A.OpExp{left, oper, right, pos}) =
+          (checkInt(trexp left, pos);
+           checkInt(trexp right, pos);
+           {exp=todoTrExp, ty=Types.INT})
         | trexp(A.RecordExp {fields, typ, pos}) = todoExpTy
         | trexp(A.LetExp {decs, body, pos}) =
             let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
@@ -105,15 +118,16 @@ struct
           |  NONE                  => (error pos ("undefined variable " ^ S.name id);
                                        {exp=todoTrExp, ty=Types.INT})
         )
-        | trvar(A.FieldVar(v, id, pos)) = todoExpTy
+        | trvar(A.FieldVar(var, sym, pos)) = todoExpTy
+        | trvar(A.SubscriptVar(var, exp, pos)) = todoExpTy
     in
       trexp(exp)
     end
 
   and transTy (            tenv: E.tenv, ty: A.ty): Types.ty = todoTy
 
-  and transProg(exp: A.exp):unit = 
-    (transExp(E.base_venv, E.base_tenv, exp); 
+  and transProg(exp: A.exp):unit =
+    (transExp(E.base_venv, E.base_tenv, exp);
      ())
 
 end
