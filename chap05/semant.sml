@@ -33,6 +33,11 @@ struct
       of T.INT => ()
       | _ => error pos "integer required"
 
+  fun checkUnit({exp, ty}, pos) =
+    case ty
+      of T.UNIT => ()
+      | _ => error pos "unit required"
+
   fun reqSameType({exp=_, ty=ty1}, {exp=_, ty=ty2}, pos) =
     if ty1 <> ty2 then
       error pos "types do not match" (* TODO: better msg here *)
@@ -103,13 +108,21 @@ struct
 (*
   | CallExp of {func: symbol, args: exp list, pos: pos}
   | AssignExp of {var: var, exp: exp, pos: pos}
-  | IfExp of {test: exp, then': exp, else': exp option, pos: pos}
-  | WhileExp of {test: exp, body: exp, pos: pos}
   | ForExp of {var: symbol, escape: bool ref,
                lo: exp, hi: exp, body: exp, pos: pos}
   | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
 *)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
+
+        | trexp(A.WhileExp {test=testExp, body=bodyExp, pos}) =
+          let
+            val testA = trexp testExp
+            val bodyA = trexp bodyExp
+          in
+            checkInt(testA, pos);
+            reqSameType(bodyA, {exp=(), ty=T.UNIT}, pos); (* body must be UNIT *)
+            {exp=todoTrExp, ty=T.UNIT}
+          end
 
         | trexp(A.IfExp {test=testExp, then'=thenExp, else'=SOME elseExp, pos}) =
           let

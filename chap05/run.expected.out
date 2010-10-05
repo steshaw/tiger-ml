@@ -1173,7 +1173,7 @@ WhileExp(
   IntExp(5),
   IntExp(6)))
 type check =>
-type check failed with unknown exception
+../testcases/test10.tig:2.1:types do not match
 
 -- ../testcases/test11.tig --
 /* error hi expr is not int, and index variable erroneously assigned to.  */
