@@ -45,9 +45,7 @@ struct
 *)
 
   and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) = {venv=venv, tenv=tenv}
-
 (*
-  fun transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
     let val {trExp, ty} = transExp(venv, tenv, init)
     in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=ty})}
     end
@@ -60,7 +58,7 @@ struct
     end
 *)
 
-  fun transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
+  and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
     | transDecs(venv, tenv, dec::decs) =
         let val {tenv=tenv', venv=venv'} = transDec(venv, tenv, dec)
         in transDecs(venv', tenv', decs)
