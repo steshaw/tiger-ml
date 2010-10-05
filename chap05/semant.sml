@@ -88,20 +88,24 @@ struct
     let
 (*
   | CallExp of {func: symbol, args: exp list, pos: pos}
-  | RecordExp of {fields: (symbol * exp * pos) list,
-                  typ: symbol, pos: pos}
-  | SeqExp of (exp * pos) list
   | AssignExp of {var: var, exp: exp, pos: pos}
   | IfExp of {test: exp, then': exp, else': exp option, pos: pos}
   | WhileExp of {test: exp, body: exp, pos: pos}
   | ForExp of {var: symbol, escape: bool ref,
                lo: exp, hi: exp, body: exp, pos: pos}
-  | BreakExp of pos
   | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
 *)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=Types.NIL}
+(*
+        | trexp(A.RecordExp {fields, typ, pos}) = 
+            (* TODO check fields match record type *)
+            case S.look(tenv, typ) 
+              of SOME t => {exp=todoTrExp, ty=t}
+              |  NONE   => (error pos "record type does not exist"; {exp=todoTrExp, ty=})
+*)
         | trexp(A.IntExp _) = {exp=todoTrExp, ty=Types.INT}
         | trexp(A.StringExp _) = {exp=todoTrExp, ty=Types.STRING}
+        | trexp(A.BreakExp pos) = {exp=todoTrExp, ty=Types.UNIT}
         | trexp(A.OpExp{left, oper, right, pos}) =
           (checkInt(trexp left, pos);
            checkInt(trexp right, pos);
