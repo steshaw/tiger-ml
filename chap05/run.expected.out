@@ -2,36 +2,42 @@
 nil
 --
 ../testcases/aaa-nil.tig:
+parse =>
 NilExp
 
 -- ../testcases/aa-test01.tig --
 1
 --
 ../testcases/aa-test01.tig:
+parse =>
 IntExp(1)
 
 -- ../testcases/aa-test02.tig --
 "hello"
 --
 ../testcases/aa-test02.tig:
+parse =>
 StringExp("hello")
 
 -- ../testcases/aa-test03.tig --
 ()
 --
 ../testcases/aa-test03.tig:
+parse =>
 NilExp
 
 -- ../testcases/aa-test04.tig --
 nil
 --
 ../testcases/aa-test04.tig:
+parse =>
 NilExp
 
 -- ../testcases/aa-test05.tig --
 if 1 < 2 then "yep" else "nah"
 --
 ../testcases/aa-test05.tig:
+parse =>
 IfExp(
  OpExp(LtOp,
   IntExp(1),
@@ -43,6 +49,7 @@ IfExp(
 let var a := 1 in a end
 --
 ../testcases/aa-test06.tig:
+parse =>
 LetExp([
  VarDec(a,true,NONE,
   IntExp(1))],
@@ -59,6 +66,7 @@ in
 end
 --
 ../testcases/aa-test07.tig:
+parse =>
 LetExp([
  VarDec(a,true,SOME(int),
   IntExp(100)),
@@ -84,6 +92,7 @@ in
 end
 --
 ../testcases/aa-test08.tig:
+parse =>
 LetExp([
  VarDec(a,true,SOME(int),
   IntExp(100)),
@@ -122,6 +131,7 @@ in
 end
 --
 ../testcases/aa-test09.tig:
+parse =>
 LetExp([
  FunctionDec[
   (noargs,[],
@@ -137,6 +147,7 @@ NONE,
 a[0]
 --
 ../testcases/aa-test10.tig:
+parse =>
 VarExp(
  SubscriptVar(
   SimpleVar(a),
@@ -146,6 +157,7 @@ VarExp(
 a[0] := "hello"
 --
 ../testcases/aa-test11.tig:
+parse =>
 AssignExp(
  SubscriptVar(
   SimpleVar(a),
@@ -156,6 +168,7 @@ AssignExp(
 a[20] of ""
 --
 ../testcases/aa-test12.tig:
+parse =>
 ArrayExp(a,
  IntExp(20),
  StringExp(""))
@@ -164,6 +177,7 @@ ArrayExp(a,
 print(1, 2, 3, "hi")
 --
 ../testcases/aa-test13.tig:
+parse =>
 CallExp(print,[
  IntExp(1),
  IntExp(2),
@@ -186,6 +200,7 @@ in
 end
 --
 ../testcases/aa-test14.tig:
+parse =>
 LetExp([
  VarDec(a1,true,NONE,
   OpExp(PlusOp,
@@ -322,6 +337,7 @@ end
 
 --
 ../testcases/merge.tig:
+parse =>
 LetExp([
  TypeDec[
   (any,
@@ -624,6 +640,7 @@ let
 end
 	--
 ../testcases/queens.tig:
+parse =>
 LetExp([
  VarDec(N,true,NONE,
   IntExp(8)),
@@ -826,6 +843,7 @@ in
 end
 --
 ../testcases/test01.tig:
+parse =>
 LetExp([
  TypeDec[
   (arrtype,
@@ -850,6 +868,7 @@ in
 end
 --
 ../testcases/test02.tig:
+parse =>
 LetExp([
  TypeDec[
   (myint,
@@ -875,6 +894,7 @@ in
 end
 --
 ../testcases/test03.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype,
@@ -913,6 +933,7 @@ end
 
 --
 ../testcases/test04.tig:
+parse =>
 LetExp([
  FunctionDec[
   (nfactor,[
@@ -953,6 +974,7 @@ in
 end
 --
 ../testcases/test05.tig:
+parse =>
 LetExp([
  TypeDec[
   (intlist,
@@ -994,6 +1016,7 @@ end
 
 --
 ../testcases/test06.tig:
+parse =>
 LetExp([
  FunctionDec[
   (do_nothing1,[
@@ -1033,6 +1056,7 @@ end
 
 --
 ../testcases/test07.tig:
+parse =>
 LetExp([
  FunctionDec[
   (do_nothing1,[
@@ -1065,6 +1089,7 @@ SOME(string),
 if (10 > 20) then 30 else 40	
 --
 ../testcases/test08.tig:
+parse =>
 IfExp(
  SeqExp[
   OpExp(GtOp,
@@ -1079,6 +1104,7 @@ IfExp(
 if (5>4) then 13 else  " "
 --
 ../testcases/test09.tig:
+parse =>
 IfExp(
  SeqExp[
   OpExp(GtOp,
@@ -1092,6 +1118,7 @@ IfExp(
 while(10 > 5) do 5+6
 --
 ../testcases/test10.tig:
+parse =>
 WhileExp(
  SeqExp[
   OpExp(GtOp,
@@ -1107,6 +1134,7 @@ for i:=10 to " " do
 	i := i - 1
 --
 ../testcases/test11.tig:
+parse =>
 ForExp(
 i,true,
  IntExp(10),
@@ -1128,6 +1156,7 @@ in
 end
 --
 ../testcases/test12.tig:
+parse =>
 LetExp([
  VarDec(a,true,NONE,
   IntExp(0))],
@@ -1151,6 +1180,7 @@ i,true,
 3 > "df"
 --
 ../testcases/test13.tig:
+parse =>
 OpExp(GtOp,
  IntExp(3),
  StringExp("df"))
@@ -1171,6 +1201,7 @@ in
 end
 --
 ../testcases/test14.tig:
+parse =>
 LetExp([
  TypeDec[
   (arrtype,
@@ -1206,6 +1237,7 @@ LetExp([
 if 20 then 3
 --
 ../testcases/test15.tig:
+parse =>
 IfExp(
  IntExp(20),
  IntExp(3))
@@ -1224,6 +1256,7 @@ in
 end
 --
 ../testcases/test16.tig:
+parse =>
 LetExp([
  TypeDec[
   (a,
@@ -1250,6 +1283,7 @@ in
 end
 --
 ../testcases/test17.tig:
+parse =>
 LetExp([
  TypeDec[
   (tree,
@@ -1285,6 +1319,7 @@ end
 
 --
 ../testcases/test18.tig:
+parse =>
 LetExp([
  FunctionDec[
   (do_nothing1,[
@@ -1331,6 +1366,7 @@ end
 
 --
 ../testcases/test19.tig:
+parse =>
 LetExp([
  FunctionDec[
   (do_nothing1,[
@@ -1364,6 +1400,7 @@ SOME(string),
 while 10 > 5 do (i+1;())
 --
 ../testcases/test20.tig:
+parse =>
 WhileExp(
  OpExp(GtOp,
   IntExp(10),
@@ -1391,6 +1428,7 @@ end
 
 --
 ../testcases/test21.tig:
+parse =>
 LetExp([
  FunctionDec[
   (nfactor,[
@@ -1425,6 +1463,7 @@ in
 end
 --
 ../testcases/test22.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype,
@@ -1457,6 +1496,7 @@ in
 end
 --
 ../testcases/test23.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype,
@@ -1492,6 +1532,7 @@ end
 
 --
 ../testcases/test24.tig:
+parse =>
 LetExp([
  VarDec(d,true,NONE,
   IntExp(0))],
@@ -1511,6 +1552,7 @@ end
 
 --
 ../testcases/test25.tig:
+parse =>
 LetExp([
  VarDec(d,true,NONE,
   IntExp(0))],
@@ -1526,6 +1568,7 @@ LetExp([
 3 + "var"
 --
 ../testcases/test26.tig:
+parse =>
 OpExp(PlusOp,
  IntExp(3),
  StringExp("var"))
@@ -1541,6 +1584,7 @@ in
 end
 --
 ../testcases/test27.tig:
+parse =>
 LetExp([
  VarDec(a,true,NONE,
   IntExp(0)),
@@ -1567,6 +1611,7 @@ in
 end
 --
 ../testcases/test28.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype1,
@@ -1601,6 +1646,7 @@ in
 end
 --
 ../testcases/test29.tig:
+parse =>
 LetExp([
  TypeDec[
   (arrtype1,
@@ -1628,6 +1674,7 @@ in
 end
 --
 ../testcases/test30.tig:
+parse =>
 LetExp([
  TypeDec[
   (a,
@@ -1653,6 +1700,7 @@ in
 end
 --
 ../testcases/test31.tig:
+parse =>
 LetExp([
  VarDec(a,true,SOME(int),
   StringExp(" "))],
@@ -1672,6 +1720,7 @@ in
 end
 --
 ../testcases/test32.tig:
+parse =>
 LetExp([
  TypeDec[
   (arrayty,
@@ -1692,6 +1741,7 @@ in
 end
 --
 ../testcases/test33.tig:
+parse =>
 LetExp([
  VarDec(a,true,NONE,
   RecordExp(rectype,[
@@ -1708,6 +1758,7 @@ in
 end
 --
 ../testcases/test34.tig:
+parse =>
 LetExp([
  FunctionDec[
   (g,[
@@ -1730,6 +1781,7 @@ in
 end
 --
 ../testcases/test35.tig:
+parse =>
 LetExp([
  FunctionDec[
   (g,[
@@ -1751,6 +1803,7 @@ in
 end
 --
 ../testcases/test36.tig:
+parse =>
 LetExp([
  FunctionDec[
   (g,[
@@ -1776,6 +1829,7 @@ in
 end
 --
 ../testcases/test37.tig:
+parse =>
 LetExp([
  VarDec(a,true,NONE,
   IntExp(0)),
@@ -1796,6 +1850,7 @@ in
 end
 --
 ../testcases/test38.tig:
+parse =>
 LetExp([
  TypeDec[
   (a,
@@ -1817,6 +1872,7 @@ in
 end
 --
 ../testcases/test39.tig:
+parse =>
 LetExp([
  FunctionDec[
   (g,[
@@ -1842,6 +1898,7 @@ end
 
 --
 ../testcases/test40.tig:
+parse =>
 LetExp([
  FunctionDec[
   (g,[
@@ -1866,6 +1923,7 @@ in
 end
 --
 ../testcases/test41.tig:
+parse =>
 LetExp([
  TypeDec[
   (a,
@@ -1911,6 +1969,7 @@ rec2.dates[2] := 2323
 end
 --
 ../testcases/test42.tig:
+parse =>
 LetExp([
  TypeDec[
   (arrtype1,
@@ -2030,6 +2089,7 @@ in
 end
 --
 ../testcases/test43.tig:
+parse =>
 LetExp([
  VarDec(a,true,NONE,
   NilExp)],
@@ -2053,6 +2113,7 @@ in
 end
 --
 ../testcases/test44.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype,
@@ -2077,6 +2138,7 @@ in
 end
 --
 ../testcases/test45.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype,
@@ -2100,6 +2162,7 @@ in
 end
 --
 ../testcases/test46.tig:
+parse =>
 LetExp([
  TypeDec[
   (rectype,
@@ -2132,6 +2195,7 @@ in
 end
 --
 ../testcases/test47.tig:
+parse =>
 LetExp([
  TypeDec[
   (a,
@@ -2158,6 +2222,7 @@ in
 end
 --
 ../testcases/test48.tig:
+parse =>
 LetExp([
  FunctionDec[
   (g,[
@@ -2189,6 +2254,7 @@ end
 --
 ../testcases/test49.tig:
 ../testcases/test49.tig:5.18:syntax error: inserting  PLUS
+parse =>
 LetExp([
  TypeDec[
   (rectype,

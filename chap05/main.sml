@@ -4,9 +4,15 @@ struct
   structure PP = PrintAbsyn
 
   fun compile(file: string) = let in
-    print (file ^ ":\n"); 
-    PP.print(TextIO.stdOut, (parse file))
-  end;
+    print (file ^ ":\n");
+    let
+      val ast = parse file
+    in
+      print ("parse =>\n");
+      PP.print(TextIO.stdOut, ast);
+      Semant.transProg(ast) (* type check *)
+    end
+  end
 
   fun main(cmd : string, args : string list) : OS.Process.status = let in
     app compile args; 0
