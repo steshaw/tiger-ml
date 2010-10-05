@@ -8,8 +8,8 @@ sig
 
   val transVar: Env.venv * Env.tenv * Absyn.var -> expty
   val transExp: Env.venv * Env.tenv * Absyn.exp -> expty
-(*  
-  val transDec: Env.venv * Env.tenv * Absyn.dec -> {venv: Env.venv, tenv: Env.tenv} 
+(*
+  val transDec: Env.venv * Env.tenv * Absyn.dec -> {venv: Env.venv, tenv: Env.tenv}
 *)
   val transTy:             Env.tenv * Absyn.ty  -> Types.ty
 end =
@@ -27,7 +27,7 @@ struct
 
   val error = ErrorMsg.error
 
-  fun checkInt({exp, ty}, pos) = 
+  fun checkInt({exp, ty}, pos) =
       case ty
         of Types.INT => ()
         | _ => error pos "integer required"
@@ -50,7 +50,7 @@ struct
 
 (*
   fun transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
-    let val {trExp, ty} = transExp(venv, tenv, init) 
+    let val {trExp, ty} = transExp(venv, tenv, init)
     in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=ty})}
     end
 *)
