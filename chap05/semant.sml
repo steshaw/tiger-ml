@@ -8,9 +8,7 @@ sig
 
   val transVar: Env.venv * Env.tenv * Absyn.var -> expty
   val transExp: Env.venv * Env.tenv * Absyn.exp -> expty
-(*
   val transDec: Env.venv * Env.tenv * Absyn.dec -> {venv: Env.venv, tenv: Env.tenv}
-*)
   val transTy:             Env.tenv * Absyn.ty  -> Types.ty
 end =
 struct
