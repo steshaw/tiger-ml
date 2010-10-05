@@ -1,22 +1,30 @@
 structure Env : sig
   type access
-  type ty
+(*  type ty *)
+
+  type venv
+  type tenv
 
   datatype enventry 
-    = VarEntry of {ty: ty}
-    | FunEntry of {formals: ty list, result: ty}
+    = VarEntry of {ty: Types.ty}
+    | FunEntry of {formals: Types.ty list, result: Types.ty}
 
-  val base_tenv: ty Symbol.table (* predefined types *)
-  val base_venv: enventry Symbol.table (* predefined functions (well, values...) *)
+  val base_tenv: tenv (* predefined types *)
+  val base_venv: venv (* predefined functions (well, values...) *)
 end = 
 struct
-  type ty = Types.ty
+  structure S = Symbol
+
+(*  type ty = Types.ty *)
   type access = unit (* TODO *)
 
   datatype enventry 
-    = VarEntry of {ty: ty}
-    | FunEntry of {formals: ty list, result: ty}
+    = VarEntry of {ty: Types.ty}
+    | FunEntry of {formals: Types.ty list, result: Types.ty}
 
-  val base_tenv = Symbol.empty (* TODO *)
-  val base_venv = Symbol.empty (* TODO *)
+  type tenv = Types.ty S.table
+  type venv = enventry S.table
+
+  val base_tenv = S.empty (* TODO *)
+  val base_venv = S.empty (* TODO *)
 end
