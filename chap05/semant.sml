@@ -16,8 +16,11 @@ struct
   structure S = Symbol
   structure E = Env
 
+  open List
+
   type expty = {exp: Translate.exp, ty: Types.ty}
 
+  val todoAccess = ()
   val todoTy = Types.INT
   val todoTrExp = ()
   val todoExpTy = {exp=(), ty=todoTy}
@@ -59,21 +62,22 @@ struct
           {tenv=tenv, venv=venv} (* TODO fold over the typeDecList here *)
       end
 
-  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTy, resPos)}]) = 
-      {tenv=tenv, venv=venv} (* TODO *)
-
-(* TODO other VarDec + FunctionDec and TypeDec *)
-(*
-*)
-(*
-  = FunctionDec of fundec list
-  | VarDec of {name: symbol,
-               escape: bool ref,
-               typ: (symbol * pos) option,
-               init: exp,
-               pos: pos}
-  | TypeDec of {name: symbol, ty: ty, pos: pos} list
-*)
+  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTySy, resPos)}]) = 
+      (* TODO: Much left out here see MCI/ML p119 *)
+      let
+        val SOME(resTy) = S.look(tenv, resTySy)
+        fun transParam {name, escape, typ, pos} =
+          case S.look(tenv, typ) of SOME t => {name=name, ty=t}
+        val params' = map transParam params (* map [ty] => [(name, ty)] *)
+        val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+        fun enterParam({name, ty}, venv) =
+          S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+        val venv'' = foldl enterParam venv' params' 
+            (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+      in
+        transExp(venv'', tenv, body);
+        {venv=venv', tenv=tenv}
+      end
 
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
     | transDecs(venv, tenv, dec::decs) =

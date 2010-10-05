@@ -1,6 +1,5 @@
 structure Env : sig
   type access
-(*  type ty *)
 
   type venv
   type tenv
@@ -15,7 +14,6 @@ end =
 struct
   structure S = Symbol
 
-(*  type ty = Types.ty *)
   type access = unit (* TODO *)
 
   datatype enventry 
