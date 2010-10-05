@@ -48,8 +48,7 @@ struct
       of T.UNIT => ()
       | _ => error pos "unit required"
 
-  (* TODO: allow type aliases/synonyms *)
-  (* TODO: allow records to be compatible with NIL *)
+  (* TODO: allow records to be compatible with NIL from either left or right? *)
   fun reqSameType(pos, tenv, {exp=_, ty=ty1}, {exp=_, ty=ty2}) =
     let val t1 = digType(pos, tenv, ty1)
         val t2 = digType(pos, tenv, ty2)
@@ -204,10 +203,20 @@ struct
         | trexp(A.OpExp{left, oper, right, pos}) =
           let val leftA = trexp left
               val rightA = trexp right
+              val {exp=_, ty=leftTy} = leftA
+              val {exp=_, ty=rightTy} = rightA
           in
-            checkInt(leftA, pos);
-            checkInt(rightA, pos);
-            {exp=todoTrExp, ty=T.INT}
+            case leftTy
+              (* FIXME: This record = nil thing is only for = and <> *)
+              of T.RECORD _ => (if rightTy <> T.NIL then error pos "must be nil" else ();(* TODO how to records compare *)
+                                {exp=todoTrExp, ty=leftTy})
+                                
+              (* TODO: insert logic for comparing arrays *)
+              | _ => (
+                     checkInt(leftA, pos);
+                     checkInt(rightA, pos);
+                     {exp=todoTrExp, ty=T.INT}
+                   )
           end
 
         | trexp(A.LetExp {decs, body, pos}) =
