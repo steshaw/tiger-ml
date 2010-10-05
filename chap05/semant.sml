@@ -46,7 +46,7 @@ struct
   | TypeDec of {name: symbol, ty: ty, pos: pos} list
 *)
 
-  and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) = todoExpTy
+  and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) = {venv=venv, tenv=tenv}
 
 (*
   fun transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
@@ -54,7 +54,6 @@ struct
     in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=ty})}
     end
 *)
-
 (* TODO other VarDec + FunctionDec and TypeDec *)
 (*
     | transDec(venv, tenv, A.VarDec {name, escape, SOME(symbol, pos), init, pos}) =
@@ -63,14 +62,11 @@ struct
     end
 *)
 
-  and transDecs(venv, tenv, decs) = {venv=venv, tenv=tenv} (* TODO *)
-(*
   fun transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
     | transDecs(venv, tenv, dec::decs) =
         let val {tenv=tenv', venv=venv'} = transDec(venv, tenv, dec)
         in transDecs(venv', tenv', decs)
         end
-*)
 
   and transExp(venv, tenv, exp) =
     let
