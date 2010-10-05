@@ -1,4 +1,4 @@
-structure Semant :
+structure Semant:
 sig
   val transProg: Absyn.exp -> unit
 
@@ -8,7 +8,9 @@ sig
 
   val transVar: Env.venv * Env.tenv * Absyn.var -> expty
   val transExp: Env.venv * Env.tenv * Absyn.exp -> expty
-(*  val transDec: Env.venv * Env.tenv * Absyn.dec -> {venv: Env.venv, tenv: Env.tenv} *)
+(*  
+  val transDec: Env.venv * Env.tenv * Absyn.dec -> {venv: Env.venv, tenv: Env.tenv} 
+*)
   val transTy:             Env.tenv * Absyn.ty  -> Types.ty
 end =
 struct
@@ -28,11 +30,11 @@ struct
   fun checkInt({exp, ty}, pos) = 
       case ty
         of Types.INT => ()
-        | _ => error pos "integer required";
+        | _ => error pos "integer required"
 
-  fun transVar(venv, tenv, var) = todoExpTy
+  and transVar(venv, tenv, var) = todoExpTy
 
-  fun actual_ty(ty) = todoTy (* TODO *)
+  and actual_ty(ty) = todoTy (* TODO *)
 
 (*
   = FunctionDec of fundec list
@@ -43,6 +45,8 @@ struct
                pos: pos}
   | TypeDec of {name: symbol, ty: ty, pos: pos} list
 *)
+
+  and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) = todoExpTy
 
 (*
   fun transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
@@ -59,7 +63,7 @@ struct
     end
 *)
 
-fun transDecs(venv, tenv, decs) = {venv=venv, tenv=tenv} (* TODO *)
+  and transDecs(venv, tenv, decs) = {venv=venv, tenv=tenv} (* TODO *)
 (*
   fun transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
     | transDecs(venv, tenv, dec::decs) =
@@ -68,7 +72,7 @@ fun transDecs(venv, tenv, decs) = {venv=venv, tenv=tenv} (* TODO *)
         end
 *)
 
-  fun transExp(venv, tenv, exp) =
+  and transExp(venv, tenv, exp) =
     let
       fun trexp(A.OpExp{left, oper=A.PlusOp, right, pos}) =
         (checkInt(trexp left, pos);
