@@ -29,9 +29,9 @@ struct
   val error = ErrorMsg.error
 
   fun checkInt({exp, ty}, pos) =
-      case ty
-        of Types.INT => ()
-        | _ => error pos "integer required"
+    case ty
+      of Types.INT => ()
+      | _ => error pos "integer required"
 
   and transVar(venv, tenv, var) = todoExpTy
 
@@ -55,38 +55,40 @@ struct
     end
 
   |  transDec(venv, tenv, A.TypeDec typeDecList) = 
-      let
-        fun transTyDec({name, ty, pos}) =
-          {tenv=S.enter(tenv, name, ty), venv=venv}
-      in
-          {tenv=tenv, venv=venv} (* TODO fold over the typeDecList here *)
-      end
+    let
+      fun transTyDec({name, ty, pos}) =
+        {tenv=S.enter(tenv, name, ty), venv=venv}
+    in
+        {tenv=tenv, venv=venv} (* TODO fold over the typeDecList here *)
+    end
 
-  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTySy, resPos)}]) = 
-      (* TODO: Much left out here see MCI/ML p119 *)
-      let
-        val SOME(resTy) = S.look(tenv, resTySy)
-        fun transParam {name, escape, typ, pos} =
-          case S.look(tenv, typ) of SOME t => {name=name, ty=t}
-        val params' = map transParam params (* map [ty] => [(name, ty)] *)
-        val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-        fun enterParam({name, ty}, venv) =
-          S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-        val venv'' = foldl enterParam venv' params' 
-            (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
-      in
-        transExp(venv'', tenv, body);
-        {venv=venv', tenv=tenv}
-      end
+  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTySy, resPos)}]) =
+    (* TODO: Much left out here see MCI/ML p119 *)
+    let
+      val SOME(resTy) = S.look(tenv, resTySy)
+      fun transParam {name, escape, typ, pos} =
+        case S.look(tenv, typ) of SOME t => {name=name, ty=t}
+      val params' = map transParam params (* map [ty] => [(name, ty)] *)
+      val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+      fun enterParam({name, ty}, venv) =
+        S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+      val venv'' = foldl enterParam venv' params' 
+          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+    in
+      transExp(venv'', tenv, body);
+      {venv=venv', tenv=tenv}
+    end
 
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
     | transDecs(venv, tenv, dec::decs) =
-        let val {tenv=tenv', venv=venv'} = transDec(venv, tenv, dec)
-        in transDecs(venv', tenv', decs)
-        end
+      let val {tenv=tenv', venv=venv'} = transDec(venv, tenv, dec)
+      in transDecs(venv', tenv', decs)
+      end
 
   and transExp(venv, tenv, exp) =
     let
+      val ok = {venv=venv, tenv=tenv}
+      fun trexp(A.NilExp) = (print "trexp NilExp\n"; ok)
       fun trexp(A.OpExp{left, oper=A.PlusOp, right, pos}) =
         (checkInt(trexp left, pos);
          checkInt(trexp right, pos);
@@ -109,6 +111,8 @@ struct
 
   and transTy (            tenv: E.tenv, ty: A.ty): Types.ty = todoTy
 
-  and transProg(exp: A.exp):unit = (transExp(E.base_venv, E.base_tenv, exp); ())
+  and transProg(exp: A.exp):unit = 
+    (transExp(E.base_venv, E.base_tenv, exp); 
+     ())
 
 end

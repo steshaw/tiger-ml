@@ -11,7 +11,7 @@ sig
     val reset : unit -> unit
 end
 
-structure ErrorMsg : ERRORMSG =
+structure ErrorMsg: ERRORMSG =
 struct
 
   val anyErrors = ref false

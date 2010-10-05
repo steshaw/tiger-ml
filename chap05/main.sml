@@ -10,7 +10,9 @@ struct
     in
       print ("parse =>\n");
       PP.print(TextIO.stdOut, ast);
+      print ("type check =>\n");
       Semant.transProg(ast) (* type check *)
+        handle _ => print "type check failed with unknown exception\n"
     end
   end
 

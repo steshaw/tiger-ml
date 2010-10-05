@@ -4,6 +4,8 @@ nil
 ../testcases/aaa-nil.tig:
 parse =>
 NilExp
+type check =>
+../testcases/aaa-nil.tig:2.94:before transExp
 
 -- ../testcases/aa-test01.tig --
 1
@@ -11,6 +13,8 @@ NilExp
 ../testcases/aa-test01.tig:
 parse =>
 IntExp(1)
+type check =>
+../testcases/aa-test01.tig:2.96:before transExp
 
 -- ../testcases/aa-test02.tig --
 "hello"
@@ -18,6 +22,8 @@ IntExp(1)
 ../testcases/aa-test02.tig:
 parse =>
 StringExp("hello")
+type check =>
+../testcases/aa-test02.tig:2.90:before transExp
 
 -- ../testcases/aa-test03.tig --
 ()
@@ -25,6 +31,8 @@ StringExp("hello")
 ../testcases/aa-test03.tig:
 parse =>
 NilExp
+type check =>
+../testcases/aa-test03.tig:2.95:before transExp
 
 -- ../testcases/aa-test04.tig --
 nil
@@ -32,6 +40,8 @@ nil
 ../testcases/aa-test04.tig:
 parse =>
 NilExp
+type check =>
+../testcases/aa-test04.tig:2.94:before transExp
 
 -- ../testcases/aa-test05.tig --
 if 1 < 2 then "yep" else "nah"
@@ -44,6 +54,8 @@ IfExp(
   IntExp(2)),
  StringExp("yep"),
  StringExp("nah"))
+type check =>
+../testcases/aa-test05.tig:2.67:before transExp
 
 -- ../testcases/aa-test06.tig --
 let var a := 1 in a end
@@ -56,6 +68,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+type check =>
+../testcases/aa-test06.tig:2.74:before transExp
 
 -- ../testcases/aa-test07.tig --
 let
@@ -79,6 +93,8 @@ NONE,
  SeqExp[
   CallExp(foo,[
    IntExp(100)])])
+type check =>
+../testcases/aa-test07.tig:7.20:before transExp
 
 -- ../testcases/aa-test08.tig --
 let
@@ -122,6 +138,8 @@ NONE,
     StringExp("not positive"))]),
   CallExp(exit,[
    IntExp(0)])])
+type check =>
+../testcases/aa-test08.tig:7.11:before transExp
 
 -- ../testcases/aa-test09.tig --
 let
@@ -142,6 +160,8 @@ NONE,
   CallExp(noargs,[
    VarExp(
     SimpleVar(a))])])
+type check =>
+../testcases/aa-test09.tig:6.28:before transExp
 
 -- ../testcases/aa-test10.tig --
 a[0]
@@ -152,6 +172,8 @@ VarExp(
  SubscriptVar(
   SimpleVar(a),
   IntExp(0)))
+type check =>
+../testcases/aa-test10.tig:2.93:before transExp
 
 -- ../testcases/aa-test11.tig --
 a[0] := "hello"
@@ -163,6 +185,8 @@ AssignExp(
   SimpleVar(a),
   IntExp(0)),
  StringExp("hello"))
+type check =>
+../testcases/aa-test11.tig:2.82:before transExp
 
 -- ../testcases/aa-test12.tig --
 a[20] of ""
@@ -172,6 +196,8 @@ parse =>
 ArrayExp(a,
  IntExp(20),
  StringExp(""))
+type check =>
+../testcases/aa-test12.tig:2.86:before transExp
 
 -- ../testcases/aa-test13.tig --
 print(1, 2, 3, "hi")
@@ -183,6 +209,8 @@ CallExp(print,[
  IntExp(2),
  IntExp(3),
  StringExp("hi")])
+type check =>
+../testcases/aa-test13.tig:2.77:before transExp
 
 -- ../testcases/aa-test14.tig --
 let 
@@ -277,6 +305,8 @@ LetExp([
    IntExp(0)))],
  SeqExp[
   IntExp(1)])
+type check =>
+../testcases/aa-test14.tig:5.15:before transExp
 
 -- ../testcases/merge.tig --
 let 
@@ -603,6 +633,8 @@ NONE,
      SimpleVar(list1)),
     VarExp(
      SimpleVar(list2))])])])
+type check =>
+../testcases/merge.tig:7.7:before transExp
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
@@ -832,6 +864,8 @@ r,true,
  SeqExp[
   CallExp(try,[
    IntExp(0)])])
+type check =>
+../testcases/queens.tig:6.31:before transExp
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -855,6 +889,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
+type check =>
+../testcases/test01.tig:4.22:before transExp
 
 -- ../testcases/test02.tig --
 /* arr1 is valid since expression 0 is int = myint */
@@ -882,6 +918,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
+type check =>
+../testcases/test02.tig:4.22:before transExp
 
 -- ../testcases/test03.tig --
 /* a record type and a record variable */
@@ -916,6 +954,8 @@ LetExp([
    StringExp("Somebody")),
   VarExp(
    SimpleVar(rec1))])
+type check =>
+../testcases/test03.tig:4.12:before transExp
 
 -- ../testcases/test04.tig --
 /* define a recursive function */
@@ -956,6 +996,8 @@ SOME(int),
  SeqExp[
   CallExp(nfactor,[
    IntExp(10)])])
+type check =>
+../testcases/test04.tig:6.8:before transExp
 
 -- ../testcases/test05.tig --
 /* define valid recursive types */
@@ -999,6 +1041,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(lis))])
+type check =>
+../testcases/test05.tig:4.39:before transExp
 
 -- ../testcases/test06.tig --
 /* define valid mutually recursive procedures */
@@ -1039,6 +1083,8 @@ NONE,
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+type check =>
+../testcases/test06.tig:5.3:before transExp
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -1083,6 +1129,8 @@ SOME(string),
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+type check =>
+../testcases/test07.tig:4.45:before transExp
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -1097,6 +1145,8 @@ IfExp(
    IntExp(20))],
  IntExp(30),
  IntExp(40))
+type check =>
+../testcases/test08.tig:3.51:before transExp
 
 -- ../testcases/test09.tig --
 /* error : types of then - else differ */
@@ -1112,6 +1162,8 @@ IfExp(
    IntExp(4))],
  IntExp(13),
  StringExp(" "))
+type check =>
+../testcases/test09.tig:4.28:before transExp
 
 -- ../testcases/test10.tig --
 /* error : body of while not unit */
@@ -1127,6 +1179,8 @@ WhileExp(
  OpExp(PlusOp,
   IntExp(5),
   IntExp(6)))
+type check =>
+../testcases/test10.tig:3.40:before transExp
 
 -- ../testcases/test11.tig --
 /* error hi expr is not int, and index variable erroneously assigned to.  */
@@ -1145,6 +1199,8 @@ i,true,
    VarExp(
     SimpleVar(i)),
    IntExp(1))))
+type check =>
+../testcases/test11.tig:2.21:before transExp
 
 -- ../testcases/test12.tig --
 /* valid for and let */
@@ -1173,6 +1229,8 @@ i,true,
        SimpleVar(a)),
       IntExp(1))),
     NilExp])])
+type check =>
+../testcases/test12.tig:8.18:before transExp
 
 -- ../testcases/test13.tig --
 /* error: comparison of incompatible types */
@@ -1184,6 +1242,8 @@ parse =>
 OpExp(GtOp,
  IntExp(3),
  StringExp("df"))
+type check =>
+../testcases/test13.tig:4.42:before transExp
 
 -- ../testcases/test14.tig --
 /* error : compare rec with array */
@@ -1230,6 +1290,8 @@ LetExp([
      SimpleVar(arr))),
    IntExp(3),
    IntExp(4))])
+type check =>
+../testcases/test14.tig:6.26:before transExp
 
 -- ../testcases/test15.tig --
 /* error : if-then returns non unit */
@@ -1241,6 +1303,8 @@ parse =>
 IfExp(
  IntExp(20),
  IntExp(3))
+type check =>
+../testcases/test15.tig:4.45:before transExp
 
 -- ../testcases/test16.tig --
 /* error: mutually recursive types thet do not pass through record or array */
@@ -1269,6 +1333,8 @@ LetExp([
    NameTy(a))]],
  SeqExp[
   StringExp("")])
+type check =>
+../testcases/test16.tig:5.4:before transExp
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -1300,6 +1366,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(d))])
+type check =>
+../testcases/test17.tig:4.16:before transExp
 
 -- ../testcases/test18.tig --
 /* error : definition of recursive functions is interrupted */
@@ -1349,6 +1417,8 @@ SOME(string),
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+type check =>
+../testcases/test18.tig:4.30:before transExp
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */
@@ -1393,6 +1463,8 @@ SOME(string),
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+type check =>
+../testcases/test19.tig:4.4:before transExp
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
@@ -1411,6 +1483,8 @@ WhileExp(
     SimpleVar(i)),
    IntExp(1)),
   NilExp])
+type check =>
+../testcases/test20.tig:4.37:before transExp
 
 -- ../testcases/test21.tig --
 /* error : procedure returns value  and procedure is used in arexpr */
@@ -1451,6 +1525,8 @@ NONE,
  SeqExp[
   CallExp(nfactor,[
    IntExp(10)])])
+type check =>
+../testcases/test21.tig:5.3:before transExp
 
 -- ../testcases/test22.tig --
 /* error : field not in record type */
@@ -1483,6 +1559,8 @@ LetExp([
     SimpleVar(rec1),
     nam),
    StringExp("asd"))])
+type check =>
+../testcases/test22.tig:5.14:before transExp
 
 -- ../testcases/test23.tig --
 /* error : type mismatch */
@@ -1521,6 +1599,8 @@ LetExp([
     SimpleVar(rec1),
     id),
    StringExp(""))])
+type check =>
+../testcases/test23.tig:5.25:before transExp
 
 -- ../testcases/test24.tig --
 /* error : variable not array */
@@ -1541,6 +1621,8 @@ LetExp([
    SubscriptVar(
     SimpleVar(d),
     IntExp(3)))])
+type check =>
+../testcases/test24.tig:8.36:before transExp
 
 -- ../testcases/test25.tig --
 /* error : variable not record */
@@ -1561,6 +1643,8 @@ LetExp([
    FieldVar(
     SimpleVar(d),
     f))])
+type check =>
+../testcases/test25.tig:8.35:before transExp
 
 -- ../testcases/test26.tig --
 /* error : integer required */
@@ -1572,6 +1656,8 @@ parse =>
 OpExp(PlusOp,
  IntExp(3),
  StringExp("var"))
+type check =>
+../testcases/test26.tig:4.56:before transExp
 
 -- ../testcases/test27.tig --
 /* locals hide globals */
@@ -1597,6 +1683,8 @@ SOME(int),
  SeqExp[
   CallExp(g,[
    IntExp(2)])])
+type check =>
+../testcases/test27.tig:9.16:before transExp
 
 -- ../testcases/test28.tig --
 /* error : different record types */
@@ -1632,6 +1720,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(rec1))])
+type check =>
+../testcases/test28.tig:5.16:before transExp
 
 -- ../testcases/test29.tig --
 /* error : different array types */
@@ -1660,6 +1750,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
+type check =>
+../testcases/test29.tig:5.27:before transExp
 
 -- ../testcases/test30.tig --
 /* synonyms are fine */
@@ -1690,6 +1782,8 @@ LetExp([
    SubscriptVar(
     SimpleVar(arr1),
     IntExp(2)))])
+type check =>
+../testcases/test30.tig:8.2:before transExp
 
 -- ../testcases/test31.tig --
 /* error : type constraint and init value differ */
@@ -1707,6 +1801,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+type check =>
+../testcases/test31.tig:7.13:before transExp
 
 -- ../testcases/test32.tig --
 /* error : initializing exp and array type differ */
@@ -1731,6 +1827,8 @@ LetExp([
    StringExp(" ")))],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test32.tig:6.10:before transExp
 
 -- ../testcases/test33.tig --
 /* error : unknown type */
@@ -1748,6 +1846,8 @@ LetExp([
 ]))],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test33.tig:7.37:before transExp
 
 -- ../testcases/test34.tig --
 /* error : formals and actuals have different types */
@@ -1771,6 +1871,8 @@ SOME(int),
   CallExp(g,[
    StringExp("one"),
    StringExp("two")])])
+type check =>
+../testcases/test34.tig:3.39:before transExp
 
 -- ../testcases/test35.tig --
 /* error : formals are more then actuals */
@@ -1793,6 +1895,8 @@ SOME(int),
  SeqExp[
   CallExp(g,[
    StringExp("one")])])
+type check =>
+../testcases/test35.tig:5.8:before transExp
 
 -- ../testcases/test36.tig --
 /* error : formals are fewer then actuals */
@@ -1817,6 +1921,8 @@ SOME(int),
    IntExp(3),
    StringExp("one"),
    IntExp(5)])])
+type check =>
+../testcases/test36.tig:5.7:before transExp
 
 -- ../testcases/test37.tig --
 /* redeclaration of variable; this is legal, there are two different
@@ -1837,6 +1943,8 @@ LetExp([
   StringExp(" "))],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test37.tig:2.29:before transExp
 
 -- ../testcases/test38.tig --
 /* This is illegal, since there are two types with the same name
@@ -1859,6 +1967,8 @@ LetExp([
    NameTy(string))]],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test38.tig:2.33:before transExp
 
 -- ../testcases/test39.tig --
 /* This is illegal, since there are two functions with the same name
@@ -1887,6 +1997,8 @@ SOME(int),
     SimpleVar(a)))]],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test39.tig:2.29:before transExp
 
 -- ../testcases/test40.tig --
 /* error : procedure returns value */
@@ -1909,6 +2021,8 @@ NONE,
  SeqExp[
   CallExp(g,[
    IntExp(2)])])
+type check =>
+../testcases/test40.tig:8.18:before transExp
 
 -- ../testcases/test41.tig --
 /* local types hide global */
@@ -1935,6 +2049,8 @@ LetExp([
      NameTy(string))]],
    SeqExp[
     IntExp(0)])])
+type check =>
+../testcases/test41.tig:11.7:before transExp
 
 -- ../testcases/test42.tig --
 /* correct declarations */
@@ -2078,6 +2194,8 @@ LetExp([
      dates),
     IntExp(2)),
    IntExp(2323))])
+type check =>
+../testcases/test42.tig:5.36:before transExp
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
@@ -2098,6 +2216,8 @@ LetExp([
    VarExp(
     SimpleVar(a)),
    IntExp(3))])
+type check =>
+../testcases/test43.tig:7.4:before transExp
 
 -- ../testcases/test44.tig --
 /* valid nil initialization and assignment */
@@ -2126,6 +2246,8 @@ LetExp([
   AssignExp(
    SimpleVar(b),
    NilExp)])
+type check =>
+../testcases/test44.tig:5.8:before transExp
 
 -- ../testcases/test45.tig --
 /* error: initializing nil expressions not constrained by record type */
@@ -2150,6 +2272,8 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+type check =>
+../testcases/test45.tig:3.20:before transExp
 
 -- ../testcases/test46.tig --
 /* valid rec comparisons */
@@ -2180,6 +2304,8 @@ LetExp([
    VarExp(
     SimpleVar(b)),
    NilExp)])
+type check =>
+../testcases/test46.tig:6.2:before transExp
 
 -- ../testcases/test47.tig --
 /* This is legal.  The second type "a" simply hides the first one.
@@ -2207,6 +2333,8 @@ LetExp([
    NameTy(string))]],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test47.tig:2.31:before transExp
 
 -- ../testcases/test48.tig --
 /* This is legal.  The second function "g" simply hides the first one.
@@ -2241,6 +2369,8 @@ SOME(int),
     SimpleVar(a)))]],
  SeqExp[
   IntExp(0)])
+type check =>
+../testcases/test48.tig:2.27:before transExp
 
 -- ../testcases/test49.tig --
 /* error: syntax error, nil should not be preceded by type-id.  */
@@ -2269,4 +2399,6 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+type check =>
+../testcases/test49.tig:3.26:before transExp
 
