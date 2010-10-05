@@ -191,7 +191,8 @@ ArrayExp(a,
  IntExp(20),
  StringExp(""))
 type check =>
-type check failed with unknown exception
+../testcases/aa-test12.tig:1.1:type does not exist
+../testcases/aa-test12.tig:1.1:type is not an array
 
 -- ../testcases/aa-test13.tig --
 print(1, 2, 3, "hi")
@@ -913,6 +914,7 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
+../testcases/test02.tig:6.22:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test03.tig --
@@ -1744,6 +1746,7 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
+../testcases/test29.tig:7.2:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test30.tig --
@@ -1776,6 +1779,8 @@ LetExp([
     SimpleVar(arr1),
     IntExp(2)))])
 type check =>
+../testcases/test30.tig:7.17:type is not an array
+../testcases/test30.tig:7.3:declared type does not match inferred type
 type check failed with unknown exception
 
 -- ../testcases/test31.tig --
@@ -1822,7 +1827,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-type check failed with unknown exception
+../testcases/test32.tig:6.11:types do not match
 
 -- ../testcases/test33.tig --
 /* error : unknown type */

@@ -28,16 +28,19 @@ struct
 
   val error = ErrorMsg.error
 
+  (* TODO: allow type aliases/synonyms *)
   fun checkInt({exp, ty}, pos) =
     case ty
       of T.INT => ()
       | _ => error pos "integer required"
 
+  (* TODO: allow type aliases/synonyms *)
   fun checkUnit({exp, ty}, pos) =
     case ty
       of T.UNIT => ()
       | _ => error pos "unit required"
 
+  (* TODO: allow type aliases/synonyms *)
   fun reqSameType({exp=_, ty=ty1}, {exp=_, ty=ty2}, pos) =
     if ty1 <> ty2 then
       error pos "types do not match" (* TODO: better msg here *)
@@ -113,6 +116,21 @@ struct
   | ArrayExp of {typ: symbol, size: exp, init: exp, pos: pos}
 *)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
+
+        | trexp(A.ArrayExp {typ=tySymbol, size=sizeExp, init=initExp, pos}) =
+          let
+            val recordTy = lookupTy(pos, tenv, tySymbol)
+            val sizeA = trexp sizeExp
+            val initA = trexp initExp
+          in
+            checkInt(sizeA, pos);
+            case recordTy
+              of T.ARRAY (ty, unique) => 
+                  (reqSameType(initA, {exp=(), ty=ty}, pos);
+                   {exp=todoTrExp, ty=recordTy})
+               | _ => (error pos "type is not an array";
+                      {exp=todoTrExp, ty=T.UNIT})
+          end
 
         | trexp(A.WhileExp {test=testExp, body=bodyExp, pos}) =
           let
