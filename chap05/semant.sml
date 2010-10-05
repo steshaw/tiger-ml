@@ -35,21 +35,16 @@ struct
 
   fun transVar(venv: venv, tenv: tenv, var: A.var): expty = todoExpTy
 
-(*
-  fun transExp(venv, tenv) = let
-    fun trexp(A.OpExp{left, oper=A.PlusOp, right, pos})
-*)
-    
-  fun transExp(venv, tenv, A.OpExp {left, oper=A.PlusOp, right, pos}) =
+  fun transExp(venv, tenv, exp) = 
     let
-      val {exp=_, ty=tyleft} = transExp(venv, tenv, left)
-      val {exp=_, ty=tyright} = transExp(venv, tenv, right)
+      fun trexp(A.OpExp{left, oper=A.PlusOp, right, pos}) =
+        (checkInt(trexp left, pos);
+         checkInt(trexp right, pos);
+         {exp=todoTrExp, ty=Types.INT})
     in
-      checkInt({exp=todoTrExp, ty=tyleft}, pos);
-      checkInt({exp=todoTrExp, ty=tyright}, pos);
-      {exp=todoTrExp, ty=Types.INT}
+      trexp(exp)
     end
-
+    
   fun transDec(venv: venv, tenv: tenv, dec: A.dec): {venv: venv, tenv: tenv} = todoDecValEntTyEnv
 
   fun transTy (            tenv: tenv, ty: A.ty): Types.ty = todoTy;
