@@ -200,10 +200,16 @@ struct
         | trexp(A.IntExp _) = {exp=todoTrExp, ty=T.INT}
         | trexp(A.StringExp _) = {exp=todoTrExp, ty=T.STRING}
         | trexp(A.BreakExp pos) = {exp=todoTrExp, ty=T.UNIT}
+
         | trexp(A.OpExp{left, oper, right, pos}) =
-          (checkInt(trexp left, pos);
-           checkInt(trexp right, pos);
-           {exp=todoTrExp, ty=T.INT})
+          let val leftA = trexp left
+              val rightA = trexp right
+          in
+            checkInt(leftA, pos);
+            checkInt(rightA, pos);
+            {exp=todoTrExp, ty=T.INT}
+          end
+
         | trexp(A.LetExp {decs, body, pos}) =
             let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
             in transExp(venv', tenv', body) (* book has transExp(venv', tenv') body *)
