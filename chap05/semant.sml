@@ -2,8 +2,7 @@ structure Semant:
 sig
   val transProg: Absyn.exp -> unit
 
-  (* XXX: Don't think these function below really need exporting. Just need their types defined *)
-  (* XXX: because I'm using pattern matching to define them below *)
+  (* XXX: Don't think these declaration below really need exporting. *)
   type expty
 
   val transVar: Env.venv * Env.tenv * Absyn.var -> expty
@@ -112,6 +111,13 @@ struct
             let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
             in transExp(venv', tenv', body) (* book has transExp(venv', tenv') body *)
             end
+        | trexp(A.SeqExp expList) = 
+            let 
+              val rs = map trexp (map #1 expList)
+              val {exp=_, ty=lastTy} = last rs
+            in {exp=todoTrExp, ty=lastTy}
+            end
+            
       and trvar(A.SimpleVar(id, pos)) =
         (case S.look(venv, id)
           of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actual_ty ty}

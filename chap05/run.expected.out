@@ -1329,7 +1329,6 @@ LetExp([
  SeqExp[
   StringExp("")])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -1842,7 +1841,6 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test34.tig --
 /* error : formals and actuals have different types */
@@ -1939,7 +1937,6 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test38.tig --
 /* This is illegal, since there are two types with the same name
@@ -1963,7 +1960,6 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test39.tig --
 /* This is illegal, since there are two functions with the same name
@@ -2045,7 +2041,6 @@ LetExp([
    SeqExp[
     IntExp(0)])])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test42.tig --
 /* correct declarations */
@@ -2329,7 +2324,6 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test48.tig --
 /* This is legal.  The second function "g" simply hides the first one.
