@@ -87,9 +87,10 @@ struct
 
   and transExp(venv, tenv, exp) =
     let
-      val ok = {venv=venv, tenv=tenv}
-      fun trexp(A.NilExp) = (print "trexp NilExp\n"; ok)
-      fun trexp(A.OpExp{left, oper=A.PlusOp, right, pos}) =
+      fun trexp(A.NilExp) = {exp=todoTrExp, ty=Types.NIL}
+        | trexp(A.IntExp _) = {exp=todoTrExp, ty=Types.INT}
+        | trexp(A.StringExp _) = {exp=todoTrExp, ty=Types.STRING}
+        | trexp(A.OpExp{left, oper=A.PlusOp, right, pos}) =
         (checkInt(trexp left, pos);
          checkInt(trexp right, pos);
          {exp=todoTrExp, ty=Types.INT})

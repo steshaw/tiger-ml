@@ -5,7 +5,6 @@ nil
 parse =>
 NilExp
 type check =>
-../testcases/aaa-nil.tig:2.94:before transExp
 
 -- ../testcases/aa-test01.tig --
 1
@@ -14,7 +13,6 @@ type check =>
 parse =>
 IntExp(1)
 type check =>
-../testcases/aa-test01.tig:2.96:before transExp
 
 -- ../testcases/aa-test02.tig --
 "hello"
@@ -23,7 +21,6 @@ type check =>
 parse =>
 StringExp("hello")
 type check =>
-../testcases/aa-test02.tig:2.90:before transExp
 
 -- ../testcases/aa-test03.tig --
 ()
@@ -32,7 +29,6 @@ type check =>
 parse =>
 NilExp
 type check =>
-../testcases/aa-test03.tig:2.95:before transExp
 
 -- ../testcases/aa-test04.tig --
 nil
@@ -41,7 +37,6 @@ nil
 parse =>
 NilExp
 type check =>
-../testcases/aa-test04.tig:2.94:before transExp
 
 -- ../testcases/aa-test05.tig --
 if 1 < 2 then "yep" else "nah"
@@ -55,7 +50,7 @@ IfExp(
  StringExp("yep"),
  StringExp("nah"))
 type check =>
-../testcases/aa-test05.tig:2.67:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test06.tig --
 let var a := 1 in a end
@@ -69,7 +64,7 @@ LetExp([
   VarExp(
    SimpleVar(a))])
 type check =>
-../testcases/aa-test06.tig:2.74:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test07.tig --
 let
@@ -94,7 +89,7 @@ NONE,
   CallExp(foo,[
    IntExp(100)])])
 type check =>
-../testcases/aa-test07.tig:7.20:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test08.tig --
 let
@@ -139,7 +134,7 @@ NONE,
   CallExp(exit,[
    IntExp(0)])])
 type check =>
-../testcases/aa-test08.tig:7.11:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test09.tig --
 let
@@ -161,7 +156,7 @@ NONE,
    VarExp(
     SimpleVar(a))])])
 type check =>
-../testcases/aa-test09.tig:6.28:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test10.tig --
 a[0]
@@ -173,7 +168,7 @@ VarExp(
   SimpleVar(a),
   IntExp(0)))
 type check =>
-../testcases/aa-test10.tig:2.93:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test11.tig --
 a[0] := "hello"
@@ -186,7 +181,7 @@ AssignExp(
   IntExp(0)),
  StringExp("hello"))
 type check =>
-../testcases/aa-test11.tig:2.82:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test12.tig --
 a[20] of ""
@@ -197,7 +192,7 @@ ArrayExp(a,
  IntExp(20),
  StringExp(""))
 type check =>
-../testcases/aa-test12.tig:2.86:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test13.tig --
 print(1, 2, 3, "hi")
@@ -210,7 +205,7 @@ CallExp(print,[
  IntExp(3),
  StringExp("hi")])
 type check =>
-../testcases/aa-test13.tig:2.77:before transExp
+type check failed with unknown exception
 
 -- ../testcases/aa-test14.tig --
 let 
@@ -306,7 +301,7 @@ LetExp([
  SeqExp[
   IntExp(1)])
 type check =>
-../testcases/aa-test14.tig:5.15:before transExp
+type check failed with unknown exception
 
 -- ../testcases/merge.tig --
 let 
@@ -634,7 +629,7 @@ NONE,
     VarExp(
      SimpleVar(list2))])])])
 type check =>
-../testcases/merge.tig:7.7:before transExp
+type check failed with unknown exception
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
@@ -865,7 +860,7 @@ r,true,
   CallExp(try,[
    IntExp(0)])])
 type check =>
-../testcases/queens.tig:6.31:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -890,7 +885,7 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
-../testcases/test01.tig:4.22:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test02.tig --
 /* arr1 is valid since expression 0 is int = myint */
@@ -919,7 +914,7 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
-../testcases/test02.tig:4.22:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test03.tig --
 /* a record type and a record variable */
@@ -955,7 +950,7 @@ LetExp([
   VarExp(
    SimpleVar(rec1))])
 type check =>
-../testcases/test03.tig:4.12:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test04.tig --
 /* define a recursive function */
@@ -997,7 +992,7 @@ SOME(int),
   CallExp(nfactor,[
    IntExp(10)])])
 type check =>
-../testcases/test04.tig:6.8:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test05.tig --
 /* define valid recursive types */
@@ -1042,7 +1037,7 @@ LetExp([
   VarExp(
    SimpleVar(lis))])
 type check =>
-../testcases/test05.tig:4.39:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test06.tig --
 /* define valid mutually recursive procedures */
@@ -1084,7 +1079,7 @@ NONE,
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test06.tig:5.3:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -1130,7 +1125,7 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test07.tig:4.45:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -1146,7 +1141,7 @@ IfExp(
  IntExp(30),
  IntExp(40))
 type check =>
-../testcases/test08.tig:3.51:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test09.tig --
 /* error : types of then - else differ */
@@ -1163,7 +1158,7 @@ IfExp(
  IntExp(13),
  StringExp(" "))
 type check =>
-../testcases/test09.tig:4.28:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test10.tig --
 /* error : body of while not unit */
@@ -1180,7 +1175,7 @@ WhileExp(
   IntExp(5),
   IntExp(6)))
 type check =>
-../testcases/test10.tig:3.40:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test11.tig --
 /* error hi expr is not int, and index variable erroneously assigned to.  */
@@ -1200,7 +1195,7 @@ i,true,
     SimpleVar(i)),
    IntExp(1))))
 type check =>
-../testcases/test11.tig:2.21:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test12.tig --
 /* valid for and let */
@@ -1230,7 +1225,7 @@ i,true,
       IntExp(1))),
     NilExp])])
 type check =>
-../testcases/test12.tig:8.18:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test13.tig --
 /* error: comparison of incompatible types */
@@ -1243,7 +1238,7 @@ OpExp(GtOp,
  IntExp(3),
  StringExp("df"))
 type check =>
-../testcases/test13.tig:4.42:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test14.tig --
 /* error : compare rec with array */
@@ -1291,7 +1286,7 @@ LetExp([
    IntExp(3),
    IntExp(4))])
 type check =>
-../testcases/test14.tig:6.26:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test15.tig --
 /* error : if-then returns non unit */
@@ -1304,7 +1299,7 @@ IfExp(
  IntExp(20),
  IntExp(3))
 type check =>
-../testcases/test15.tig:4.45:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test16.tig --
 /* error: mutually recursive types thet do not pass through record or array */
@@ -1334,7 +1329,7 @@ LetExp([
  SeqExp[
   StringExp("")])
 type check =>
-../testcases/test16.tig:5.4:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -1367,7 +1362,7 @@ LetExp([
   VarExp(
    SimpleVar(d))])
 type check =>
-../testcases/test17.tig:4.16:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test18.tig --
 /* error : definition of recursive functions is interrupted */
@@ -1418,7 +1413,7 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test18.tig:4.30:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */
@@ -1464,7 +1459,7 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test19.tig:4.4:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
@@ -1484,7 +1479,7 @@ WhileExp(
    IntExp(1)),
   NilExp])
 type check =>
-../testcases/test20.tig:4.37:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test21.tig --
 /* error : procedure returns value  and procedure is used in arexpr */
@@ -1526,7 +1521,7 @@ NONE,
   CallExp(nfactor,[
    IntExp(10)])])
 type check =>
-../testcases/test21.tig:5.3:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test22.tig --
 /* error : field not in record type */
@@ -1560,7 +1555,7 @@ LetExp([
     nam),
    StringExp("asd"))])
 type check =>
-../testcases/test22.tig:5.14:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test23.tig --
 /* error : type mismatch */
@@ -1600,7 +1595,7 @@ LetExp([
     id),
    StringExp(""))])
 type check =>
-../testcases/test23.tig:5.25:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test24.tig --
 /* error : variable not array */
@@ -1622,7 +1617,7 @@ LetExp([
     SimpleVar(d),
     IntExp(3)))])
 type check =>
-../testcases/test24.tig:8.36:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test25.tig --
 /* error : variable not record */
@@ -1644,7 +1639,7 @@ LetExp([
     SimpleVar(d),
     f))])
 type check =>
-../testcases/test25.tig:8.35:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test26.tig --
 /* error : integer required */
@@ -1657,7 +1652,7 @@ OpExp(PlusOp,
  IntExp(3),
  StringExp("var"))
 type check =>
-../testcases/test26.tig:4.56:before transExp
+../testcases/test26.tig:3.1:integer required
 
 -- ../testcases/test27.tig --
 /* locals hide globals */
@@ -1684,7 +1679,7 @@ SOME(int),
   CallExp(g,[
    IntExp(2)])])
 type check =>
-../testcases/test27.tig:9.16:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test28.tig --
 /* error : different record types */
@@ -1721,7 +1716,7 @@ LetExp([
   VarExp(
    SimpleVar(rec1))])
 type check =>
-../testcases/test28.tig:5.16:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test29.tig --
 /* error : different array types */
@@ -1751,7 +1746,7 @@ LetExp([
   VarExp(
    SimpleVar(arr1))])
 type check =>
-../testcases/test29.tig:5.27:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test30.tig --
 /* synonyms are fine */
@@ -1783,7 +1778,7 @@ LetExp([
     SimpleVar(arr1),
     IntExp(2)))])
 type check =>
-../testcases/test30.tig:8.2:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test31.tig --
 /* error : type constraint and init value differ */
@@ -1802,7 +1797,7 @@ LetExp([
   VarExp(
    SimpleVar(a))])
 type check =>
-../testcases/test31.tig:7.13:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test32.tig --
 /* error : initializing exp and array type differ */
@@ -1828,7 +1823,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test32.tig:6.10:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test33.tig --
 /* error : unknown type */
@@ -1847,7 +1842,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test33.tig:7.37:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test34.tig --
 /* error : formals and actuals have different types */
@@ -1872,7 +1867,7 @@ SOME(int),
    StringExp("one"),
    StringExp("two")])])
 type check =>
-../testcases/test34.tig:3.39:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test35.tig --
 /* error : formals are more then actuals */
@@ -1896,7 +1891,7 @@ SOME(int),
   CallExp(g,[
    StringExp("one")])])
 type check =>
-../testcases/test35.tig:5.8:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test36.tig --
 /* error : formals are fewer then actuals */
@@ -1922,7 +1917,7 @@ SOME(int),
    StringExp("one"),
    IntExp(5)])])
 type check =>
-../testcases/test36.tig:5.7:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test37.tig --
 /* redeclaration of variable; this is legal, there are two different
@@ -1944,7 +1939,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test37.tig:2.29:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test38.tig --
 /* This is illegal, since there are two types with the same name
@@ -1968,7 +1963,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test38.tig:2.33:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test39.tig --
 /* This is illegal, since there are two functions with the same name
@@ -1998,7 +1993,7 @@ SOME(int),
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test39.tig:2.29:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test40.tig --
 /* error : procedure returns value */
@@ -2022,7 +2017,7 @@ NONE,
   CallExp(g,[
    IntExp(2)])])
 type check =>
-../testcases/test40.tig:8.18:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test41.tig --
 /* local types hide global */
@@ -2050,7 +2045,7 @@ LetExp([
    SeqExp[
     IntExp(0)])])
 type check =>
-../testcases/test41.tig:11.7:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test42.tig --
 /* correct declarations */
@@ -2195,7 +2190,7 @@ LetExp([
     IntExp(2)),
    IntExp(2323))])
 type check =>
-../testcases/test42.tig:5.36:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
@@ -2217,7 +2212,7 @@ LetExp([
     SimpleVar(a)),
    IntExp(3))])
 type check =>
-../testcases/test43.tig:7.4:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test44.tig --
 /* valid nil initialization and assignment */
@@ -2247,7 +2242,7 @@ LetExp([
    SimpleVar(b),
    NilExp)])
 type check =>
-../testcases/test44.tig:5.8:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test45.tig --
 /* error: initializing nil expressions not constrained by record type */
@@ -2273,7 +2268,7 @@ LetExp([
   VarExp(
    SimpleVar(a))])
 type check =>
-../testcases/test45.tig:3.20:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test46.tig --
 /* valid rec comparisons */
@@ -2305,7 +2300,7 @@ LetExp([
     SimpleVar(b)),
    NilExp)])
 type check =>
-../testcases/test46.tig:6.2:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test47.tig --
 /* This is legal.  The second type "a" simply hides the first one.
@@ -2334,7 +2329,7 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test47.tig:2.31:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test48.tig --
 /* This is legal.  The second function "g" simply hides the first one.
@@ -2370,7 +2365,7 @@ SOME(int),
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test48.tig:2.27:before transExp
+type check failed with unknown exception
 
 -- ../testcases/test49.tig --
 /* error: syntax error, nil should not be preceded by type-id.  */
@@ -2400,5 +2395,5 @@ LetExp([
   VarExp(
    SimpleVar(a))])
 type check =>
-../testcases/test49.tig:3.26:before transExp
+type check failed with unknown exception
 
