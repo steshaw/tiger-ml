@@ -1,0 +1,5 @@
+let
+  function foo(i: int):notExist = i * 2
+in
+  foo(10)
+end

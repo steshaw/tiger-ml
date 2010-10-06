@@ -16,8 +16,6 @@ struct
   structure E = Env
   structure T = Types
 
-  open List
-
   type expty = {exp: Translate.exp, ty: T.ty}
 
   val todoAccess = ()
@@ -35,7 +33,7 @@ struct
   fun lookupTy(pos, tenv, ty) =
     case S.look(tenv, ty)
       of SOME ty => ty
-       | NONE   => (error pos "type does not exist"; T.NIL)
+       | NONE   => (error pos ("type '" ^ S.name ty ^ "' does not exist"); T.NIL)
 
   fun digType(pos, tenv, T.NAME (sym, _)) = digType(pos, tenv, lookupTy(pos, tenv, sym))
     | digType(pos, tenv, ty) = ty
@@ -129,7 +127,7 @@ struct
   |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTySy, resPos)}]) =
     (* TODO: Much left out here see MCI/ML p119 *)
     let
-      val SOME(resTy) = S.look(tenv, resTySy)
+      val resTy = lookupTy(pos, tenv, resTySy)
       fun transParam {name, escape, typ, pos} =
         (* XXX: looks similar to lookupTy function *)
         case S.look(tenv, typ)
@@ -311,7 +309,7 @@ struct
         | trexp(A.SeqExp expList) = 
             let 
               val rs = map trexp (map #1 expList)
-              val {exp=_, ty=lastTy} = last rs
+              val {exp=_, ty=lastTy} = List.last rs
             in {exp=todoTrExp, ty=lastTy}
             end
             

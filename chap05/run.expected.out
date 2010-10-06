@@ -196,7 +196,7 @@ ArrayExp(a,
  IntExp(20),
  StringExp(""))
 type check =>
-../testcases/aa-test12.tig:1.1:type does not exist
+../testcases/aa-test12.tig:1.1:type 'a' does not exist
 ../testcases/aa-test12.tig:1.1:type is not an array
 
 -- ../testcases/aa-test13.tig --
@@ -382,10 +382,9 @@ type check =>
 
 -- ../testcases/aa-test18.tig --
 let
-  function foo(i: int) = i * 2
+  function foo(i: int):notExist = i * 2
 in
-  /*  foo(10) */
-  1
+  foo(10)
 end
 --
 ../testcases/aa-test18.tig:
@@ -394,14 +393,40 @@ LetExp([
  FunctionDec[
   (foo,[
    (i,true,int)],
-NONE,
+SOME(notExist),
    OpExp(TimesOp,
     VarExp(
      SimpleVar(i)),
     IntExp(2)))]],
  SeqExp[
-  IntExp(1)])
+  CallExp(foo,[
+   IntExp(10)])])
 type check =>
+../testcases/aa-test18.tig:2.3:type 'notExist' does not exist
+
+-- ../testcases/aa-test19.tig --
+let
+  function foo(i: int):notExist = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test19.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+SOME(notExist),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+type check =>
+../testcases/aa-test19.tig:2.3:type 'notExist' does not exist
 
 -- ../testcases/merge.tig --
 let 
