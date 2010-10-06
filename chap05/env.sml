@@ -24,7 +24,10 @@ struct
   type tenv = T.ty S.table
   type venv = enventry S.table
 
-  val base_tenv = S.enter(S.enter(S.empty, S.symbol "int", T.INT), S.symbol "string", T.STRING)
+  val base_tenv = S.enter(S.enter(S.enter(S.empty, 
+                          S.symbol "int", T.INT), 
+                          S.symbol "string", T.STRING),
+                          S.symbol "unit", T.UNIT) (* FIXME: remove 'unit' type - this is a hack *)
     (* TODO: use fold here *)
       
   val base_venv = S.enter(S.empty, S.symbol "nil", VarEntry {ty=T.NIL})

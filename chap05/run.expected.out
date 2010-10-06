@@ -87,7 +87,7 @@ NONE,
   CallExp(foo,[
    IntExp(100)])])
 type check =>
-type check failed with unknown exception
+../testcases/aa-test07.tig:3.26:Function does not exist
 
 -- ../testcases/aa-test08.tig --
 let
@@ -132,7 +132,9 @@ NONE,
   CallExp(exit,[
    IntExp(0)])])
 type check =>
-type check failed with unknown exception
+../testcases/aa-test08.tig:3.26:Function does not exist
+../testcases/aa-test08.tig:7.3:Function does not exist
+../testcases/aa-test08.tig:8.3:Function does not exist
 
 -- ../testcases/aa-test09.tig --
 let
@@ -154,7 +156,8 @@ NONE,
    VarExp(
     SimpleVar(a))])])
 type check =>
-type check failed with unknown exception
+../testcases/aa-test09.tig:2.23:Function does not exist
+../testcases/aa-test09.tig:4.3:Function has the wrong arity
 
 -- ../testcases/aa-test10.tig --
 a[0]
@@ -376,6 +379,29 @@ type check =>
 ../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
 ../testcases/aa-test17.tig:2.35:Type 'int' required
 ../testcases/aa-test17.tig:4.3:types do not match
+
+-- ../testcases/aa-test18.tig --
+let
+  function foo(i: int) = i * 2
+in
+  /*  foo(10) */
+  1
+end
+--
+../testcases/aa-test18.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+NONE,
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  IntExp(1)])
+type check =>
 
 -- ../testcases/merge.tig --
 let 
@@ -1557,6 +1583,46 @@ type check =>
 ../testcases/test20.tig:3.18:Type 'int' required
 ../testcases/test20.tig:3.1:unit required
 
+-- ../testcases/test21.fixed.tig --
+let
+
+/* calculate n! */
+function nfactor(n: int):int =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
+../testcases/test21.fixed.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (nfactor,[
+   (n,true,int)],
+SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(0)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(nfactor,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
+type check =>
+
 -- ../testcases/test21.tig --
 /* error : procedure returns value  and procedure is used in arexpr */
 let
@@ -1597,7 +1663,7 @@ NONE,
   CallExp(nfactor,[
    IntExp(10)])])
 type check =>
-type check failed with unknown exception
+../testcases/test21.tig:8.9:Type 'int' required
 
 -- ../testcases/test22.tig --
 /* error : field not in record type */
@@ -2095,7 +2161,6 @@ NONE,
   CallExp(g,[
    IntExp(2)])])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test41.tig --
 /* local types hide global */

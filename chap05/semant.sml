@@ -146,6 +146,26 @@ struct
       {venv=venv', tenv=tenv}
     end
 
+  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=NONE}]) =
+    (* TODO: Much left out here see MCI/ML p119 - FIXME: copy of above *)
+    let
+      val resTy = T.UNIT
+      fun transParam {name, escape, typ, pos} =
+        (* XXX: looks similar to lookupTy function *)
+        case S.look(tenv, typ)
+          of SOME t => {name=name, ty=t}
+           | NONE   => (error pos ("Type '" ^ S.name typ ^ "' is not defined"); {name=name, ty=T.NIL})
+      val params' = map transParam params (* map [ty] => [(name, ty)] *)
+      val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+      fun enterParam({name, ty}, venv) =
+        S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+      val venv'' = foldl enterParam venv' params'
+          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+    in
+      transExp(venv'', tenv, body);
+      {venv=venv', tenv=tenv}
+    end
+
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
     | transDecs(venv, tenv, dec::decs) =
       let val {tenv=tenv', venv=venv'} = transDec(venv, tenv, dec)
