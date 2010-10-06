@@ -205,6 +205,7 @@ CallExp(print,[
  IntExp(3),
  StringExp("hi")])
 type check =>
+../testcases/aa-test13.tig:1.1:Function does not exist
 
 -- ../testcases/aa-test14.tig --
 let 
@@ -628,6 +629,7 @@ NONE,
     VarExp(
      SimpleVar(list2))])])])
 type check =>
+../testcases/merge.tig:4.16:Function does not exist
 type check failed with unknown exception
 
 -- ../testcases/queens.tig --
@@ -1410,6 +1412,8 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
+../testcases/test18.tig:5.4:Function does not exist
+type check failed with unknown exception
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */

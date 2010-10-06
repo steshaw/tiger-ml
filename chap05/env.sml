@@ -28,4 +28,5 @@ struct
     (* TODO: use fold here *)
       
   val base_venv = S.enter(S.empty, S.symbol "nil", VarEntry {ty=T.NIL})
+    (* TODO: add runtime library functions *)
 end
