@@ -131,7 +131,10 @@ struct
     let
       val SOME(resTy) = S.look(tenv, resTySy)
       fun transParam {name, escape, typ, pos} =
-        case S.look(tenv, typ) of SOME t => {name=name, ty=t}
+        (* XXX: looks similar to lookupTy function *)
+        case S.look(tenv, typ)
+          of SOME t => {name=name, ty=t}
+           | NONE   => (error pos ("Type '" ^ S.name typ ^ "' is not defined"); {name=name, ty=T.NIL})
       val params' = map transParam params (* map [ty] => [(name, ty)] *)
       val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
       fun enterParam({name, ty}, venv) =

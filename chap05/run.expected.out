@@ -351,6 +351,32 @@ LetExp([
   IntExp(1)])
 type check =>
 
+-- ../testcases/aa-test17.tig --
+let
+  function foo(i: notExist):int = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test17.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,notExist)],
+SOME(int),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+type check =>
+../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
+../testcases/aa-test17.tig:2.35:Type 'int' required
+../testcases/aa-test17.tig:4.3:types do not match
+
 -- ../testcases/merge.tig --
 let 
 
