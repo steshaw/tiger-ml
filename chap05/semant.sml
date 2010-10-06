@@ -54,7 +54,7 @@ struct
         val t2 = digType(pos, tenv, ty2)
     in
       if t1 <> t2 then
-        case t1 
+        case t1
           of T.RECORD _ => if t2 = T.NIL then () else (error pos "types do not match"; ())
            | _          => error pos "types do not match" (* TODO: better msg here *)
       else ()
@@ -72,7 +72,8 @@ struct
 
   and transVar(venv, tenv, var) = todoExpTy
 
-  and actual_ty(ty) = todoTy (* TODO *)
+  and actualTy(pos, tenv, ty) = 
+    digType(pos, tenv, ty) (* XXX: Is this correct? *)
 
   and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
@@ -232,7 +233,7 @@ struct
             
       and trvar(A.SimpleVar(id, pos)) =
         (case S.look(venv, id)
-          of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actual_ty ty}
+          of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actualTy(pos, tenv, ty)}
           |  NONE                  => (error pos ("undefined variable " ^ S.name id);
                                        {exp=todoTrExp, ty=T.INT})
         )
