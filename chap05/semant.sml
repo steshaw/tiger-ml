@@ -127,8 +127,6 @@ struct
     let
 (*
   | CallExp of {func: symbol, args: exp list, pos: pos}
-  | ForExp of {var: symbol, escape: bool ref,
-               lo: exp, hi: exp, body: exp, pos: pos}
 *)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
 
@@ -154,6 +152,19 @@ struct
                    {exp=todoTrExp, ty=recordTy})
                | _ => (error pos "type is not an array";
                       {exp=todoTrExp, ty=T.UNIT})
+          end
+
+        | trexp(A.ForExp {var=varSym, escape, lo, hi, body, pos}) =
+          let
+            val loA = trexp lo
+            val hiA = trexp hi
+            val bodyA = trexp body
+          in
+            (* FIXME: Introduce the varSym variable *)
+            checkInt(loA, pos);
+            checkInt(hiA, pos);
+            checkUnit(bodyA, pos);
+            {exp=todoTrExp, ty=T.UNIT}
           end
 
         | trexp(A.WhileExp {test=testExp, body=bodyExp, pos}) =
