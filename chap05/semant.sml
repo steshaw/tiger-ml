@@ -44,7 +44,7 @@ struct
   fun checkInt({exp, ty}, pos) =
     case ty
       of T.INT => ()
-      | _ => error pos "integer required"
+      | _ => error pos "Type 'int' required"
 
   (* TODO: allow type aliases/synonyms *)
   fun checkUnit({exp, ty}, pos) =
@@ -82,7 +82,7 @@ struct
               of SOME(sym, ty) => ty
               |  NONE          => (error pos ("field " ^ S.name sym ^ " does not exist"); T.NIL)
             )
-          |  _                       => (error pos "invalid record"; T.NIL)
+          |  _                       => (error pos "variable is not a record"; T.NIL)
       end
 
     | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) =
@@ -93,7 +93,7 @@ struct
       in
         case ty
           of T.ARRAY (ty, unique) => (reqSameType(pos, tenv, expA, {exp=(), ty=T.INT}); ty)
-          |  _                    => (error pos "type is not an array"; T.NIL)
+          |  _                    => (error pos "variable is not an array"; T.NIL)
       end
 
   and transVar(venv, tenv, var) = todoExpTy
@@ -119,7 +119,7 @@ struct
   |  transDec(venv, tenv, A.TypeDec ({name, ty, pos}::decs)) =
       let
         val ty = case ty 
-          of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* XXX: what's the NAME type? with ty option ref? *)
+          of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* TODO: Later, somewhere, update this ref *)
            | A.RecordTy fields => T.RECORD ([(*TODO fields *)], ref ()) (* TODO: convert field *)
            | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv, sym), ref ())
       in
@@ -152,6 +152,8 @@ struct
   and transExp(venv, tenv, exp) =
     let
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
+
+        | trexp(A.VarExp var) = {exp=todoTrExp, ty=findVarType(tenv, venv, var)}
 
         | trexp(A.AssignExp {var, exp, pos}) =
           let
