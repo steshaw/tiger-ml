@@ -1,3 +1,4 @@
+../testcases/aaa-nil.tig:
 ../testcases/aa-test01.tig:
 ../testcases/aa-test02.tig:
 ../testcases/aa-test03.tig:
@@ -10,6 +11,13 @@
 ../testcases/aa-test10.tig:
 ../testcases/aa-test11.tig:
 ../testcases/aa-test12.tig:
+../testcases/aa-test13.tig:
+../testcases/aa-test14.tig:
+../testcases/aa-test15.tig:
+../testcases/aa-test16.tig:
+../testcases/aa-test17.tig:
+../testcases/aa-test18.tig:
+../testcases/aa-test19.tig:
 ../testcases/merge.tig:
 ../testcases/queens.tig:
 ../testcases/test01.tig:
@@ -32,6 +40,7 @@
 ../testcases/test18.tig:
 ../testcases/test19.tig:
 ../testcases/test20.tig:
+../testcases/test21.fixed.tig:
 ../testcases/test21.tig:
 ../testcases/test22.tig:
 ../testcases/test23.tig:
