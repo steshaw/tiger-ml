@@ -125,9 +125,6 @@ struct
 
   and transExp(venv, tenv, exp) =
     let
-(*
-  | CallExp of {func: symbol, args: exp list, pos: pos}
-*)
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.NIL}
 
         | trexp(A.AssignExp {var, exp, pos}) =
@@ -176,6 +173,40 @@ struct
             checkUnit(bodyA, pos);
             {exp=todoTrExp, ty=T.UNIT}
           end
+
+        | trexp(A.CallExp {func, args, pos}) = {exp=(), ty=T.NIL}
+(*
+        | trexp(A.CallExp {func=funcSym, args, pos}) =
+          case S.look(venv, sym)
+            of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=T.NIL}
+             | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; {exp=todoTrExp, ty=T.NIL})
+             | _ => (error pos "Variable does not exist"; {exp=todoTrExp, ty=T.NIL})
+*)
+
+(*
+          case S.look(venv, funcSym)
+            of SOME(E.VarEntry _) => (error pos "Variable is not a function"; {exp=todoTrExp, ty=T.NIL})
+             | NONE => (error pos "Function does not exist"; {exp=todoTrExp, ty=T.NIL})
+(*
+             | SOME(E.FunEntry {formals, result=resTy}) =>
+                let
+                  val formalsN = length formals
+                  val actualsN = length args
+                in
+                  if formalsN <> actualsN then
+                    (error pos "Function has the wrong arity"; T.NIL)
+                  else
+                    let
+                      val z = ListPair.zip args formals
+                      fun checkType(argExp, fTy) = reqSameType(pos, tenv, tr argExp, {exp=(), ty=fTy})
+                    in
+                      (* check the type of each argument expression matches the corresponding formal parameter type *)
+                      app checkType z
+                    end
+                  {exp=todoTrExp, ty=T.NIL}
+                end
+*)
+*)
 
         | trexp(A.IfExp {test=testExp, then'=thenExp, else'=SOME elseExp, pos}) =
           let

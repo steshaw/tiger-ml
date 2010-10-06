@@ -205,7 +205,6 @@ CallExp(print,[
  IntExp(3),
  StringExp("hi")])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/aa-test14.tig --
 let 
@@ -1411,7 +1410,6 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */
