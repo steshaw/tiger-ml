@@ -1,14 +1,6 @@
 structure Semant:
 sig
   val transProg: Absyn.exp -> unit
-
-  (* XXX: Don't think these declaration below really need exporting. *)
-  type expty
-
-  val transVar: Env.venv * Env.tenv * Absyn.var -> expty
-  val transExp: Env.venv * Env.tenv * Absyn.exp -> expty
-  val transDec: Env.venv * Env.tenv * Absyn.dec -> {venv: Env.venv, tenv: Env.tenv}
-  val transTy:             Env.tenv * Absyn.ty  -> Types.ty
 end =
 struct
   structure A = Absyn
@@ -38,13 +30,11 @@ struct
   fun digType(pos, tenv, T.NAME (sym, _)) = digType(pos, tenv, lookupTy(pos, tenv, sym))
     | digType(pos, tenv, ty) = ty
 
-  (* TODO: allow type aliases/synonyms *)
   fun checkInt({exp, ty}, pos) =
     case ty
       of T.INT => ()
       | _ => error pos "Type 'int' required"
 
-  (* TODO: allow type aliases/synonyms *)
   fun checkUnit({exp, ty}, pos) =
     case ty
       of T.UNIT => ()
