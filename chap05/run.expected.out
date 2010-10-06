@@ -196,7 +196,7 @@ ArrayExp(a,
  IntExp(20),
  StringExp(""))
 type check =>
-../testcases/aa-test12.tig:1.1:type 'a' does not exist
+../testcases/aa-test12.tig:1.1:Type 'a' is not defined
 ../testcases/aa-test12.tig:1.1:type is not an array
 
 -- ../testcases/aa-test13.tig --
@@ -402,7 +402,7 @@ SOME(notExist),
   CallExp(foo,[
    IntExp(10)])])
 type check =>
-../testcases/aa-test18.tig:2.3:type 'notExist' does not exist
+../testcases/aa-test18.tig:2.3:Type 'notExist' is not defined
 
 -- ../testcases/aa-test19.tig --
 let
@@ -426,7 +426,7 @@ SOME(notExist),
   CallExp(foo,[
    IntExp(10)])])
 type check =>
-../testcases/aa-test19.tig:2.3:type 'notExist' does not exist
+../testcases/aa-test19.tig:2.3:Type 'notExist' is not defined
 
 -- ../testcases/merge.tig --
 let 

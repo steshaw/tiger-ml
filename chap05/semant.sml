@@ -25,7 +25,7 @@ struct
   fun lookupTy(pos, tenv, ty) =
     case S.look(tenv, ty)
       of SOME ty => ty
-       | NONE   => (error pos ("type '" ^ S.name ty ^ "' does not exist"); T.NIL)
+       | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
 
   fun digType(pos, tenv, T.NAME (sym, _)) = digType(pos, tenv, lookupTy(pos, tenv, sym))
     | digType(pos, tenv, ty) = ty
@@ -119,10 +119,7 @@ struct
     let
       val resTy = lookupTy(pos, tenv, resTySy)
       fun transParam {name, escape, typ, pos} =
-        (* XXX: looks similar to lookupTy function *)
-        case S.look(tenv, typ)
-          of SOME t => {name=name, ty=t}
-           | NONE   => (error pos ("Type '" ^ S.name typ ^ "' is not defined"); {name=name, ty=T.NIL})
+        {name=name, ty=lookupTy(pos, tenv, typ)}
       val params' = map transParam params (* map [ty] => [(name, ty)] *)
       val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
       fun enterParam({name, ty}, venv) =
@@ -139,10 +136,7 @@ struct
     let
       val resTy = T.UNIT
       fun transParam {name, escape, typ, pos} =
-        (* XXX: looks similar to lookupTy function *)
-        case S.look(tenv, typ)
-          of SOME t => {name=name, ty=t}
-           | NONE   => (error pos ("Type '" ^ S.name typ ^ "' is not defined"); {name=name, ty=T.NIL})
+        {name=name, ty=lookupTy(pos, tenv, typ)}
       val params' = map transParam params (* map [ty] => [(name, ty)] *)
       val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
       fun enterParam({name, ty}, venv) =
