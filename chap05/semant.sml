@@ -28,6 +28,7 @@ struct
 
   (* Value to use when expression is in error and no better value/ty can be provided *)
   val errorExpTy = {exp=todoTrExp, ty=T.NIL}
+  val errorTrExp = ()
 
   val error = ErrorMsg.error
 
@@ -64,14 +65,36 @@ struct
     end
 
   fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
-    case S.look(venv, sym)
-      of SOME(E.VarEntry {ty}) => ty
+    (case S.look(venv, sym)
+      of SOME(E.VarEntry {ty}) => ty (* XXX: probably need digType here *)
        | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
        | _ => (error pos "Variable does not exist"; T.NIL)
-(*
-    | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) = T.NIL (* TODO *)
-    | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) = T.NIL (* TODO *)
-*)
+    )
+
+    | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) =
+      let
+        (* XXX: probably need digType here *)
+        val ty = findVarType(tenv, venv, var) (* Lookup type of nested var. It should be a record type. *)
+      in
+        case ty
+          of T.RECORD (fields, unique) =>
+            (case List.find (fn (fSym, fTy) => fSym = sym) fields
+              of SOME(sym, ty) => ty
+              |  NONE          => (error pos ("field " ^ S.name sym ^ " does not exist"); T.NIL)
+            )
+          |  _                       => (error pos "invalid record"; T.NIL)
+      end
+
+    | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) =
+      let
+        (* Lookup type of nested var. It should be an array type. Dig past type aliases (NAME types). *)
+        val ty = digType(pos, tenv, findVarType(tenv, venv, var)) 
+        val expA = transExp(venv, tenv, exp)
+      in
+        case ty
+          of T.ARRAY (ty, unique) => (reqSameType(pos, tenv, expA, {exp=(), ty=T.INT}); ty)
+          |  _                    => (error pos "type is not an array"; T.NIL)
+      end
 
   and transVar(venv, tenv, var) = todoExpTy
 
@@ -270,8 +293,10 @@ struct
       and trvar(A.SimpleVar(id, pos)) =
         (case S.look(venv, id)
           of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actualTy(pos, tenv, ty)}
-          |  NONE                  => (error pos ("undefined variable " ^ S.name id);
-                                       {exp=todoTrExp, ty=T.INT})
+           | SOME(E.FunEntry _)    => (error pos ("variable points to a function - compiler bug?: " ^ S.name id);
+                                       {exp=errorTrExp, ty=T.INT})
+           | NONE                  => (error pos ("undefined variable " ^ S.name id);
+                                       {exp=errorTrExp, ty=T.INT})
         )
         | trvar(A.FieldVar(var, sym, pos)) = todoExpTy
         | trvar(A.SubscriptVar(var, exp, pos)) = todoExpTy

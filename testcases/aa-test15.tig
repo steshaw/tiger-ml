@@ -1,0 +1,7 @@
+let
+  type foo = int
+  type bar = foo
+  var a: bar := 10
+in
+  a
+end

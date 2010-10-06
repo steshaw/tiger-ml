@@ -180,7 +180,9 @@ AssignExp(
   IntExp(0)),
  StringExp("hello"))
 type check =>
-type check failed with unknown exception
+../testcases/aa-test11.tig:1.1:Variable does not exist
+../testcases/aa-test11.tig:1.1:type is not an array
+../testcases/aa-test11.tig:1.1:types do not match
 
 -- ../testcases/aa-test12.tig --
 a[20] of ""
@@ -300,6 +302,31 @@ LetExp([
    IntExp(0)))],
  SeqExp[
   IntExp(1)])
+type check =>
+type check failed with unknown exception
+
+-- ../testcases/aa-test15.tig --
+let
+  type foo = int
+  type bar = foo
+  var a: bar := 10
+in
+  a
+end
+--
+../testcases/aa-test15.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   NameTy(int)),
+  (bar,
+   NameTy(foo))],
+ VarDec(a,true,SOME(bar),
+  IntExp(10))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
 type check =>
 type check failed with unknown exception
 
@@ -951,6 +978,8 @@ LetExp([
   VarExp(
    SimpleVar(rec1))])
 type check =>
+../testcases/test03.tig:6.2:field name does not exist
+../testcases/test03.tig:6.2:types do not match
 type check failed with unknown exception
 
 -- ../testcases/test04.tig --
@@ -1555,7 +1584,8 @@ LetExp([
     nam),
    StringExp("asd"))])
 type check =>
-type check failed with unknown exception
+../testcases/test22.tig:7.2:field nam does not exist
+../testcases/test22.tig:7.2:types do not match
 
 -- ../testcases/test23.tig --
 /* error : type mismatch */
@@ -1595,7 +1625,10 @@ LetExp([
     id),
    StringExp(""))])
 type check =>
-type check failed with unknown exception
+../testcases/test23.tig:7.2:field name does not exist
+../testcases/test23.tig:7.2:types do not match
+../testcases/test23.tig:8.2:field id does not exist
+../testcases/test23.tig:8.2:types do not match
 
 -- ../testcases/test24.tig --
 /* error : variable not array */
@@ -2192,7 +2225,18 @@ LetExp([
     IntExp(2)),
    IntExp(2323))])
 type check =>
-type check failed with unknown exception
+../testcases/test42.tig:22.1:field name does not exist
+../testcases/test42.tig:22.1:types do not match
+../testcases/test42.tig:23.1:field age does not exist
+../testcases/test42.tig:23.1:types do not match
+../testcases/test42.tig:26.1:field name does not exist
+../testcases/test42.tig:26.1:types do not match
+../testcases/test42.tig:27.1:field dates does not exist
+../testcases/test42.tig:27.1:type is not an array
+../testcases/test42.tig:27.1:types do not match
+../testcases/test42.tig:28.1:field dates does not exist
+../testcases/test42.tig:28.1:type is not an array
+../testcases/test42.tig:28.1:types do not match
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
