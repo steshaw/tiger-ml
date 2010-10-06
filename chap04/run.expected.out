@@ -179,8 +179,8 @@ let
   var t1 := 1 + 2 * 3
   var t2 := 2 * 3 + 1
   var t2 := 2 * (3 + 1)
-  var t3 := a < 1 | a > 10
-  var t4 := a >= 1 & a <= 10
+  var t3 := a1 < 1 | a1 > 10
+  var t4 := a1 >= 1 & a1 <= 10
 in
   1
 end
@@ -242,26 +242,132 @@ LetExp([
   IfExp(
    OpExp(LtOp,
     VarExp(
-     SimpleVar(a)),
+     SimpleVar(a1)),
     IntExp(1)),
    IntExp(1),
    OpExp(GtOp,
     VarExp(
-     SimpleVar(a)),
+     SimpleVar(a1)),
     IntExp(10)))),
  VarDec(t4,true,NONE,
   IfExp(
    OpExp(GeOp,
     VarExp(
-     SimpleVar(a)),
+     SimpleVar(a1)),
     IntExp(1)),
    OpExp(LeOp,
     VarExp(
-     SimpleVar(a)),
+     SimpleVar(a1)),
     IntExp(10)),
    IntExp(0)))],
  SeqExp[
   IntExp(1)])
+
+-- ../testcases/aa-test15.tig --
+let
+  type foo = int
+  type bar = foo
+  var a: bar := 10
+in
+  a
+end
+--
+../testcases/aa-test15.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   NameTy(int)),
+  (bar,
+   NameTy(foo))],
+ VarDec(a,true,SOME(bar),
+  IntExp(10))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+
+-- ../testcases/aa-test16.tig --
+let
+  type foo = int
+  type bar = foo
+  var a: bar := 1
+in
+  1
+end
+--
+../testcases/aa-test16.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   NameTy(int)),
+  (bar,
+   NameTy(foo))],
+ VarDec(a,true,SOME(bar),
+  IntExp(1))],
+ SeqExp[
+  IntExp(1)])
+
+-- ../testcases/aa-test17.tig --
+let
+  function foo(i: notExist):int = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test17.tig:
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,notExist)],
+SOME(int),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+
+-- ../testcases/aa-test18.tig --
+let
+  function foo(i: int):notExist = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test18.tig:
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+SOME(notExist),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+
+-- ../testcases/aa-test19.tig --
+let
+  function foo(i: int):notExist = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test19.tig:
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+SOME(notExist),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
 
 -- ../testcases/merge.tig --
 let 
@@ -1374,6 +1480,44 @@ WhileExp(
     SimpleVar(i)),
    IntExp(1)),
   NilExp])
+
+-- ../testcases/test21.fixed.tig --
+let
+
+/* calculate n! */
+function nfactor(n: int):int =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
+../testcases/test21.fixed.tig:
+LetExp([
+ FunctionDec[
+  (nfactor,[
+   (n,true,int)],
+SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(0)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(nfactor,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
 
 -- ../testcases/test21.tig --
 /* error : procedure returns value  and procedure is used in arexpr */
