@@ -67,7 +67,7 @@ program: exp                           (exp)
 
 exp
   : lvalue                             (A.VarExp(lvalue))
-  | NIL                                (A.NilExp)
+  | NIL                                (A.VarExp(simpleVar("nil", NILleft)))
   | unitexp                            (unitexp)
   | INT                                (A.IntExp INT)
   | STRING                             (A.StringExp(STRING, STRINGleft))

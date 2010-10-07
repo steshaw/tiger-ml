@@ -3,7 +3,8 @@ nil
 --
 ../testcases/aaa-nil.tig:
 parse =>
-NilExp
+VarExp(
+ SimpleVar(nil))
 type check =>
 
 -- ../testcases/aa-test01.tig --
@@ -35,7 +36,8 @@ nil
 --
 ../testcases/aa-test04.tig:
 parse =>
-NilExp
+VarExp(
+ SimpleVar(nil))
 type check =>
 
 -- ../testcases/aa-test05.tig --
@@ -672,7 +674,8 @@ LetExp([
          SimpleVar(i))),
        (rest,
         CallExp(readlist,[]))]),
-      NilExp)])),
+      VarExp(
+       SimpleVar(nil)))])),
   (merge,[
    (a,true,list),
    (b,true,list)],
@@ -681,14 +684,16 @@ LetExp([
     OpExp(EqOp,
      VarExp(
       SimpleVar(a)),
-     NilExp),
+     VarExp(
+      SimpleVar(nil))),
     VarExp(
      SimpleVar(b)),
     IfExp(
      OpExp(EqOp,
       VarExp(
        SimpleVar(b)),
-      NilExp),
+      VarExp(
+       SimpleVar(nil))),
      VarExp(
       SimpleVar(a)),
      IfExp(
@@ -795,7 +800,8 @@ LetExp([
     OpExp(EqOp,
      VarExp(
       SimpleVar(l)),
-     NilExp),
+     VarExp(
+      SimpleVar(nil))),
     CallExp(print,[
      StringExp("\n")]),
     SeqExp[
@@ -1255,7 +1261,8 @@ LetExp([
    (hd,
     IntExp(0)),
    (tl,
-    NilExp)]))],
+    VarExp(
+     SimpleVar(nil)))]))],
  SeqExp[
   VarExp(
    SimpleVar(lis))])
@@ -1452,7 +1459,6 @@ i,true,
       IntExp(1))),
     NilExp])])
 type check =>
-../testcases/test12.tig:6.2:unit required
 
 -- ../testcases/test13.tig --
 /* error: comparison of incompatible types */
@@ -1553,7 +1559,8 @@ LetExp([
   (d,
    NameTy(a))]],
  SeqExp[
-  NilExp])
+  VarExp(
+   SimpleVar(nil))])
 type check =>
 
 -- ../testcases/test17.tig --
@@ -1708,7 +1715,6 @@ WhileExp(
 type check =>
 ../testcases/test20.tig:3.18:Variable does not exist
 ../testcases/test20.tig:3.18:Type 'int' required
-../testcases/test20.tig:3.1:unit required
 
 -- ../testcases/test21.fixed.tig --
 let
@@ -2506,11 +2512,13 @@ LetExp([
     (name,true,string),
     (id,true,int)])],
  VarDec(b,true,SOME(rectype),
-  NilExp)],
+  VarExp(
+   SimpleVar(nil)))],
  SeqExp[
   AssignExp(
    SimpleVar(b),
-   NilExp)])
+   VarExp(
+    SimpleVar(nil)))])
 type check =>
 
 -- ../testcases/test45.tig --
@@ -2532,7 +2540,8 @@ LetExp([
     (name,true,string),
     (id,true,int)])],
  VarDec(a,true,NONE,
-  NilExp)],
+  VarExp(
+   SimpleVar(nil)))],
  SeqExp[
   VarExp(
    SimpleVar(a))])
@@ -2557,16 +2566,19 @@ LetExp([
     (name,true,string),
     (id,true,int)])],
  VarDec(b,true,SOME(rectype),
-  NilExp)],
+  VarExp(
+   SimpleVar(nil)))],
  SeqExp[
   OpExp(EqOp,
    VarExp(
     SimpleVar(b)),
-   NilExp),
+   VarExp(
+    SimpleVar(nil))),
   OpExp(NeqOp,
    VarExp(
     SimpleVar(b)),
-   NilExp)])
+   VarExp(
+    SimpleVar(nil)))])
 type check =>
 
 -- ../testcases/test47.tig --
@@ -2655,7 +2667,8 @@ LetExp([
   OpExp(PlusOp,
    VarExp(
     SimpleVar(rectype)),
-   NilExp))],
+   VarExp(
+    SimpleVar(nil))))],
  SeqExp[
   VarExp(
    SimpleVar(a))])
@@ -2663,6 +2676,26 @@ type check =>
 ../testcases/test49.tig:5.10:Variable does not exist
 ../testcases/test49.tig:5.10:Type 'int' required
 ../testcases/test49.tig:5.10:Type 'int' required
+
+-- ../testcases/test-function-decl-return-unit.tig --
+let
+  function foo(i:int) = ()
+in
+  foo(0)
+end
+--
+../testcases/test-function-decl-return-unit.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+   NONE,
+   NilExp)]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(0)])])
+type check =>
 
 -- ../testcases/test-fun-dec-01.tig --
 let
@@ -2679,7 +2712,8 @@ LetExp([
    SOME(int),
    StringExp("ha"))]],
  SeqExp[
-  NilExp])
+  VarExp(
+   SimpleVar(nil))])
 type check =>
 ../testcases/test-fun-dec-01.tig:2.3:types do not match
 
@@ -2703,7 +2737,8 @@ LetExp([
    RecordTy[
     (foo,true,foo)])]],
  SeqExp[
-  NilExp])
+  VarExp(
+   SimpleVar(nil))])
 type check =>
 
 -- ../testcases/test-record-exp-01.tig --
@@ -2835,7 +2870,8 @@ LetExp([
     (head,true,int),
     (rest,true,list)])]],
  SeqExp[
-  NilExp])
+  VarExp(
+   SimpleVar(nil))])
 type check =>
 
 -- ../testcases/test-recursive-type-02.tig --
@@ -2852,6 +2888,7 @@ LetExp([
   (stringarray,
    ArrayTy(stringarray))]],
  SeqExp[
-  NilExp])
+  VarExp(
+   SimpleVar(nil))])
 type check =>
 
