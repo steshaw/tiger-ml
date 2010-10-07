@@ -141,43 +141,46 @@ struct
     end
 
   (* TODO: Much left out here see MCI/ML p119 *)
-  |  transDec(venv, tenv, A.FunctionDec []) = {tenv=tenv, venv=venv}
-  |  transDec(venv, tenv, A.FunctionDec (dec::decs)) =
+  |  transDec(venv, tenv, A.FunctionDec funDecs) =
     let
-      fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
+      fun transFunDecs(venv, tenv, []) = {tenv=tenv, venv=venv}
+        | transFunDecs(venv, tenv, (dec::decs)) =
         let
-          val resTy = lookupActualType(pos, tenv, resTySy)
-          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
-          val params' = map transParam params (* map [ty] => [(name, ty)] *)
-          val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-          fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
-          val venv'' = foldl enterParam venv' params'
-          val bodyA = transExp(venv'', tenv, body);
-        in
-          reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
-          {venv=venv', tenv=tenv}
-        end
+          fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
+            let
+              val resTy = lookupActualType(pos, tenv, resTySy)
+              fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
+              val params' = map transParam params (* map [ty] => [(name, ty)] *)
+              val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+              fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+              val venv'' = foldl enterParam venv' params'
+              val bodyA = transExp(venv'', tenv, body);
+            in
+              reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
+              {venv=venv', tenv=tenv}
+            end
 
-      |  transFunDec({name, params, body, pos, result=NONE}) =
-        (* XXX: mildly hacked copy of above *)
-        let
-          val resTy = T.UNIT
-          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
-          val params' = map transParam params (* map [ty] => [(name, ty)] *)
-          val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-          fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
-          val venv'' = foldl enterParam venv' params'
-          val bodyA = transExp(venv'', tenv, body);
+          |  transFunDec({name, params, body, pos, result=NONE}) =
+            (* XXX: copy/paste hack of above! *)
+            let
+              val resTy = T.UNIT
+              fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
+              val params' = map transParam params (* map [ty] => [(name, ty)] *)
+              val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+              fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+              val venv'' = foldl enterParam venv' params'
+              val bodyA = transExp(venv'', tenv, body);
+            in
+              reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
+              {venv=venv', tenv=tenv}
+            end
+          (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)
+          val {venv, tenv} = transFunDec(dec)
         in
-          reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
-          {venv=venv', tenv=tenv}
+          transFunDecs (venv, tenv, decs)
         end
-      (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)
-      val {venv, tenv} = transFunDec(dec)
     in
-      transDec (venv, tenv, A.FunctionDec decs) (* XXX: Annoying to have to put the FunctionDec ctor back on the front of this list *)
+      transFunDecs (venv, tenv, funDecs)
     end
 
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
@@ -341,7 +344,8 @@ struct
 
         | trexp(A.LetExp {decs, body, pos}) =
             let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
-            in transExp(venv', tenv', body) (* book has transExp(venv', tenv') body *)
+            (* TODO: Book has transExp(venv', tenv') body. Wonder if this makes it easier to map/app. *)
+            in transExp(venv', tenv', body)
             end
         | trexp(A.SeqExp expList) = 
             let 
