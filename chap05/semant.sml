@@ -144,8 +144,7 @@ struct
            of SOME (resTySym, resPos) => lookupActualType (resPos, tenv, resTySym)
             | NONE => T.UNIT)
 
-      fun transFunDecs(venv, tenv, []) = ()
-        | transFunDecs(venv, tenv, (dec::decs)) =
+      fun transFunDecs(venv, tenv, funDecs) =
         let
           fun transFunDecCommon(name, params, body, pos, resTy) =
             let
@@ -161,8 +160,7 @@ struct
           fun transFunDec({name, params, body, pos, result}) =
             transFunDecCommon (name, params, body, pos, computeResultType (tenv, result))
         in
-          transFunDec (dec);
-          transFunDecs (venv, tenv, decs)
+          app transFunDec funDecs
         end
 
       fun enterFunHeader({name, params, body, pos, result}, venv) =
