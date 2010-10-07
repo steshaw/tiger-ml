@@ -24,12 +24,20 @@ struct
   type tenv = T.ty S.table
   type venv = enventry S.table
 
-  val base_tenv = S.enter(S.enter(S.enter(S.empty, 
-                          S.symbol "int", T.INT), 
-                          S.symbol "string", T.STRING),
-                          S.symbol "unit", T.UNIT) (* FIXME: remove 'unit' type - this is a hack *)
-    (* TODO: use fold here *)
-      
-  val base_venv = S.enter(S.empty, S.symbol "nil", VarEntry {ty=T.NIL})
-    (* TODO: add runtime library functions *)
+  val predefinedTypes = 
+    [("int", T.INT)
+    ,("string", T.STRING)
+    ,("unit", T.UNIT) (* FIXME: remove 'unit' type - this is a hack *)
+    ]
+
+  fun enterTy((name, ty), tenv) = S.enter(tenv, S.symbol name, ty)
+  val base_tenv = List.foldr enterTy S.empty predefinedTypes
+ 
+  (* TODO: add runtime library functions *)
+  val predefinedVars = 
+    [("nil", VarEntry {ty=T.NIL})
+    ]
+
+  fun enterVar((name, enventry), venv) = S.enter (venv, S.symbol name, enventry)
+  val base_venv = List.foldr enterVar S.empty predefinedVars
 end
