@@ -233,6 +233,25 @@ type check =>
 ../testcases/aa-test11.tig:1.1:variable is not an array
 ../testcases/aa-test11.tig:1.1:types do not match
 
+-- ../testcases/aa-test12.fixed.tig --
+let
+  type a = array of string
+in
+  a[20] of ""
+end
+--
+../testcases/aa-test12.fixed.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   ArrayTy(string))]],
+ SeqExp[
+  ArrayExp(a,
+   IntExp(20),
+   StringExp(""))])
+type check =>
+
 -- ../testcases/aa-test12.tig --
 a[20] of ""
 --
