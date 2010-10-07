@@ -137,9 +137,13 @@ struct
       {tenv=tenv', venv=venv}
     end
 
-  (* TODO: Much left out here see MCI/ML p119 *)
   |  transDec(venv, tenv, A.FunctionDec funDecs) =
     let
+      fun computeResultType (tenv, result) =
+        (case result
+           of SOME (resTySym, resPos) => lookupActualType (resPos, tenv, resTySym)
+            | NONE => T.UNIT)
+
       fun transFunDecs(venv, tenv, []) = ()
         | transFunDecs(venv, tenv, (dec::decs)) =
         let
@@ -154,10 +158,8 @@ struct
               reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy})
             end
 
-          fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
-              transFunDecCommon (name, params, body, pos, lookupActualType (resPos, tenv, resTySy))
-
-          |  transFunDec({name, params, body, pos, result=NONE}) = transFunDecCommon(name, params, body, pos, T.UNIT)
+          fun transFunDec({name, params, body, pos, result}) =
+            transFunDecCommon (name, params, body, pos, computeResultType (tenv, result))
         in
           transFunDec (dec);
           transFunDecs (venv, tenv, decs)
@@ -165,10 +167,7 @@ struct
 
       fun enterFunHeader({name, params, body, pos, result}, venv) =
         let
-          val resTy =
-            (case result 
-               of SOME (resTySym, resPos) => lookupActualType (resPos, tenv, resTySym)
-                | NONE => T.UNIT)
+          val resTy = computeResultType (tenv, result)
           fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
           val params' = map transParam params (* map [ty] => [{name, ty}] *)
         in
