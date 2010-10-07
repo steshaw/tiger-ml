@@ -10,6 +10,7 @@ struct
 
   (* TODO: Handle record and array types' unique field *)
 
+  (* FIXME: For expressions *)
   (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
   (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
 
@@ -146,8 +147,9 @@ struct
 
       fun transFunDecs(venv, tenv, funDecs) =
         let
-          fun transFunDecCommon(name, params, body, pos, resTy) =
+          fun transFunDec({name, params, body, pos, result}) =
             let
+              val resTy = computeResultType (tenv, result)
               fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
               val params' = map transParam params (* map [ty] => [{name, ty}] *)
               fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
@@ -156,9 +158,6 @@ struct
             in
               reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy})
             end
-
-          fun transFunDec({name, params, body, pos, result}) =
-            transFunDecCommon (name, params, body, pos, computeResultType (tenv, result))
         in
           app transFunDec funDecs
         end
@@ -288,8 +287,6 @@ struct
           (* FIXME: Oops, I've required the fields in the record expression to be specified in the same order as in the 
                     record declaration! *)
           let
-            (* val recordType = S.look(tenv, typ) *) (* XXX unused *)
-
             fun checkField((symbol, exp, pos), (tySymbol, ty)) =
               let
                 val expA = trexp exp
@@ -325,10 +322,11 @@ struct
           in
             case leftTy
               (* FIXME: This record = nil thing is only for = and <> *)
-              of T.RECORD _ => (if rightTy <> T.NIL then error pos "must be nil" else ();(* TODO how to records compare *)
+              (* TODO: Lookup in the Tiger LangRef how record type are compared *)
+              of T.RECORD _ => (if rightTy <> T.NIL then error pos "must be nil" else ();
                                 {exp=todoTrExp, ty=leftTy})
                                 
-              (* TODO: insert logic for comparing arrays *)
+              (* TODO: Refer to Tiger LangRef as to how to compare arrays *)
               | _ => (
                      checkInt(leftA, pos);
                      checkInt(rightA, pos);
