@@ -13,7 +13,7 @@ struct
   (* TODO: Recursive functions *)
   (* TODO: Mutually recursive functions *)
 
-  (* TODO: Recursive types *)
+  (* TODO: Recursive types. Partially handled. Now leaves "dangling" type alias (i.e. NAME type). *)
   (* TODO: Mutually recursive types *)
 
   (* FIXME: Probably look up types in the wrong type environment because of the following of NAME types (i.e. type aliases).
@@ -114,11 +114,12 @@ struct
   |  transDec(venv, tenv, A.TypeDec []) = {tenv=tenv, venv=venv}
   |  transDec(venv, tenv, A.TypeDec ({name, ty, pos}::decs)) =
       let
-        fun transField({name, escape, typ, pos}) = (name, lookupTy(pos, tenv, typ))
-        val ty = case ty 
+        val sym = name
+        val tenv' = S.enter(tenv, sym, T.NAME (sym, ref NONE))
+        val ty = case ty
           of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* TODO: Later, somewhere, update this ref *)
-           | A.RecordTy fields => T.RECORD (map transField fields, ref ())
-           | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv, sym), ref ())
+           | A.RecordTy fields => T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupTy(pos, tenv', typ))) fields, ref ())
+           | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv', sym), ref ())
       in
         transDec(venv, S.enter(tenv, name, ty), A.TypeDec decs)
       end

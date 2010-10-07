@@ -831,12 +831,8 @@ type check =>
 ../testcases/merge.tig:11.14:Type 'int' required
 ../testcases/merge.tig:11.27:Type 'int' required
 ../testcases/merge.tig:11.27:Type 'int' required
-../testcases/merge.tig:20.27:Type 'list' is not defined
-../testcases/merge.tig:34.36:types do not match
-../testcases/merge.tig:35.36:types do not match
 ../testcases/merge.tig:32.9:Type 'int' required
 ../testcases/merge.tig:31.4:Type 'int' required
-../testcases/merge.tig:47.41:types do not match
 ../testcases/merge.tig:46.4:Type 'int' required
 
 -- ../testcases/queens.tig --
@@ -1264,9 +1260,8 @@ LetExp([
   VarExp(
    SimpleVar(lis))])
 type check =>
-../testcases/test05.tig:4.26:Type 'intlist' is not defined
 ../testcases/test05.tig:7.23:Type 'treelist' is not defined
-../testcases/test05.tig:8.28:Type 'treelist' is not defined
+../testcases/test05.tig:10.36:types do not match
 
 -- ../testcases/test06.tig --
 /* define valid mutually recursive procedures */
@@ -1596,7 +1591,6 @@ LetExp([
    SimpleVar(d))])
 type check =>
 ../testcases/test17.tig:4.23:Type 'treelist' is not defined
-../testcases/test17.tig:6.28:Type 'treelist' is not defined
 
 -- ../testcases/test18.tig --
 /* error : definition of recursive functions is interrupted */
@@ -2801,4 +2795,40 @@ LetExp([
 type check =>
 ../testcases/test-record-exp-04.tig:4.8:field is not in record type
 ../testcases/test-record-exp-04.tig:4.16:field is not in record type
+
+-- ../testcases/test-recursive-type-01.tig --
+let
+  type list = {head: int, rest: list}
+in
+  nil
+end
+--
+../testcases/test-recursive-type-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (list,
+   RecordTy[
+    (head,true,int),
+    (rest,true,list)])]],
+ SeqExp[
+  NilExp])
+type check =>
+
+-- ../testcases/test-recursive-type-02.tig --
+let
+  type stringarray = array of stringarray /* error: this has got to be illegal */
+in
+  nil
+end
+--
+../testcases/test-recursive-type-02.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (stringarray,
+   ArrayTy(stringarray))]],
+ SeqExp[
+  NilExp])
+type check =>
 

@@ -1,0 +1,5 @@
+let
+  type stringarray = array of stringarray /* error: this has got to be illegal */
+in
+  nil
+end
