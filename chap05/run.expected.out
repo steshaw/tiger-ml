@@ -1073,30 +1073,6 @@ r,true,
   CallExp(try,[
    IntExp(0)])])
 type check =>
-../testcases/queens.tig:16.24:Variable does not exist
-../testcases/queens.tig:16.20:types do not match
-../testcases/queens.tig:16.27:Variable does not exist
-../testcases/queens.tig:16.20:Type 'int' required
-../testcases/queens.tig:25.15:Variable does not exist
-../testcases/queens.tig:25.11:types do not match
-../testcases/queens.tig:25.28:Variable does not exist
-../testcases/queens.tig:25.28:Type 'int' required
-../testcases/queens.tig:25.43:Variable does not exist
-../testcases/queens.tig:25.43:Type 'int' required
-../testcases/queens.tig:26.23:Variable does not exist
-../testcases/queens.tig:26.19:types do not match
-../testcases/queens.tig:26.36:Variable does not exist
-../testcases/queens.tig:26.36:Type 'int' required
-../testcases/queens.tig:26.51:Variable does not exist
-../testcases/queens.tig:26.51:Type 'int' required
-../testcases/queens.tig:27.20:Variable does not exist
-../testcases/queens.tig:27.12:types do not match
-../testcases/queens.tig:29.9:Variable does not exist
-../testcases/queens.tig:29.5:types do not match
-../testcases/queens.tig:29.22:Variable does not exist
-../testcases/queens.tig:29.22:Type 'int' required
-../testcases/queens.tig:29.37:Variable does not exist
-../testcases/queens.tig:29.37:Type 'int' required
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -1425,10 +1401,6 @@ i,true,
     SimpleVar(i)),
    IntExp(1))))
 type check =>
-../testcases/test11.tig:3.7:Variable does not exist
-../testcases/test11.tig:3.7:Type 'int' required
-../testcases/test11.tig:3.2:Variable does not exist
-../testcases/test11.tig:3.2:types do not match
 ../testcases/test11.tig:2.1:Type 'int' required
 
 -- ../testcases/test12.tig --

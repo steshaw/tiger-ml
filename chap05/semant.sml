@@ -10,7 +10,6 @@ struct
 
   (* TODO: Handle record and array types' unique field *)
 
-  (* FIXME: For expressions *)
   (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
   (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
 
@@ -216,7 +215,9 @@ struct
           let
             val loA = trexp lo
             val hiA = trexp hi
-            val bodyA = trexp body
+            val venv'=S.enter(venv, varSym, E.VarEntry {ty=T.INT}) (* declare loop variable *)
+            (* TODO: ensure loop variable is not assigned to *)
+            val bodyA = transExp (venv', tenv, body)
           in
             (* FIXME: Introduce the varSym variable *)
             checkInt(loA, pos);
@@ -327,6 +328,9 @@ struct
                                 {exp=todoTrExp, ty=leftTy})
                                 
               (* TODO: Refer to Tiger LangRef as to how to compare arrays *)
+
+              (* TODO: Need to be able to compare strings here too. Check the Tiger Manual *)
+
               | _ => (
                      checkInt(leftA, pos);
                      checkInt(rightA, pos);
