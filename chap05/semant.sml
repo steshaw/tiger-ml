@@ -318,24 +318,36 @@ struct
         | trexp(A.OpExp{left, oper, right, pos}) =
           let val leftA = trexp left
               val rightA = trexp right
-              val {exp=_, ty=leftTy} = leftA
-              val {exp=_, ty=rightTy} = rightA
+              val {exp=_, ty=leftTyBare} = leftA
+              val {exp=_, ty=rightTyBare} = rightA
+              val leftTy = actual_ty (pos, tenv, leftTyBare) (* XXX: Not required? *)
+              val rightTy = actual_ty (pos, tenv, rightTyBare) (* XXX: Not required? *)
           in
-            case leftTy
-              (* FIXME: This record = nil thing is only for = and <> *)
-              (* TODO: Lookup in the Tiger LangRef how record type are compared *)
-              of T.RECORD _ => (if rightTy <> T.NIL then error pos "must be nil" else ();
-                                {exp=todoTrExp, ty=leftTy})
-                                
-              (* TODO: Refer to Tiger LangRef as to how to compare arrays *)
-
-              (* TODO: Need to be able to compare strings here too. Check the Tiger Manual *)
-
-              | _ => (
-                     checkInt(leftA, pos);
-                     checkInt(rightA, pos);
-                     {exp=todoTrExp, ty=T.INT}
-                   )
+            case oper 
+              of (A.PlusOp | A.MinusOp | A.TimesOp | A.DivideOp | A.LtOp | A.LeOp | A.GtOp | A.GeOp) => 
+                (* The following are int-only operations: + - * / < > <= >= *)
+                let in
+                  checkInt(leftA, pos);
+                  checkInt(rightA, pos);
+                  {exp=todoTrExp, ty=T.INT}
+                end
+              | (A.EqOp | A.NeqOp) =>
+                (* Operators = and <> operate on int, string, record and arrays *)
+                (* TODO: Remove the duplication when checking unique values for records and arrays *)
+                case (leftTy, rightTy)
+                  of (T.INT, T.INT) => {exp=todoTrExp, ty=T.INT}
+                   | (T.STRING, T.STRING) => {exp=todoTrExp, ty=T.STRING}
+                   | (T.RECORD (_, lUnique), T.RECORD (_, rUnique)) => 
+                     if lUnique <> rUnique then
+                       (error pos "Record types are not equal"; errorTrExpTy)
+                     else {exp=todoTrExp, ty=leftTy}
+                   | (T.NIL, T.RECORD _) => {exp=todoTrExp, ty=rightTy}
+                   | (T.RECORD _, T.NIL) => {exp=todoTrExp, ty=leftTy}
+                   | (T.ARRAY (lTy, lUnique), T.ARRAY (rTy, rUnique)) =>
+                     if lUnique <> rUnique then
+                       (error pos "Array types are not equal"; errorTrExpTy)
+                     else {exp=todoTrExp, ty=leftTy}
+                   | _ => (error pos "Types mismatch"; errorTrExpTy)
           end
 
         | trexp(A.LetExp {decs, body, pos}) =

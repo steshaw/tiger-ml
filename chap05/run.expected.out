@@ -837,9 +837,7 @@ LetExp([
      SimpleVar(list2))])])])
 type check =>
 ../testcases/merge.tig:11.14:Type 'int' required
-../testcases/merge.tig:11.14:Type 'int' required
-../testcases/merge.tig:11.27:Type 'int' required
-../testcases/merge.tig:11.27:Type 'int' required
+../testcases/merge.tig:11.14:types do not match
 ../testcases/merge.tig:32.9:Type 'int' required
 ../testcases/merge.tig:31.4:Type 'int' required
 ../testcases/merge.tig:46.4:Type 'int' required
@@ -1491,7 +1489,7 @@ LetExp([
    IntExp(3),
    IntExp(4))])
 type check =>
-../testcases/test14.tig:12.5:must be nil
+../testcases/test14.tig:12.5:Types mismatch
 ../testcases/test14.tig:12.2:Type 'int' required
 
 -- ../testcases/test15.tig --
@@ -2814,6 +2812,8 @@ LetExp([
 type check =>
 ../testcases/test-record-exp-02.tig:4.13:types do not match
 ../testcases/test-record-exp-02.tig:4.21:Variable does not exist
+../testcases/test-record-exp-02.tig:4.3:Type 'int' required
+../testcases/test-record-exp-02.tig:4.3:Type 'int' required
 ../testcases/test-record-exp-02.tig:4.41:Variable does not exist
 ../testcases/test-record-exp-02.tig:4.41:Type 'int' required
 ../testcases/test-record-exp-02.tig:4.41:Type 'int' required
