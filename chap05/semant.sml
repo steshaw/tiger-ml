@@ -30,9 +30,9 @@ struct
 
   val error = ErrorMsg.error
 
-  fun lookupTy(pos, tenv, ty) =
+  fun lookupActualType(pos, tenv, ty) =
     case S.look(tenv, ty)
-      of SOME ty => actual_ty(pos, tenv, ty) (* XXX: might cause trouble *)
+      of SOME ty => actual_ty(pos, tenv, ty)
        | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
 
   and actual_ty(pos, tenv, T.NAME (sym, ref(SOME(ty)))) = actual_ty(pos, tenv, ty)
@@ -102,7 +102,7 @@ struct
 
   |   transDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
-        val decTy = lookupTy(pos, tenv, symbol)
+        val decTy = lookupActualType(pos, tenv, symbol)
     in
       reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
       {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
@@ -145,8 +145,8 @@ struct
     let
       fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
         let
-          val resTy = lookupTy(pos, tenv, resTySy)
-          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupTy(pos, tenv, typ)}
+          val resTy = lookupActualType(pos, tenv, resTySy)
+          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
           val params' = map transParam params (* map [ty] => [(name, ty)] *)
           val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
           fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
@@ -162,7 +162,7 @@ struct
         (* XXX: mildly hacked copy of above *)
         let
           val resTy = T.UNIT
-          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupTy(pos, tenv, typ)}
+          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
           val params' = map transParam params (* map [ty] => [(name, ty)] *)
           val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
           fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
@@ -202,7 +202,7 @@ struct
 
         | trexp(A.ArrayExp {typ=tySymbol, size=sizeExp, init=initExp, pos}) =
           let
-            val recordTy = lookupTy(pos, tenv, tySymbol)
+            val recordTy = lookupActualType(pos, tenv, tySymbol)
             val sizeA = trexp sizeExp
             val initA = trexp initExp
           in
@@ -308,7 +308,7 @@ struct
               else
                 error pos "Record expression has the wrong arity"
 
-            val t = lookupTy(pos, tenv, typ)
+            val t = lookupActualType(pos, tenv, typ)
           in
             case t
               of T.RECORD (tyFields, unique) => (checkFields (tyFields); {exp=todoTrExp, ty=t})
