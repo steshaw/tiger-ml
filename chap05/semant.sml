@@ -110,29 +110,34 @@ struct
 
   | transDec(venv, tenv, A.TypeDec typeDecs) =
     let
-      fun transDec' (venv, tenv, []) = {tenv=tenv, venv=venv}
-        | transDec' (venv, tenv, ({name, ty, pos}::decs)) =
-          let
-            fun lookupType(pos, tenv, ty) =
-              case S.look(tenv, ty)
-                of SOME ty => ty
-                 | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
-            val T.NAME(tyName, tyRef) = lookupType (pos, tenv, name)
-            val ty = case ty
-              of A.NameTy (name, pos) => 
-                  T.NAME (name, ref (SOME (lookupType (pos, tenv, name))))
-               | A.RecordTy fields => 
-                  T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupType (pos, tenv, typ))) fields, ref ())
-               | A.ArrayTy (name, pos) => 
-                  T.ARRAY (lookupType (pos, tenv, name), ref ())
-          in
-            tyRef := SOME(ty);
-            transDec' (venv, tenv, decs)
-          end
+      fun updateDecs (venv, tenv) =
+        let
+          fun updateDec {name, ty, pos} = 
+            let
+              fun lookupType(pos, tenv, ty) =
+                case S.look(tenv, ty)
+                  of SOME ty => ty
+                   | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
+              val T.NAME(tyName, tyRef) = lookupType (pos, tenv, name)
+              val ty = case ty
+                of A.NameTy (name, pos) => 
+                    T.NAME (name, ref (SOME (lookupType (pos, tenv, name))))
+                 | A.RecordTy fields => 
+                    T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupType (pos, tenv, typ))) fields, ref ())
+                 | A.ArrayTy (name, pos) => 
+                    T.ARRAY (lookupType (pos, tenv, name), ref ())
+            in
+              tyRef := SOME(ty)
+            end
+        in
+          app updateDec typeDecs
+        end
+
       fun enterTypeHeader ({name, ty, pos}, tenv) = S.enter (tenv, name, T.NAME (name, ref NONE))
       val tenv' = foldl enterTypeHeader tenv typeDecs
     in
-      transDec' (venv, tenv', typeDecs)
+      updateDecs (venv, tenv');
+      {tenv=tenv', venv=venv}
     end
 
   (* TODO: Much left out here see MCI/ML p119 *)
