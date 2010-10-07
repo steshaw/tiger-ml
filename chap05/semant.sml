@@ -109,10 +109,6 @@ struct
     end
 
   | transDec(venv, tenv, A.TypeDec typeDecs) =
-    (* 
-     * TODO: First create a new type environment containing type "headers" i.e. NAME aliases.
-     * TODO: This will ensure that all type symbols are available from the beginning. 
-     *)
     let
       fun transDec' (venv, tenv, []) = {tenv=tenv, venv=venv}
         | transDec' (venv, tenv, ({name, ty, pos}::decs)) =
@@ -121,7 +117,7 @@ struct
               case S.look(tenv, ty)
                 of SOME ty => ty
                  | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
-            val SOME(T.NAME(tyName, tyRef)) = S.look (tenv, name)
+            val T.NAME(tyName, tyRef) = lookupType (pos, tenv, name)
             val ty = case ty
               of A.NameTy (name, pos) => 
                   T.NAME (name, ref (SOME (lookupType (pos, tenv, name))))
