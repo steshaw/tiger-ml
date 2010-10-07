@@ -104,9 +104,10 @@ struct
   |  transDec(venv, tenv, A.TypeDec []) = {tenv=tenv, venv=venv}
   |  transDec(venv, tenv, A.TypeDec ({name, ty, pos}::decs)) =
       let
+        fun transField({name, escape, typ, pos}) = (name, lookupTy(pos, tenv, typ))
         val ty = case ty 
           of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* TODO: Later, somewhere, update this ref *)
-           | A.RecordTy fields => T.RECORD ([(*TODO fields *)], ref ()) (* TODO: convert field *)
+           | A.RecordTy fields => T.RECORD (map transField fields, ref ()) (* TODO: convert field *)
            | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv, sym), ref ())
       in
         transDec(venv, S.enter(tenv, name, ty), A.TypeDec decs)

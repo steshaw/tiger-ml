@@ -829,19 +829,9 @@ type check =>
 ../testcases/merge.tig:11.14:Type 'int' required
 ../testcases/merge.tig:11.27:Type 'int' required
 ../testcases/merge.tig:11.27:Type 'int' required
-../testcases/merge.tig:14.6:field any does not exist
-../testcases/merge.tig:14.6:types do not match
-../testcases/merge.tig:25.12:field any does not exist
-../testcases/merge.tig:25.9:Type 'int' required
-../testcases/merge.tig:33.12:field first does not exist
-../testcases/merge.tig:33.22:field first does not exist
-../testcases/merge.tig:33.12:Type 'int' required
-../testcases/merge.tig:33.12:Type 'int' required
+../testcases/merge.tig:20.27:Type 'list' is not defined
 ../testcases/merge.tig:32.9:Type 'int' required
 ../testcases/merge.tig:31.4:Type 'int' required
-../testcases/merge.tig:47.19:field first does not exist
-../testcases/merge.tig:47.10:types do not match
-../testcases/merge.tig:47.51:field rest does not exist
 ../testcases/merge.tig:47.41:types do not match
 ../testcases/merge.tig:46.4:Type 'int' required
 
@@ -1185,8 +1175,6 @@ LetExp([
   VarExp(
    SimpleVar(rec1))])
 type check =>
-../testcases/test03.tig:6.2:field name does not exist
-../testcases/test03.tig:6.2:types do not match
 
 -- ../testcases/test04.tig --
 /* define a recursive function */
@@ -1272,6 +1260,9 @@ LetExp([
   VarExp(
    SimpleVar(lis))])
 type check =>
+../testcases/test05.tig:4.26:Type 'intlist' is not defined
+../testcases/test05.tig:7.23:Type 'treelist' is not defined
+../testcases/test05.tig:8.28:Type 'treelist' is not defined
 
 -- ../testcases/test06.tig --
 /* define valid mutually recursive procedures */
@@ -1599,6 +1590,8 @@ LetExp([
   VarExp(
    SimpleVar(d))])
 type check =>
+../testcases/test17.tig:4.23:Type 'treelist' is not defined
+../testcases/test17.tig:6.28:Type 'treelist' is not defined
 
 -- ../testcases/test18.tig --
 /* error : definition of recursive functions is interrupted */
@@ -1876,9 +1869,7 @@ LetExp([
     id),
    StringExp(""))])
 type check =>
-../testcases/test23.tig:7.2:field name does not exist
 ../testcases/test23.tig:7.2:types do not match
-../testcases/test23.tig:8.2:field id does not exist
 ../testcases/test23.tig:8.2:types do not match
 
 -- ../testcases/test24.tig --
@@ -2469,18 +2460,6 @@ LetExp([
     IntExp(2)),
    IntExp(2323))])
 type check =>
-../testcases/test42.tig:22.1:field name does not exist
-../testcases/test42.tig:22.1:types do not match
-../testcases/test42.tig:23.1:field age does not exist
-../testcases/test42.tig:23.1:types do not match
-../testcases/test42.tig:26.1:field name does not exist
-../testcases/test42.tig:26.1:types do not match
-../testcases/test42.tig:27.1:field dates does not exist
-../testcases/test42.tig:27.1:variable is not an array
-../testcases/test42.tig:27.1:types do not match
-../testcases/test42.tig:28.1:field dates does not exist
-../testcases/test42.tig:28.1:variable is not an array
-../testcases/test42.tig:28.1:types do not match
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
