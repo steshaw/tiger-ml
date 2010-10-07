@@ -150,8 +150,10 @@ struct
           transExp(venv'', tenv, body);
           {venv=venv', tenv=tenv}
         end
+      (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)
+      val {venv, tenv} = transFunDec(dec)
     in
-      transFunDec(dec) (* TODO: process remaining decs *)
+      transDec (venv, tenv, A.FunctionDec decs) (* XXX: Annoying to have to put the FunctionDec ctor back on the front of this list *)
     end
 
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}

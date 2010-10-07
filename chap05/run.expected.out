@@ -763,7 +763,11 @@ type check =>
 ../testcases/merge.tig:9.42:Function does not exist
 ../testcases/merge.tig:9.29:Type 'int' required
 ../testcases/merge.tig:9.29:Type 'int' required
-../testcases/merge.tig:13.6:Function does not exist
+../testcases/merge.tig:11.14:Type 'int' required
+../testcases/merge.tig:11.14:Type 'int' required
+../testcases/merge.tig:11.27:Type 'int' required
+../testcases/merge.tig:11.27:Type 'int' required
+../testcases/merge.tig:12.23:Function does not exist
 ../testcases/merge.tig:14.17:types do not match
 ../testcases/merge.tig:14.6:field any does not exist
 ../testcases/merge.tig:14.6:types do not match
@@ -775,8 +779,26 @@ type check =>
 ../testcases/merge.tig:16.54:Function does not exist
 ../testcases/merge.tig:25.12:field any does not exist
 ../testcases/merge.tig:25.9:Type 'int' required
+../testcases/merge.tig:33.12:field first does not exist
+../testcases/merge.tig:33.22:field first does not exist
+../testcases/merge.tig:33.12:Type 'int' required
+../testcases/merge.tig:33.12:Type 'int' required
+../testcases/merge.tig:32.9:Type 'int' required
+../testcases/merge.tig:31.4:Type 'int' required
+../testcases/merge.tig:39.22:Function does not exist
+../testcases/merge.tig:38.27:unit required
+../testcases/merge.tig:40.20:Function does not exist
+../testcases/merge.tig:42.12:Function does not exist
+../testcases/merge.tig:41.12:types do not match
+../testcases/merge.tig:46.18:Function does not exist
+../testcases/merge.tig:47.19:field first does not exist
+../testcases/merge.tig:47.10:types do not match
+../testcases/merge.tig:47.29:Function does not exist
+../testcases/merge.tig:47.51:field rest does not exist
+../testcases/merge.tig:47.41:types do not match
+../testcases/merge.tig:46.4:Type 'int' required
+../testcases/merge.tig:46.4:types do not match
 ../testcases/merge.tig:50.26:Function does not exist
-../testcases/merge.tig:54.5:Function does not exist
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
@@ -1012,7 +1034,26 @@ type check =>
 ../testcases/queens.tig:17.7:Function does not exist
 ../testcases/queens.tig:14.9:unit required
 ../testcases/queens.tig:18.10:Function does not exist
-../testcases/queens.tig:32.5:Function does not exist
+../testcases/queens.tig:25.15:Variable does not exist
+../testcases/queens.tig:25.11:types do not match
+../testcases/queens.tig:25.28:Variable does not exist
+../testcases/queens.tig:25.28:Type 'int' required
+../testcases/queens.tig:25.43:Variable does not exist
+../testcases/queens.tig:25.43:Type 'int' required
+../testcases/queens.tig:26.23:Variable does not exist
+../testcases/queens.tig:26.19:types do not match
+../testcases/queens.tig:26.36:Variable does not exist
+../testcases/queens.tig:26.36:Type 'int' required
+../testcases/queens.tig:26.51:Variable does not exist
+../testcases/queens.tig:26.51:Type 'int' required
+../testcases/queens.tig:27.20:Variable does not exist
+../testcases/queens.tig:27.12:types do not match
+../testcases/queens.tig:29.9:Variable does not exist
+../testcases/queens.tig:29.5:types do not match
+../testcases/queens.tig:29.22:Variable does not exist
+../testcases/queens.tig:29.22:Type 'int' required
+../testcases/queens.tig:29.37:Variable does not exist
+../testcases/queens.tig:29.37:Type 'int' required
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -1611,6 +1652,8 @@ SOME(string),
    StringExp("str2")])])
 type check =>
 ../testcases/test19.tig:5.4:Function does not exist
+../testcases/test19.tig:8.16:Variable does not exist
+../testcases/test19.tig:8.4:types do not match
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
