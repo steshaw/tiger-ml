@@ -96,10 +96,9 @@ struct
   |   transDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
         val SOME(decTy) = S.look(tenv, symbol)
-    in (
+    in
       reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
       {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
-    )
     end
 
   |  transDec(venv, tenv, A.TypeDec []) = {tenv=tenv, venv=venv}
