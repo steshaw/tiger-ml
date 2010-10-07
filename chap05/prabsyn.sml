@@ -88,7 +88,7 @@ fun print (outstream, e0) =
 			 say ","; say(Symbol.name typ); say ")")
 		fun f({name,params,result,body,pos},d) =
 		   (indent d; say "("; say (Symbol.name name); say ",[";
-		    dolist d field params; sayln "],";
+		    dolist d field params; sayln "],"; indent (d+1);
 		    case result of NONE => say "NONE"
 			 | SOME(s,_) => (say "SOME("; say(Symbol.name s); say ")");
 		    sayln ","; exp(body,d+1); say ")")

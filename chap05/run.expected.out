@@ -80,7 +80,7 @@ LetExp([
  FunctionDec[
   (foo,[
    (a,true,int)],
-NONE,
+   NONE,
    CallExp(print,[
     StringExp("hi")]))]],
  SeqExp[
@@ -107,7 +107,7 @@ LetExp([
  FunctionDec[
   (foo,[
    (a,true,int)],
-NONE,
+   NONE,
    CallExp(print,[
     StringExp("hi")]))]],
  SeqExp[
@@ -144,7 +144,7 @@ parse =>
 LetExp([
  FunctionDec[
   (noargs,[],
-NONE,
+   NONE,
    CallExp(print,[
     StringExp("no-arg function")]))]],
  SeqExp[
@@ -438,7 +438,7 @@ LetExp([
  FunctionDec[
   (foo,[
    (i,true,notExist)],
-SOME(int),
+   SOME(int),
    OpExp(TimesOp,
     VarExp(
      SimpleVar(i)),
@@ -464,7 +464,7 @@ LetExp([
  FunctionDec[
   (foo,[
    (i,true,int)],
-SOME(notExist),
+   SOME(notExist),
    OpExp(TimesOp,
     VarExp(
      SimpleVar(i)),
@@ -489,7 +489,7 @@ LetExp([
  FunctionDec[
   (foo,[
    (i,true,int)],
-SOME(notExist),
+   SOME(notExist),
    OpExp(TimesOp,
     VarExp(
      SimpleVar(i)),
@@ -571,14 +571,14 @@ LetExp([
  FunctionDec[
   (readint,[
    (any,true,any)],
-SOME(int),
+   SOME(int),
    LetExp([
     VarDec(i,true,NONE,
      IntExp(0)),
     FunctionDec[
      (isdigit,[
       (s,true,string)],
-SOME(int),
+      SOME(int),
       IfExp(
        OpExp(GeOp,
         CallExp(ord,[
@@ -594,7 +594,7 @@ SOME(int),
          StringExp("9")])),
        IntExp(0))),
      (skipto,[],
-NONE,
+      NONE,
       WhileExp(
        IfExp(
         OpExp(EqOp,
@@ -648,7 +648,7 @@ NONE,
     (rest,true,list)])],
  FunctionDec[
   (readlist,[],
-SOME(list),
+   SOME(list),
    LetExp([
     VarDec(any,true,NONE,
      RecordExp(any,[
@@ -676,7 +676,7 @@ SOME(list),
   (merge,[
    (a,true,list),
    (b,true,list)],
-SOME(list),
+   SOME(list),
    IfExp(
     OpExp(EqOp,
      VarExp(
@@ -733,12 +733,12 @@ SOME(list),
            rest))]))]))))),
   (printint,[
    (i,true,int)],
-NONE,
+   NONE,
    LetExp([
     FunctionDec[
      (f,[
       (i,true,int)],
-NONE,
+      NONE,
       IfExp(
        OpExp(GtOp,
         VarExp(
@@ -790,7 +790,7 @@ NONE,
         StringExp("0")])))])),
   (printlist,[
    (l,true,list)],
-NONE,
+   NONE,
    IfExp(
     OpExp(EqOp,
      VarExp(
@@ -910,7 +910,7 @@ LetExp([
    IntExp(0))),
  FunctionDec[
   (printboard,[],
-NONE,
+   NONE,
    SeqExp[
     ForExp(
 i,true,
@@ -945,7 +945,7 @@ j,true,
      StringExp("\n")])]),
   (try,[
    (c,true,int)],
-NONE,
+   NONE,
    SeqExp[
     IfExp(
      OpExp(EqOp,
@@ -1197,7 +1197,7 @@ LetExp([
  FunctionDec[
   (nfactor,[
    (n,true,int)],
-SOME(int),
+   SOME(int),
    IfExp(
     OpExp(EqOp,
      VarExp(
@@ -1284,7 +1284,7 @@ LetExp([
   (do_nothing1,[
    (a,true,int),
    (b,true,string)],
-NONE,
+   NONE,
    CallExp(do_nothing2,[
     OpExp(PlusOp,
      VarExp(
@@ -1292,7 +1292,7 @@ NONE,
      IntExp(1))])),
   (do_nothing2,[
    (d,true,int)],
-NONE,
+   NONE,
    CallExp(do_nothing1,[
     VarExp(
      SimpleVar(d)),
@@ -1327,7 +1327,7 @@ LetExp([
   (do_nothing1,[
    (a,true,int),
    (b,true,string)],
-SOME(int),
+   SOME(int),
    SeqExp[
     CallExp(do_nothing2,[
      OpExp(PlusOp,
@@ -1337,7 +1337,7 @@ SOME(int),
     IntExp(0)]),
   (do_nothing2,[
    (d,true,int)],
-SOME(string),
+   SOME(string),
    SeqExp[
     CallExp(do_nothing1,[
      VarExp(
@@ -1613,7 +1613,7 @@ LetExp([
   (do_nothing1,[
    (a,true,int),
    (b,true,string)],
-SOME(int),
+   SOME(int),
    SeqExp[
     CallExp(do_nothing2,[
      OpExp(PlusOp,
@@ -1626,7 +1626,7 @@ SOME(int),
  FunctionDec[
   (do_nothing2,[
    (d,true,int)],
-SOME(string),
+   SOME(string),
    SeqExp[
     CallExp(do_nothing1,[
      VarExp(
@@ -1662,7 +1662,7 @@ LetExp([
   (do_nothing1,[
    (a,true,int),
    (b,true,string)],
-SOME(int),
+   SOME(int),
    SeqExp[
     CallExp(do_nothing2,[
      OpExp(PlusOp,
@@ -1672,7 +1672,7 @@ SOME(int),
     IntExp(0)]),
   (do_nothing2,[
    (d,true,int)],
-SOME(string),
+   SOME(string),
    SeqExp[
     CallExp(do_nothing1,[
      VarExp(
@@ -1730,7 +1730,7 @@ LetExp([
  FunctionDec[
   (nfactor,[
    (n,true,int)],
-SOME(int),
+   SOME(int),
    IfExp(
     OpExp(EqOp,
      VarExp(
@@ -1771,7 +1771,7 @@ LetExp([
  FunctionDec[
   (nfactor,[
    (n,true,int)],
-NONE,
+   NONE,
    IfExp(
     OpExp(EqOp,
      VarExp(
@@ -1944,7 +1944,7 @@ LetExp([
  FunctionDec[
   (g,[
    (a,true,int)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2130,7 +2130,7 @@ LetExp([
   (g,[
    (a,true,int),
    (b,true,string)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2155,7 +2155,7 @@ LetExp([
   (g,[
    (a,true,int),
    (b,true,string)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2179,7 +2179,7 @@ LetExp([
   (g,[
    (a,true,int),
    (b,true,string)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2251,12 +2251,12 @@ LetExp([
  FunctionDec[
   (g,[
    (a,true,int)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a))),
   (g,[
    (a,true,int)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2278,7 +2278,7 @@ LetExp([
  FunctionDec[
   (g,[
    (a,true,int)],
-NONE,
+   NONE,
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2616,7 +2616,7 @@ LetExp([
  FunctionDec[
   (g,[
    (a,true,int)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))],
  TypeDec[
@@ -2625,7 +2625,7 @@ SOME(int),
  FunctionDec[
   (g,[
    (a,true,int)],
-SOME(int),
+   SOME(int),
    VarExp(
     SimpleVar(a)))]],
  SeqExp[
@@ -2676,7 +2676,7 @@ parse =>
 LetExp([
  FunctionDec[
   (f,[],
-SOME(int),
+   SOME(int),
    StringExp("ha"))]],
  SeqExp[
   NilExp])
