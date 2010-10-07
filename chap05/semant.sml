@@ -121,7 +121,7 @@ struct
         | transDec' (venv, tenv, ({name, ty, pos}::decs)) =
           let
             val sym = name
-            val tenv' = S.enter(tenv, sym, T.NAME (sym, ref NONE))
+            val tenv' = S.enter (tenv, sym, T.NAME (sym, ref NONE))
             val ty = case ty
               of A.NameTy (sym, pos) => 
                   T.NAME (sym, ref (SOME (lookupTy (pos, tenv', sym))))
@@ -132,8 +132,10 @@ struct
           in
             transDec' (venv, S.enter(tenv, name, ty), decs)
           end
+      fun enterTypeHeader ({name, ty, pos}, tenv) = S.enter (tenv, name, T.NAME (name, ref NONE))
+      val tenv' = foldl enterTypeHeader tenv typeDecs
     in
-      transDec' (venv, tenv, typeDecs)
+      transDec' (venv, tenv', typeDecs)
     end
 
   (* TODO: Much left out here see MCI/ML p119 *)

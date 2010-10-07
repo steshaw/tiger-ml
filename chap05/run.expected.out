@@ -1260,7 +1260,6 @@ LetExp([
   VarExp(
    SimpleVar(lis))])
 type check =>
-../testcases/test05.tig:7.23:Type 'treelist' is not defined
 ../testcases/test05.tig:10.36:types do not match
 
 -- ../testcases/test06.tig --
@@ -1556,8 +1555,6 @@ LetExp([
  SeqExp[
   NilExp])
 type check =>
-../testcases/test16.tig:3.10:Type 'c' is not defined
-../testcases/test16.tig:5.10:Type 'd' is not defined
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -2682,6 +2679,29 @@ SOME(int),
   NilExp])
 type check =>
 ../testcases/test-fun-dec-01.tig:2.3:types do not match
+
+-- ../testcases/test-mutually-recursive-types.tig --
+let
+  type foo = {bar: bar, foo:foo}
+  type bar = {foo:foo}
+in
+  nil
+end
+--
+../testcases/test-mutually-recursive-types.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (bar,true,bar),
+    (foo,true,foo)]),
+  (bar,
+   RecordTy[
+    (foo,true,foo)])]],
+ SeqExp[
+  NilExp])
+type check =>
 
 -- ../testcases/test-record-exp-01.tig --
 let
