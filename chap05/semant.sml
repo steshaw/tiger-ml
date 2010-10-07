@@ -16,6 +16,10 @@ struct
   (* TODO: Recursive types *)
   (* TODO: Mutually recursive types *)
 
+  (* FIXME: Probably look up types in the wrong type environment because of the following of NAME types (i.e. type aliases).
+            Looks like I do this in the type environment of the usage instead of the declaration. This happens in
+            actual_ty *)
+
   type expty = {exp: Translate.exp, ty: T.ty}
 
   val todoAccess = ()
@@ -35,8 +39,8 @@ struct
       of SOME ty => ty
        | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
 
-  fun actualTy(pos, tenv, T.NAME (sym, _)) = actualTy(pos, tenv, lookupTy(pos, tenv, sym))
-    | actualTy(pos, tenv, ty) = ty
+  fun actual_ty(pos, tenv, T.NAME (sym, _)) = actual_ty(pos, tenv, lookupTy(pos, tenv, sym))
+    | actual_ty(pos, tenv, ty) = ty
 
   fun checkInt({exp, ty}, pos) =
     case ty
@@ -50,8 +54,8 @@ struct
 
   (* TODO: allow records to be compatible with NIL from either left or right? *)
   fun reqSameType(pos, tenv, {exp=_, ty=ty1}, {exp=_, ty=ty2}) =
-    let val t1 = actualTy(pos, tenv, ty1)
-        val t2 = actualTy(pos, tenv, ty2)
+    let val t1 = actual_ty(pos, tenv, ty1)
+        val t2 = actual_ty(pos, tenv, ty2)
     in
       if t1 <> t2 then
         case t1
@@ -62,14 +66,14 @@ struct
 
   fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
     (case S.look(venv, sym)
-      of SOME(E.VarEntry {ty}) => ty (* XXX: probably need actualTy here *)
+      of SOME(E.VarEntry {ty}) => ty (* XXX: probably need actual_ty here *)
        | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
        | _ => (error pos "Variable does not exist"; T.NIL)
     )
 
     | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) =
       let
-        (* XXX: probably need actualTy here *)
+        (* XXX: probably need actual_ty here *)
         val ty = findVarType(tenv, venv, var) (* Lookup type of nested var. It should be a record type. *)
       in
         case ty
@@ -84,7 +88,7 @@ struct
     | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) =
       let
         (* Lookup type of nested var. It should be an array type. Dig past type aliases (NAME types). *)
-        val ty = actualTy(pos, tenv, findVarType(tenv, venv, var)) 
+        val ty = actual_ty(pos, tenv, findVarType(tenv, venv, var)) 
         val expA = transExp(venv, tenv, exp)
       in
         case ty
@@ -333,7 +337,7 @@ struct
             
       and trvar(A.SimpleVar(id, pos)) =
         (case S.look(venv, id)
-          of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actualTy(pos, tenv, ty)}
+          of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actual_ty(pos, tenv, ty)}
            | SOME(E.FunEntry _)    => (error pos ("variable points to a function - compiler bug?: " ^ S.name id);
                                        {exp=errorTrExp, ty=T.INT})
            | NONE                  => (error pos ("undefined variable " ^ S.name id);
