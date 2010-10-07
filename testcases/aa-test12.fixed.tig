@@ -1,0 +1,5 @@
+let
+  type a = array of string
+in
+  a[20] of ""
+end

@@ -1,0 +1,6 @@
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0] := "hello"
+end

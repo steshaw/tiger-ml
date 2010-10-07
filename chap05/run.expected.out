@@ -154,6 +154,31 @@ NONE,
 type check =>
 ../testcases/aa-test09.tig:4.3:Function has the wrong arity
 
+-- ../testcases/aa-test10.fixed.tig --
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0]
+end
+--
+../testcases/aa-test10.fixed.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (stringArray,
+   ArrayTy(string))],
+ VarDec(a,true,NONE,
+  ArrayExp(stringArray,
+   IntExp(1),
+   StringExp("")))],
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(a),
+    IntExp(0)))])
+type check =>
+
 -- ../testcases/aa-test10.tig --
 a[0]
 --
@@ -166,6 +191,32 @@ VarExp(
 type check =>
 ../testcases/aa-test10.tig:1.1:Variable does not exist
 ../testcases/aa-test10.tig:1.1:variable is not an array
+
+-- ../testcases/aa-test11.fixed.tig --
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0] := "hello"
+end
+--
+../testcases/aa-test11.fixed.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (stringArray,
+   ArrayTy(string))],
+ VarDec(a,true,NONE,
+  ArrayExp(stringArray,
+   IntExp(1),
+   StringExp("")))],
+ SeqExp[
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(a),
+    IntExp(0)),
+   StringExp("hello"))])
+type check =>
 
 -- ../testcases/aa-test11.tig --
 a[0] := "hello"
