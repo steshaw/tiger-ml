@@ -755,7 +755,28 @@ NONE,
      SimpleVar(list2))])])])
 type check =>
 ../testcases/merge.tig:4.16:Function does not exist
-type check failed with unknown exception
+../testcases/merge.tig:9.5:Function does not exist
+../testcases/merge.tig:9.18:Function does not exist
+../testcases/merge.tig:9.5:Type 'int' required
+../testcases/merge.tig:9.5:Type 'int' required
+../testcases/merge.tig:9.29:Function does not exist
+../testcases/merge.tig:9.42:Function does not exist
+../testcases/merge.tig:9.29:Type 'int' required
+../testcases/merge.tig:9.29:Type 'int' required
+../testcases/merge.tig:13.6:Function does not exist
+../testcases/merge.tig:14.17:types do not match
+../testcases/merge.tig:14.6:field any does not exist
+../testcases/merge.tig:14.6:types do not match
+../testcases/merge.tig:15.12:types do not match
+../testcases/merge.tig:16.22:Function does not exist
+../testcases/merge.tig:16.17:Type 'int' required
+../testcases/merge.tig:16.34:Function does not exist
+../testcases/merge.tig:16.17:Type 'int' required
+../testcases/merge.tig:16.54:Function does not exist
+../testcases/merge.tig:25.12:field any does not exist
+../testcases/merge.tig:25.9:Type 'int' required
+../testcases/merge.tig:50.26:Function does not exist
+../testcases/merge.tig:54.5:Function does not exist
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
@@ -986,7 +1007,12 @@ r,true,
   CallExp(try,[
    IntExp(0)])])
 type check =>
-type check failed with unknown exception
+../testcases/queens.tig:16.11:Function does not exist
+../testcases/queens.tig:15.7:unit required
+../testcases/queens.tig:17.7:Function does not exist
+../testcases/queens.tig:14.9:unit required
+../testcases/queens.tig:18.10:Function does not exist
+../testcases/queens.tig:32.5:Function does not exist
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -1202,7 +1228,7 @@ NONE,
    IntExp(0),
    StringExp("str2")])])
 type check =>
-type check failed with unknown exception
+../testcases/test06.tig:5.3:Function does not exist
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -1248,7 +1274,7 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
-type check failed with unknown exception
+../testcases/test07.tig:5.4:Function does not exist
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -1584,7 +1610,7 @@ SOME(string),
    IntExp(0),
    StringExp("str2")])])
 type check =>
-type check failed with unknown exception
+../testcases/test19.tig:5.4:Function does not exist
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
@@ -2162,7 +2188,6 @@ SOME(int),
  SeqExp[
   IntExp(0)])
 type check =>
-type check failed with unknown exception
 
 -- ../testcases/test40.tig --
 /* error : procedure returns value */

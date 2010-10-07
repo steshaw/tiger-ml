@@ -114,38 +114,44 @@ struct
         transDec(venv, S.enter(tenv, name, ty), A.TypeDec decs)
       end
 
-  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=SOME(resTySy, resPos)}]) =
-    (* TODO: Much left out here see MCI/ML p119 *)
+  (* TODO: Much left out here see MCI/ML p119 *)
+  |  transDec(venv, tenv, A.FunctionDec []) = {tenv=tenv, venv=venv}
+  |  transDec(venv, tenv, A.FunctionDec (dec::decs)) =
     let
-      val resTy = lookupTy(pos, tenv, resTySy)
-      fun transParam {name, escape, typ, pos} =
-        {name=name, ty=lookupTy(pos, tenv, typ)}
-      val params' = map transParam params (* map [ty] => [(name, ty)] *)
-      val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-      fun enterParam({name, ty}, venv) =
-        S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-      val venv'' = foldl enterParam venv' params'
-          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
-    in
-      transExp(venv'', tenv, body);
-      {venv=venv', tenv=tenv}
-    end
+      fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
+        let
+          val resTy = lookupTy(pos, tenv, resTySy)
+          fun transParam {name, escape, typ, pos} =
+            {name=name, ty=lookupTy(pos, tenv, typ)}
+          val params' = map transParam params (* map [ty] => [(name, ty)] *)
+          val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+          fun enterParam({name, ty}, venv) =
+            S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+          val venv'' = foldl enterParam venv' params'
+              (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+        in
+          transExp(venv'', tenv, body);
+          {venv=venv', tenv=tenv}
+        end
 
-  |  transDec(venv, tenv, A.FunctionDec[{name, params, body, pos, result=NONE}]) =
-    (* TODO: Much left out here see MCI/ML p119 - FIXME: copy of above *)
-    let
-      val resTy = T.UNIT
-      fun transParam {name, escape, typ, pos} =
-        {name=name, ty=lookupTy(pos, tenv, typ)}
-      val params' = map transParam params (* map [ty] => [(name, ty)] *)
-      val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-      fun enterParam({name, ty}, venv) =
-        S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-      val venv'' = foldl enterParam venv' params'
-          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+      |  transFunDec({name, params, body, pos, result=NONE}) =
+        (* TODO: Much left out here see MCI/ML p119 - FIXME: copy of above *)
+        let
+          val resTy = T.UNIT
+          fun transParam {name, escape, typ, pos} =
+            {name=name, ty=lookupTy(pos, tenv, typ)}
+          val params' = map transParam params (* map [ty] => [(name, ty)] *)
+          val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+          fun enterParam({name, ty}, venv) =
+            S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+          val venv'' = foldl enterParam venv' params'
+              (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+        in
+          transExp(venv'', tenv, body);
+          {venv=venv', tenv=tenv}
+        end
     in
-      transExp(venv'', tenv, body);
-      {venv=venv', tenv=tenv}
+      transFunDec(dec) (* TODO: process remaining decs *)
     end
 
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
