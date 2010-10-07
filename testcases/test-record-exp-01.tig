@@ -1,0 +1,5 @@
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1}
+end

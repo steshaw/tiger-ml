@@ -830,6 +830,8 @@ type check =>
 ../testcases/merge.tig:11.27:Type 'int' required
 ../testcases/merge.tig:11.27:Type 'int' required
 ../testcases/merge.tig:20.27:Type 'list' is not defined
+../testcases/merge.tig:34.36:types do not match
+../testcases/merge.tig:35.36:types do not match
 ../testcases/merge.tig:32.9:Type 'int' required
 ../testcases/merge.tig:31.4:Type 'int' required
 ../testcases/merge.tig:47.41:types do not match
@@ -2662,4 +2664,117 @@ type check =>
 ../testcases/test49.tig:5.10:Variable does not exist
 ../testcases/test49.tig:5.10:Type 'int' required
 ../testcases/test49.tig:5.10:Type 'int' required
+
+-- ../testcases/test-record-exp-01.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1}
+end
+--
+../testcases/test-record-exp-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1))])])
+type check =>
+../testcases/test-record-exp-01.tig:4.3:Record expression has the wrong arity
+
+-- ../testcases/test-record-exp-02.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1, b=2} (* error: types do not match *)
+end
+--
+../testcases/test-record-exp-02.tig:
+../testcases/test-record-exp-02.tig:4.18:syntax error: deleting  LPAREN
+../testcases/test-record-exp-02.tig:4.26:syntax error: deleting  COLON ID DO
+../testcases/test-record-exp-02.tig:4.37:syntax error: replacing  ID with  SEMICOLON
+../testcases/test-record-exp-02.tig:4.48:syntax error: inserting  LPAREN
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  OpExp(TimesOp,
+   RecordExp(foo,[
+
+    (a,
+     IntExp(1)),
+    (b,
+     IntExp(2))]),
+   VarExp(
+    SimpleVar(error))),
+  OpExp(TimesOp,
+   VarExp(
+    SimpleVar(match)),
+   NilExp)])
+type check =>
+../testcases/test-record-exp-02.tig:4.13:types do not match
+../testcases/test-record-exp-02.tig:4.21:Variable does not exist
+../testcases/test-record-exp-02.tig:4.41:Variable does not exist
+../testcases/test-record-exp-02.tig:4.41:Type 'int' required
+../testcases/test-record-exp-02.tig:4.41:Type 'int' required
+
+-- ../testcases/test-record-exp-03.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1, b=""}
+end
+--
+../testcases/test-record-exp-03.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1)),
+   (b,
+    StringExp(""))])])
+type check =>
+
+-- ../testcases/test-record-exp-04.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {b = "", a = 1}
+end
+--
+../testcases/test-record-exp-04.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (b,
+    StringExp("")),
+   (a,
+    IntExp(1))])])
+type check =>
+../testcases/test-record-exp-04.tig:4.8:field is not in record type
+../testcases/test-record-exp-04.tig:4.16:field is not in record type
 

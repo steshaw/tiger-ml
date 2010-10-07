@@ -10,6 +10,12 @@ struct
 
   (* TODO: Handle record and array types' unique field *)
 
+  (* TODO: Recursive functions *)
+  (* TODO: Mutually recursive functions *)
+
+  (* TODO: Recursive types *)
+  (* TODO: Mutually recursive types *)
+
   type expty = {exp: Translate.exp, ty: T.ty}
 
   val todoAccess = ()
@@ -19,7 +25,7 @@ struct
   val todoDecValEntTyEnv = {venv=E.base_venv, tenv=E.base_tenv}
 
   (* Value to use when expression is in error and no better value/ty can be provided *)
-  val errorExpTy = {exp=todoTrExp, ty=T.NIL}
+  val errorTrExpTy = {exp=todoTrExp, ty=T.NIL}
   val errorTrExp = ()
 
   val error = ErrorMsg.error
@@ -216,15 +222,15 @@ struct
           let
           in
             case S.look(venv, func)
-              of SOME(E.VarEntry _) => (error pos "Variable is not a function"; errorExpTy)
-               | NONE => (error pos "Function does not exist"; errorExpTy)
+              of SOME(E.VarEntry _) => (error pos "Variable is not a function"; errorTrExpTy)
+               | NONE => (error pos "Function does not exist"; errorTrExpTy)
                | SOME(E.FunEntry {formals, result=resTy}) =>
                   let
                     val formalsN = length formals
                     val actualsN = length args
                   in
                     if formalsN <> actualsN then
-                      (error pos "Function has the wrong arity"; errorExpTy)
+                      (error pos "Function has the wrong arity"; errorTrExpTy)
                     else
                       let
                         val z = ListPair.zip (args, formals)
@@ -261,12 +267,35 @@ struct
           end
 
         | trexp(A.RecordExp {fields, typ, pos}) = 
-          (
-            (* TODO check fields match record type *)
-            case S.look(tenv, typ) 
-              of SOME t => {exp=todoTrExp, ty=t}
-              |  NONE   => (error pos "record type does not exist"; {exp=todoTrExp, ty=T.NIL})
-          )
+          (* FIXME: Oops, I've required the fields in the record expression to be specified in the same order as in the 
+                    record declaration! *)
+          let
+            val recordType = S.look(tenv, typ)
+
+            fun checkField((symbol, exp, pos), (tySymbol, ty)) =
+              let
+                val expA = trexp exp
+              in
+                if symbol = tySymbol then
+                  reqSameType(pos, tenv, expA, {exp=(), ty=ty})
+                else
+                  error pos "field is not in record type"
+              end
+
+            fun checkFields(tyFields) = 
+              if length fields = length tyFields then
+                app checkField (ListPair.zip(fields, tyFields))
+              else
+                error pos "Record expression has the wrong arity"
+          in
+            case S.look(tenv, typ)
+              of SOME t =>
+                (case t
+                  of T.RECORD (tyFields, unique) => (checkFields (tyFields); {exp=todoTrExp, ty=t})
+                  | _                            => (error pos "Not a record type"; errorTrExpTy)
+                )
+               | NONE   => (error pos "record type does not exist"; errorTrExpTy)
+          end
 
         | trexp(A.IntExp _) = {exp=todoTrExp, ty=T.INT}
         | trexp(A.StringExp _) = {exp=todoTrExp, ty=T.STRING}
