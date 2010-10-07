@@ -145,19 +145,17 @@ struct
     let
       fun transFunDecs(venv, tenv, []) = {tenv=tenv, venv=venv}
         | transFunDecs(venv, tenv, (dec::decs)) =
-
         let
           fun transFunDecCommon(name, params, body, pos, resTy) =
             let
               fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
               val params' = map transParam params (* map [ty] => [{name, ty}] *)
-              val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
               fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-              val venv'' = foldl enterParam venv' params'
-              val bodyA = transExp(venv'', tenv, body);
+              val venv' = foldl enterParam venv params'
+              val bodyA = transExp(venv', tenv, body);
             in
               reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
-              {venv=venv', tenv=tenv}
+              {venv=venv, tenv=tenv}
             end
 
           fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
@@ -168,9 +166,22 @@ struct
         in
           transFunDecs (venv, tenv, decs)
         end
+
+      fun enterFunHeader({name, params, body, pos, result}, venv) =
+        let
+          val resTy =
+            (case result 
+               of SOME (resTySym, resPos) => lookupActualType (resPos, tenv, resTySym)
+                | NONE => T.UNIT)
+          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
+          val params' = map transParam params (* map [ty] => [{name, ty}] *)
+        in
+          S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+        end
+      val venv' = foldl enterFunHeader venv funDecs
     in
-      (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)
-      transFunDecs (venv, tenv, funDecs)
+      transFunDecs (venv', tenv, funDecs);
+      {venv=venv', tenv=tenv}
     end
 
   and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}

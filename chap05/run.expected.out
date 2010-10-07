@@ -450,6 +450,7 @@ LetExp([
    IntExp(10)])])
 type check =>
 ../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
+../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
 ../testcases/aa-test17.tig:2.35:Type 'int' required
 ../testcases/aa-test17.tig:4.3:types do not match
 
@@ -476,6 +477,7 @@ LetExp([
    IntExp(10)])])
 type check =>
 ../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
+../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test18.tig:2.3:types do not match
 
 -- ../testcases/aa-test19.tig --
@@ -500,6 +502,7 @@ LetExp([
   CallExp(foo,[
    IntExp(10)])])
 type check =>
+../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test19.tig:2.3:types do not match
 
@@ -1309,8 +1312,6 @@ LetExp([
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test06.tig:5.3:Function does not exist
-../testcases/test06.tig:4.1:types do not match
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -1356,7 +1357,6 @@ LetExp([
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test07.tig:5.4:Function does not exist
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -1691,7 +1691,6 @@ LetExp([
    IntExp(0),
    StringExp("str2")])])
 type check =>
-../testcases/test19.tig:5.4:Function does not exist
 ../testcases/test19.tig:8.16:Variable does not exist
 ../testcases/test19.tig:8.4:types do not match
 
@@ -2717,6 +2716,49 @@ LetExp([
 type check =>
 ../testcases/test-fun-dec-01.tig:2.3:types do not match
 
+-- ../testcases/test-mutually-recursive-function-01.tig --
+let
+  function one(i:int):int = if i > 1 then two(i - 1) else 0
+  function two(j:int):int = if j = 0 then 1 else one(j)
+in
+  one(100)
+end
+--
+../testcases/test-mutually-recursive-function-01.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (one,[
+   (i,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(GtOp,
+     VarExp(
+      SimpleVar(i)),
+     IntExp(1)),
+    CallExp(two,[
+     OpExp(MinusOp,
+      VarExp(
+       SimpleVar(i)),
+      IntExp(1))]),
+    IntExp(0))),
+  (two,[
+   (j,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(j)),
+     IntExp(0)),
+    IntExp(1),
+    CallExp(one,[
+     VarExp(
+      SimpleVar(j))])))]],
+ SeqExp[
+  CallExp(one,[
+   IntExp(100)])])
+type check =>
+
 -- ../testcases/test-mutually-recursive-types-01.tig --
 let
   type foo = {bar: bar, foo:foo}
@@ -2853,6 +2895,41 @@ LetExp([
 type check =>
 ../testcases/test-record-exp-04.tig:4.8:field is not in record type
 ../testcases/test-record-exp-04.tig:4.16:field is not in record type
+
+-- ../testcases/test-recursive-function-01.tig --
+let
+  function factorial(n:int):int =
+    if n <= 1 then 1
+    else n * factorial(n - 1)
+in
+  factorial(7)
+end
+--
+../testcases/test-recursive-function-01.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (factorial,[
+   (n,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(LeOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(1)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(factorial,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(factorial,[
+   IntExp(7)])])
+type check =>
 
 -- ../testcases/test-recursive-type-01.tig --
 let
