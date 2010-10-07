@@ -8,6 +8,8 @@ struct
   structure E = Env
   structure T = Types
 
+  (* TODO: Handle record and array types' unique field *)
+
   type expty = {exp: Translate.exp, ty: T.ty}
 
   val todoAccess = ()
@@ -27,8 +29,8 @@ struct
       of SOME ty => ty
        | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
 
-  fun digType(pos, tenv, T.NAME (sym, _)) = digType(pos, tenv, lookupTy(pos, tenv, sym))
-    | digType(pos, tenv, ty) = ty
+  fun actualTy(pos, tenv, T.NAME (sym, _)) = actualTy(pos, tenv, lookupTy(pos, tenv, sym))
+    | actualTy(pos, tenv, ty) = ty
 
   fun checkInt({exp, ty}, pos) =
     case ty
@@ -42,26 +44,26 @@ struct
 
   (* TODO: allow records to be compatible with NIL from either left or right? *)
   fun reqSameType(pos, tenv, {exp=_, ty=ty1}, {exp=_, ty=ty2}) =
-    let val t1 = digType(pos, tenv, ty1)
-        val t2 = digType(pos, tenv, ty2)
+    let val t1 = actualTy(pos, tenv, ty1)
+        val t2 = actualTy(pos, tenv, ty2)
     in
       if t1 <> t2 then
         case t1
           of T.RECORD _ => if t2 = T.NIL then () else (error pos "types do not match"; ())
-           | _          => error pos "types do not match" (* TODO: better msg here *)
+           | _          => error pos "types do not match"
       else ()
     end
 
   fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
     (case S.look(venv, sym)
-      of SOME(E.VarEntry {ty}) => ty (* XXX: probably need digType here *)
+      of SOME(E.VarEntry {ty}) => ty (* XXX: probably need actualTy here *)
        | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
        | _ => (error pos "Variable does not exist"; T.NIL)
     )
 
     | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) =
       let
-        (* XXX: probably need digType here *)
+        (* XXX: probably need actualTy here *)
         val ty = findVarType(tenv, venv, var) (* Lookup type of nested var. It should be a record type. *)
       in
         case ty
@@ -76,7 +78,7 @@ struct
     | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) =
       let
         (* Lookup type of nested var. It should be an array type. Dig past type aliases (NAME types). *)
-        val ty = digType(pos, tenv, findVarType(tenv, venv, var)) 
+        val ty = actualTy(pos, tenv, findVarType(tenv, venv, var)) 
         val expA = transExp(venv, tenv, exp)
       in
         case ty
@@ -85,9 +87,6 @@ struct
       end
 
   and transVar(venv, tenv, var) = todoExpTy
-
-  and actualTy(pos, tenv, ty) = 
-    digType(pos, tenv, ty) (* XXX: Is this correct? *)
 
   and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
