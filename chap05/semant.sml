@@ -10,9 +10,6 @@ struct
 
   (* TODO: Handle record and array types' unique field *)
 
-  (* TODO: Recursive functions *)
-  (* TODO: Mutually recursive functions *)
-
   (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
   (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
 
@@ -143,7 +140,7 @@ struct
   (* TODO: Much left out here see MCI/ML p119 *)
   |  transDec(venv, tenv, A.FunctionDec funDecs) =
     let
-      fun transFunDecs(venv, tenv, []) = {tenv=tenv, venv=venv}
+      fun transFunDecs(venv, tenv, []) = ()
         | transFunDecs(venv, tenv, (dec::decs)) =
         let
           fun transFunDecCommon(name, params, body, pos, resTy) =
@@ -154,16 +151,15 @@ struct
               val venv' = foldl enterParam venv params'
               val bodyA = transExp(venv', tenv, body);
             in
-              reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
-              {venv=venv, tenv=tenv}
+              reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy})
             end
 
           fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
               transFunDecCommon (name, params, body, pos, lookupActualType (resPos, tenv, resTySy))
 
           |  transFunDec({name, params, body, pos, result=NONE}) = transFunDecCommon(name, params, body, pos, T.UNIT)
-          val {venv, tenv} = transFunDec(dec)
         in
+          transFunDec (dec);
           transFunDecs (venv, tenv, decs)
         end
 
