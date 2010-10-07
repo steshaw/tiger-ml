@@ -1,0 +1,6 @@
+let
+  type foo = {bar: bar, foo:foo}
+  type bar = {foo:foo}
+in
+  nil
+end

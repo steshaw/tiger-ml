@@ -13,12 +13,8 @@ struct
   (* TODO: Recursive functions *)
   (* TODO: Mutually recursive functions *)
 
-  (* TODO: Recursive types. Partially handled. Now leaves "dangling" type alias (i.e. NAME type). *)
-  (* TODO: Mutually recursive types *)
-
-  (* FIXME: Probably look up types in the wrong type environment because of the following of 
-            NAME types (i.e. type aliases). Looks like I do this in the type environment of 
-            the usage instead of the declaration. This happens in actual_ty. *)
+  (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
+  (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
 
   type expty = {exp: Translate.exp, ty: T.ty}
 
@@ -36,10 +32,11 @@ struct
 
   fun lookupTy(pos, tenv, ty) =
     case S.look(tenv, ty)
-      of SOME ty => ty
+      of SOME ty => actual_ty(pos, tenv, ty) (* XXX: might cause trouble *)
        | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
 
-  fun actual_ty(pos, tenv, T.NAME (sym, _)) = actual_ty(pos, tenv, lookupTy(pos, tenv, sym))
+  and actual_ty(pos, tenv, T.NAME (sym, ref(SOME(ty)))) = actual_ty(pos, tenv, ty)
+    | actual_ty(pos, tenv, T.NAME (sym, ref(NONE))) = (error pos ("type '" ^ S.name sym ^ "' is still NONE"); T.NIL)
     | actual_ty(pos, tenv, ty) = ty
 
   fun checkInt({exp, ty}, pos) =
@@ -105,7 +102,7 @@ struct
 
   |   transDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
-        val SOME(decTy) = S.look(tenv, symbol)
+        val decTy = lookupTy(pos, tenv, symbol)
     in
       reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
       {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
@@ -120,17 +117,21 @@ struct
       fun transDec' (venv, tenv, []) = {tenv=tenv, venv=venv}
         | transDec' (venv, tenv, ({name, ty, pos}::decs)) =
           let
-            val sym = name
-            val tenv' = S.enter (tenv, sym, T.NAME (sym, ref NONE))
+            fun lookupType(pos, tenv, ty) =
+              case S.look(tenv, ty)
+                of SOME ty => ty
+                 | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
+            val SOME(T.NAME(tyName, tyRef)) = S.look (tenv, name)
             val ty = case ty
-              of A.NameTy (sym, pos) => 
-                  T.NAME (sym, ref (SOME (lookupTy (pos, tenv', sym))))
+              of A.NameTy (name, pos) => 
+                  T.NAME (name, ref (SOME (lookupType (pos, tenv, name))))
                | A.RecordTy fields => 
-                  T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupTy (pos, tenv', typ))) fields, ref ())
-               | A.ArrayTy (sym, pos) => 
-                  T.ARRAY (lookupTy (pos, tenv', sym), ref ())
+                  T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupType (pos, tenv, typ))) fields, ref ())
+               | A.ArrayTy (name, pos) => 
+                  T.ARRAY (lookupType (pos, tenv, name), ref ())
           in
-            transDec' (venv, S.enter(tenv, name, ty), decs)
+            tyRef := SOME(ty);
+            transDec' (venv, tenv, decs)
           end
       fun enterTypeHeader ({name, ty, pos}, tenv) = S.enter (tenv, name, T.NAME (name, ref NONE))
       val tenv' = foldl enterTypeHeader tenv typeDecs
@@ -289,7 +290,7 @@ struct
           (* FIXME: Oops, I've required the fields in the record expression to be specified in the same order as in the 
                     record declaration! *)
           let
-            val recordType = S.look(tenv, typ)
+            (* val recordType = S.look(tenv, typ) *) (* XXX unused *)
 
             fun checkField((symbol, exp, pos), (tySymbol, ty)) =
               let
@@ -306,14 +307,12 @@ struct
                 app checkField (ListPair.zip(fields, tyFields))
               else
                 error pos "Record expression has the wrong arity"
+
+            val t = lookupTy(pos, tenv, typ)
           in
-            case S.look(tenv, typ)
-              of SOME t =>
-                (case t
-                  of T.RECORD (tyFields, unique) => (checkFields (tyFields); {exp=todoTrExp, ty=t})
-                  | _                            => (error pos "Not a record type"; errorTrExpTy)
-                )
-               | NONE   => (error pos "record type does not exist"; errorTrExpTy)
+            case t
+              of T.RECORD (tyFields, unique) => (checkFields (tyFields); {exp=todoTrExp, ty=t})
+               | _                           => (error pos "Not a record type"; errorTrExpTy)
           end
 
         | trexp(A.IntExp _) = {exp=todoTrExp, ty=T.INT}

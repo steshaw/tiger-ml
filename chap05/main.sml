@@ -12,7 +12,7 @@ struct
       PP.print(TextIO.stdOut, ast);
       print ("type check =>\n");
       Semant.transProg(ast) (* type check *)
-        handle _ => print "type check failed with unknown exception\n"
+        handle _ => ErrorMsg.error 1 "type check failed with unknown exception"
     end
   end
 

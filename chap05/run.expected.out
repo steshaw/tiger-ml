@@ -2049,8 +2049,6 @@ LetExp([
     SimpleVar(arr1),
     IntExp(2)))])
 type check =>
-../testcases/test30.tig:7.17:type is not an array
-../testcases/test30.tig:7.3:types do not match
 
 -- ../testcases/test31.tig --
 /* error : type constraint and init value differ */
@@ -2114,7 +2112,8 @@ LetExp([
  SeqExp[
   IntExp(0)])
 type check =>
-../testcases/test33.tig:3.10:record type does not exist
+../testcases/test33.tig:3.10:Type 'rectype' is not defined
+../testcases/test33.tig:3.10:Not a record type
 
 -- ../testcases/test34.tig --
 /* error : formals and actuals have different types */
@@ -2458,6 +2457,10 @@ LetExp([
     IntExp(2)),
    IntExp(2323))])
 type check =>
+../testcases/test42.tig:22.1:variable is not a record
+../testcases/test42.tig:22.1:types do not match
+../testcases/test42.tig:23.1:variable is not a record
+../testcases/test42.tig:23.1:types do not match
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
@@ -2680,7 +2683,7 @@ SOME(int),
 type check =>
 ../testcases/test-fun-dec-01.tig:2.3:types do not match
 
--- ../testcases/test-mutually-recursive-types.tig --
+-- ../testcases/test-mutually-recursive-types-01.tig --
 let
   type foo = {bar: bar, foo:foo}
   type bar = {foo:foo}
@@ -2688,7 +2691,7 @@ in
   nil
 end
 --
-../testcases/test-mutually-recursive-types.tig:
+../testcases/test-mutually-recursive-types-01.tig:
 parse =>
 LetExp([
  TypeDec[
