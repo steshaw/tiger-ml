@@ -473,7 +473,7 @@ SOME(notExist),
   CallExp(foo,[
    IntExp(10)])])
 type check =>
-../testcases/aa-test18.tig:2.3:Type 'notExist' is not defined
+../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test18.tig:2.3:types do not match
 
 -- ../testcases/aa-test19.tig --
@@ -498,7 +498,7 @@ SOME(notExist),
   CallExp(foo,[
    IntExp(10)])])
 type check =>
-../testcases/aa-test19.tig:2.3:Type 'notExist' is not defined
+../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test19.tig:2.3:types do not match
 
 -- ../testcases/merge.tig --
