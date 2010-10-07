@@ -113,7 +113,7 @@ struct
         fun transField({name, escape, typ, pos}) = (name, lookupTy(pos, tenv, typ))
         val ty = case ty 
           of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* TODO: Later, somewhere, update this ref *)
-           | A.RecordTy fields => T.RECORD (map transField fields, ref ()) (* TODO: convert field *)
+           | A.RecordTy fields => T.RECORD (map transField fields, ref ())
            | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv, sym), ref ())
       in
         transDec(venv, S.enter(tenv, name, ty), A.TypeDec decs)
@@ -130,27 +130,27 @@ struct
           val params' = map transParam params (* map [ty] => [(name, ty)] *)
           val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
           fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
           val venv'' = foldl enterParam venv' params'
-              (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+          val bodyA = transExp(venv'', tenv, body);
         in
-          transExp(venv'', tenv, body);
+          reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
           {venv=venv', tenv=tenv}
         end
 
       |  transFunDec({name, params, body, pos, result=NONE}) =
-        (* FIXME: copy of above *)
+        (* XXX: mildly hacked copy of above *)
         let
           val resTy = T.UNIT
-          fun transParam {name, escape, typ, pos} =
-            {name=name, ty=lookupTy(pos, tenv, typ)}
+          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupTy(pos, tenv, typ)}
           val params' = map transParam params (* map [ty] => [(name, ty)] *)
           val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-          fun enterParam({name, ty}, venv) =
-            S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+          fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+          (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
           val venv'' = foldl enterParam venv' params'
-              (* XXX: book had fold instead of foldl and I had to reverse the last two args. Should this be a foldr? *)
+          val bodyA = transExp(venv'', tenv, body);
         in
-          transExp(venv'', tenv, body);
+          reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
           {venv=venv', tenv=tenv}
         end
       (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)

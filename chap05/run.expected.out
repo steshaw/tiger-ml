@@ -474,6 +474,7 @@ SOME(notExist),
    IntExp(10)])])
 type check =>
 ../testcases/aa-test18.tig:2.3:Type 'notExist' is not defined
+../testcases/aa-test18.tig:2.3:types do not match
 
 -- ../testcases/aa-test19.tig --
 let
@@ -498,6 +499,7 @@ SOME(notExist),
    IntExp(10)])])
 type check =>
 ../testcases/aa-test19.tig:2.3:Type 'notExist' is not defined
+../testcases/aa-test19.tig:2.3:types do not match
 
 -- ../testcases/merge.tig --
 let 
@@ -1307,6 +1309,7 @@ NONE,
    StringExp("str2")])])
 type check =>
 ../testcases/test06.tig:5.3:Function does not exist
+../testcases/test06.tig:4.1:types do not match
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -1797,6 +1800,7 @@ NONE,
    IntExp(10)])])
 type check =>
 ../testcases/test21.tig:8.9:Type 'int' required
+../testcases/test21.tig:5.1:types do not match
 
 -- ../testcases/test22.tig --
 /* error : field not in record type */
@@ -2291,6 +2295,7 @@ NONE,
   CallExp(g,[
    IntExp(2)])])
 type check =>
+../testcases/test40.tig:3.2:types do not match
 
 -- ../testcases/test41.tig --
 /* local types hide global */
@@ -2664,6 +2669,25 @@ type check =>
 ../testcases/test49.tig:5.10:Variable does not exist
 ../testcases/test49.tig:5.10:Type 'int' required
 ../testcases/test49.tig:5.10:Type 'int' required
+
+-- ../testcases/test-fun-dec-01.tig --
+let
+  function f():int = "ha"
+in
+  nil
+end
+--
+../testcases/test-fun-dec-01.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (f,[],
+SOME(int),
+   StringExp("ha"))]],
+ SeqExp[
+  NilExp])
+type check =>
+../testcases/test-fun-dec-01.tig:2.3:types do not match
 
 -- ../testcases/test-record-exp-01.tig --
 let
