@@ -1531,16 +1531,14 @@ type check =>
 ../testcases/test15.tig:3.1:unit required
 
 -- ../testcases/test16.tig --
-/* error: mutually recursive types thet do not pass through record or array */
+/* error: Mutually recursive types that do not pass through record or array. */
 let 
-
-type a=c
-type b=a
-type c=d
-type d=a
-
+  type a=c
+  type b=a
+  type c=d
+  type d=a
 in
- ""
+ nil
 end
 --
 ../testcases/test16.tig:
@@ -1556,8 +1554,10 @@ LetExp([
   (d,
    NameTy(a))]],
  SeqExp[
-  StringExp("")])
+  NilExp])
 type check =>
+../testcases/test16.tig:3.10:Type 'c' is not defined
+../testcases/test16.tig:5.10:Type 'd' is not defined
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */

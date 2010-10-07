@@ -1,11 +1,9 @@
-/* error: mutually recursive types thet do not pass through record or array */
+/* error: Mutually recursive types that do not pass through record or array. */
 let 
-
-type a=c
-type b=a
-type c=d
-type d=a
-
+  type a=c
+  type b=a
+  type c=d
+  type d=a
 in
- ""
+ nil
 end

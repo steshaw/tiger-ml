@@ -117,9 +117,12 @@ struct
         val sym = name
         val tenv' = S.enter(tenv, sym, T.NAME (sym, ref NONE))
         val ty = case ty
-          of A.NameTy (sym, pos) => T.NAME (sym, ref NONE) (* TODO: Later, somewhere, update this ref *)
-           | A.RecordTy fields => T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupTy(pos, tenv', typ))) fields, ref ())
-           | A.ArrayTy (sym, pos) => T.ARRAY (lookupTy(pos, tenv', sym), ref ())
+          of A.NameTy (sym, pos) => 
+              T.NAME (sym, ref (SOME(lookupTy (pos, tenv', sym))))
+           | A.RecordTy fields => 
+              T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupTy(pos, tenv', typ))) fields, ref ())
+           | A.ArrayTy (sym, pos) => 
+              T.ARRAY (lookupTy(pos, tenv', sym), ref ())
       in
         transDec(venv, S.enter(tenv, name, ty), A.TypeDec decs)
       end
@@ -350,7 +353,7 @@ struct
       trexp(exp)
     end
 
-  and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy
+  and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy (* XXX: what's this? *)
 
   and transProg(exp: A.exp):unit =
     (transExp(E.base_venv, E.base_tenv, exp);
