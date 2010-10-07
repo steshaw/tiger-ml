@@ -4,6 +4,7 @@ sig
 end =
 struct
   structure A = Absyn
+  structure P = PrintAbsyn
   structure S = Symbol
   structure E = Env
   structure T = Types
@@ -323,31 +324,43 @@ struct
               val leftTy = actual_ty (pos, tenv, leftTyBare) (* XXX: Not required? *)
               val rightTy = actual_ty (pos, tenv, rightTyBare) (* XXX: Not required? *)
           in
+(*
+            print ("trexp(OpExp _) oper=" ^ P.opname oper ^ "\n");
+*)
             case oper 
               of (A.PlusOp | A.MinusOp | A.TimesOp | A.DivideOp | A.LtOp | A.LeOp | A.GtOp | A.GeOp) => 
                 (* The following are int-only operations: + - * / < > <= >= *)
                 let in
+(*
+                  print "arith and comparision\n";
+*)
                   checkInt(leftA, pos);
                   checkInt(rightA, pos);
+                  (* TODO: Result of comparison ought to be Boolean *)
                   {exp=todoTrExp, ty=T.INT}
                 end
-              | (A.EqOp | A.NeqOp) =>
+              | (A.EqOp | A.NeqOp) => let in
+(*
+                print "= and <>\n";
+*)
                 (* Operators = and <> operate on int, string, record and arrays *)
                 (* TODO: Remove the duplication when checking unique values for records and arrays *)
+                (* TODO: Result of comparison ought to be Boolean *)
                 case (leftTy, rightTy)
                   of (T.INT, T.INT) => {exp=todoTrExp, ty=T.INT}
-                   | (T.STRING, T.STRING) => {exp=todoTrExp, ty=T.STRING}
+                   | (T.STRING, T.STRING) => {exp=todoTrExp, ty=T.INT}
                    | (T.RECORD (_, lUnique), T.RECORD (_, rUnique)) => 
                      if lUnique <> rUnique then
                        (error pos "Record types are not equal"; errorTrExpTy)
-                     else {exp=todoTrExp, ty=leftTy}
-                   | (T.NIL, T.RECORD _) => {exp=todoTrExp, ty=rightTy}
-                   | (T.RECORD _, T.NIL) => {exp=todoTrExp, ty=leftTy}
+                     else {exp=todoTrExp, ty=T.INT}
+                   | (T.NIL, T.RECORD _) => {exp=todoTrExp, ty=T.INT}
+                   | (T.RECORD _, T.NIL) => {exp=todoTrExp, ty=T.INT}
                    | (T.ARRAY (lTy, lUnique), T.ARRAY (rTy, rUnique)) =>
                      if lUnique <> rUnique then
                        (error pos "Array types are not equal"; errorTrExpTy)
-                     else {exp=todoTrExp, ty=leftTy}
+                     else {exp=todoTrExp, ty=T.INT}
                    | _ => (error pos "Types mismatch"; errorTrExpTy)
+                end
           end
 
         | trexp(A.LetExp {decs, body, pos}) =
@@ -355,6 +368,7 @@ struct
             (* TODO: Book has transExp(venv', tenv') body. Wonder if this makes it easier to map/app. *)
             in transExp(venv', tenv', body)
             end
+
         | trexp(A.SeqExp expList) = 
             let 
               val rs = map trexp (map #1 expList)

@@ -1,15 +1,11 @@
-structure PrintAbsyn : 
-     sig val print : TextIO.outstream * Absyn.exp -> unit end =
+structure PrintAbsyn:
+sig 
+  val print : TextIO.outstream * Absyn.exp -> unit 
+  val opname : Absyn.oper -> string
+end =
 struct
 
   structure A = Absyn
-
-fun print (outstream, e0) =
- let fun say s =  TextIO.output(outstream,s)
-  fun sayln s= (say s; say "\n") 
-
-  fun indent 0 = ()
-    | indent i = (say " "; indent(i-1))
 
   fun opname A.PlusOp = "PlusOp"
     | opname A.MinusOp = "MinusOp"
@@ -21,6 +17,14 @@ fun print (outstream, e0) =
     | opname A.LeOp = "LeOp"
     | opname A.GtOp = "GtOp"
     | opname A.GeOp = "GeOp"
+
+fun print (outstream, e0) =
+ let fun say s =  TextIO.output(outstream,s)
+  fun sayln s= (say s; say "\n") 
+
+  fun indent 0 = ()
+    | indent i = (say " "; indent(i-1))
+
 
   fun dolist d f [a] = (sayln ""; f(a,d+1))
     | dolist d f (a::r) = (sayln ""; f(a,d+1); say ","; dolist d f r)

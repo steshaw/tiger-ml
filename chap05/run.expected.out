@@ -836,11 +836,6 @@ LetExp([
     VarExp(
      SimpleVar(list2))])])])
 type check =>
-../testcases/merge.tig:11.14:Type 'int' required
-../testcases/merge.tig:11.14:types do not match
-../testcases/merge.tig:32.9:Type 'int' required
-../testcases/merge.tig:31.4:Type 'int' required
-../testcases/merge.tig:46.4:Type 'int' required
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
