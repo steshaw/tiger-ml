@@ -147,9 +147,8 @@ struct
         | transFunDecs(venv, tenv, (dec::decs)) =
 
         let
-          fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
+          fun transFunDecCommon(name, params, body, pos, resTy) =
             let
-              val resTy = lookupActualType(resPos, tenv, resTySy)
               fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
               val params' = map transParam params (* map [ty] => [{name, ty}] *)
               val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
@@ -161,26 +160,16 @@ struct
               {venv=venv', tenv=tenv}
             end
 
-          |  transFunDec({name, params, body, pos, result=NONE}) =
-            (* XXX: copy/paste hack of above! *)
-            let
-              val resTy = T.UNIT
-              fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
-              val params' = map transParam params (* map [ty] => [(name, ty)] *)
-              val venv' = S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
-              fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
-              val venv'' = foldl enterParam venv' params'
-              val bodyA = transExp(venv'', tenv, body);
-            in
-              reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy});
-              {venv=venv', tenv=tenv}
-            end
-          (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)
+          fun transFunDec({name, params, body, pos, result=SOME(resTySy, resPos)}) =
+              transFunDecCommon (name, params, body, pos, lookupActualType (resPos, tenv, resTySy))
+
+          |  transFunDec({name, params, body, pos, result=NONE}) = transFunDecCommon(name, params, body, pos, T.UNIT)
           val {venv, tenv} = transFunDec(dec)
         in
           transFunDecs (venv, tenv, decs)
         end
     in
+      (* TODO: Allow for recursive functions: process function signatures first, then process body expressions. *)
       transFunDecs (venv, tenv, funDecs)
     end
 
