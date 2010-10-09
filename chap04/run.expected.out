@@ -133,6 +133,29 @@ NONE,
    VarExp(
     SimpleVar(a))])])
 
+-- ../testcases/aa-test10.fixed.tig --
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0]
+end
+--
+../testcases/aa-test10.fixed.tig:
+LetExp([
+ TypeDec[
+  (stringArray,
+   ArrayTy(string))],
+ VarDec(a,true,NONE,
+  ArrayExp(stringArray,
+   IntExp(1),
+   StringExp("")))],
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(a),
+    IntExp(0)))])
+
 -- ../testcases/aa-test10.tig --
 a[0]
 --
@@ -141,6 +164,30 @@ VarExp(
  SubscriptVar(
   SimpleVar(a),
   IntExp(0)))
+
+-- ../testcases/aa-test11.fixed.tig --
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0] := "hello"
+end
+--
+../testcases/aa-test11.fixed.tig:
+LetExp([
+ TypeDec[
+  (stringArray,
+   ArrayTy(string))],
+ VarDec(a,true,NONE,
+  ArrayExp(stringArray,
+   IntExp(1),
+   StringExp("")))],
+ SeqExp[
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(a),
+    IntExp(0)),
+   StringExp("hello"))])
 
 -- ../testcases/aa-test11.tig --
 a[0] := "hello"
@@ -152,6 +199,23 @@ AssignExp(
   IntExp(0)),
  StringExp("hello"))
 
+-- ../testcases/aa-test12.fixed.tig --
+let
+  type a = array of string
+in
+  a[20] of ""
+end
+--
+../testcases/aa-test12.fixed.tig:
+LetExp([
+ TypeDec[
+  (a,
+   ArrayTy(string))]],
+ SeqExp[
+  ArrayExp(a,
+   IntExp(20),
+   StringExp(""))])
+
 -- ../testcases/aa-test12.tig --
 a[20] of ""
 --
@@ -161,14 +225,21 @@ ArrayExp(a,
  StringExp(""))
 
 -- ../testcases/aa-test13.tig --
-print(1, 2, 3, "hi")
+let in
+  print(concat(concat(concat("1", "2"), "3"), "hi"))
+end
 --
 ../testcases/aa-test13.tig:
-CallExp(print,[
- IntExp(1),
- IntExp(2),
- IntExp(3),
- StringExp("hi")])
+LetExp([],
+ SeqExp[
+  CallExp(print,[
+   CallExp(concat,[
+    CallExp(concat,[
+     CallExp(concat,[
+      StringExp("1"),
+      StringExp("2")]),
+     StringExp("3")]),
+    StringExp("hi")])])])
 
 -- ../testcases/aa-test14.tig --
 let 
@@ -1317,16 +1388,14 @@ IfExp(
  IntExp(3))
 
 -- ../testcases/test16.tig --
-/* error: mutually recursive types thet do not pass through record or array */
+/* error: Mutually recursive types that do not pass through record or array. */
 let 
-
-type a=c
-type b=a
-type c=d
-type d=a
-
+  type a=c
+  type b=a
+  type c=d
+  type d=a
 in
- ""
+ nil
 end
 --
 ../testcases/test16.tig:
@@ -1341,7 +1410,7 @@ LetExp([
   (d,
    NameTy(a))]],
  SeqExp[
-  StringExp("")])
+  NilExp])
 
 -- ../testcases/test17.tig --
 /* error: definition of recursive types is interrupted */
@@ -2347,4 +2416,251 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+
+-- ../testcases/test-function-decl-return-unit.tig --
+let
+  function foo(i:int) = ()
+in
+  foo(0)
+end
+--
+../testcases/test-function-decl-return-unit.tig:
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+NONE,
+   NilExp)]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(0)])])
+
+-- ../testcases/test-fun-dec-01.tig --
+let
+  function f():int = "ha"
+in
+  nil
+end
+--
+../testcases/test-fun-dec-01.tig:
+LetExp([
+ FunctionDec[
+  (f,[],
+SOME(int),
+   StringExp("ha"))]],
+ SeqExp[
+  NilExp])
+
+-- ../testcases/test-mutually-recursive-function-01.tig --
+let
+  function one(i:int):int = if i > 1 then two(i - 1) else 0
+  function two(j:int):int = if j = 0 then 1 else one(j)
+in
+  one(100)
+end
+--
+../testcases/test-mutually-recursive-function-01.tig:
+LetExp([
+ FunctionDec[
+  (one,[
+   (i,true,int)],
+SOME(int),
+   IfExp(
+    OpExp(GtOp,
+     VarExp(
+      SimpleVar(i)),
+     IntExp(1)),
+    CallExp(two,[
+     OpExp(MinusOp,
+      VarExp(
+       SimpleVar(i)),
+      IntExp(1))]),
+    IntExp(0))),
+  (two,[
+   (j,true,int)],
+SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(j)),
+     IntExp(0)),
+    IntExp(1),
+    CallExp(one,[
+     VarExp(
+      SimpleVar(j))])))]],
+ SeqExp[
+  CallExp(one,[
+   IntExp(100)])])
+
+-- ../testcases/test-mutually-recursive-types-01.tig --
+let
+  type foo = {bar: bar, foo:foo}
+  type bar = {foo:foo}
+in
+  nil
+end
+--
+../testcases/test-mutually-recursive-types-01.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (bar,true,bar),
+    (foo,true,foo)]),
+  (bar,
+   RecordTy[
+    (foo,true,foo)])]],
+ SeqExp[
+  NilExp])
+
+-- ../testcases/test-record-exp-01.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1}
+end
+--
+../testcases/test-record-exp-01.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1))])])
+
+-- ../testcases/test-record-exp-02.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1, b=2} /* error: types do not match */
+end
+--
+../testcases/test-record-exp-02.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1)),
+   (b,
+    IntExp(2))])])
+
+-- ../testcases/test-record-exp-03.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1, b=""}
+end
+--
+../testcases/test-record-exp-03.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1)),
+   (b,
+    StringExp(""))])])
+
+-- ../testcases/test-record-exp-04.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {b = "", a = 1}
+end
+--
+../testcases/test-record-exp-04.tig:
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (b,
+    StringExp("")),
+   (a,
+    IntExp(1))])])
+
+-- ../testcases/test-recursive-function-01.tig --
+let
+  function factorial(n:int):int =
+    if n <= 1 then 1
+    else n * factorial(n - 1)
+in
+  factorial(7)
+end
+--
+../testcases/test-recursive-function-01.tig:
+LetExp([
+ FunctionDec[
+  (factorial,[
+   (n,true,int)],
+SOME(int),
+   IfExp(
+    OpExp(LeOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(1)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(factorial,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(factorial,[
+   IntExp(7)])])
+
+-- ../testcases/test-recursive-type-01.tig --
+let
+  type list = {head: int, rest: list}
+in
+  nil
+end
+--
+../testcases/test-recursive-type-01.tig:
+LetExp([
+ TypeDec[
+  (list,
+   RecordTy[
+    (head,true,int),
+    (rest,true,list)])]],
+ SeqExp[
+  NilExp])
+
+-- ../testcases/test-recursive-type-02.tig --
+let
+  type stringarray = array of stringarray /* error: this has got to be illegal */
+in
+  nil
+end
+--
+../testcases/test-recursive-type-02.tig:
+LetExp([
+ TypeDec[
+  (stringarray,
+   ArrayTy(stringarray))]],
+ SeqExp[
+  NilExp])
 

@@ -2775,14 +2775,10 @@ type check =>
 let
   type foo = {a:int, b:string}
 in
-  foo {a=1, b=2} (* error: types do not match *)
+  foo {a=1, b=2} /* error: types do not match */
 end
 --
 ../testcases/test-record-exp-02.tig:
-../testcases/test-record-exp-02.tig:4.18:syntax error: deleting  LPAREN
-../testcases/test-record-exp-02.tig:4.26:syntax error: deleting  COLON ID DO
-../testcases/test-record-exp-02.tig:4.37:syntax error: replacing  ID with  SEMICOLON
-../testcases/test-record-exp-02.tig:4.48:syntax error: inserting  LPAREN
 parse =>
 LetExp([
  TypeDec[
@@ -2791,27 +2787,14 @@ LetExp([
     (a,true,int),
     (b,true,string)])]],
  SeqExp[
-  OpExp(TimesOp,
-   RecordExp(foo,[
+  RecordExp(foo,[
 
-    (a,
-     IntExp(1)),
-    (b,
-     IntExp(2))]),
-   VarExp(
-    SimpleVar(error))),
-  OpExp(TimesOp,
-   VarExp(
-    SimpleVar(match)),
-   NilExp)])
+   (a,
+    IntExp(1)),
+   (b,
+    IntExp(2))])])
 type check =>
 ../testcases/test-record-exp-02.tig:4.13:types do not match
-../testcases/test-record-exp-02.tig:4.21:Variable does not exist
-../testcases/test-record-exp-02.tig:4.3:Type 'int' required
-../testcases/test-record-exp-02.tig:4.3:Type 'int' required
-../testcases/test-record-exp-02.tig:4.41:Variable does not exist
-../testcases/test-record-exp-02.tig:4.41:Type 'int' required
-../testcases/test-record-exp-02.tig:4.41:Type 'int' required
 
 -- ../testcases/test-record-exp-03.tig --
 let

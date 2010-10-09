@@ -8,8 +8,11 @@
 ../testcases/aa-test07.tig:
 ../testcases/aa-test08.tig:
 ../testcases/aa-test09.tig:
+../testcases/aa-test10.fixed.tig:
 ../testcases/aa-test10.tig:
+../testcases/aa-test11.fixed.tig:
 ../testcases/aa-test11.tig:
+../testcases/aa-test12.fixed.tig:
 ../testcases/aa-test12.tig:
 ../testcases/aa-test13.tig:
 ../testcases/aa-test14.tig:
@@ -71,3 +74,14 @@
 ../testcases/test48.tig:
 ../testcases/test49.tig:
 ../testcases/test49.tig:5.18:syntax error: inserting  PLUS
+../testcases/test-function-decl-return-unit.tig:
+../testcases/test-fun-dec-01.tig:
+../testcases/test-mutually-recursive-function-01.tig:
+../testcases/test-mutually-recursive-types-01.tig:
+../testcases/test-record-exp-01.tig:
+../testcases/test-record-exp-02.tig:
+../testcases/test-record-exp-03.tig:
+../testcases/test-record-exp-04.tig:
+../testcases/test-recursive-function-01.tig:
+../testcases/test-recursive-type-01.tig:
+../testcases/test-recursive-type-02.tig:
