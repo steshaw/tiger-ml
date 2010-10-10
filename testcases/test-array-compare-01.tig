@@ -1,0 +1,8 @@
+let
+  type intArray1 = array of int
+  type intArray2 = array of int
+  var a : intArray1 := intArray1 [20] of 0
+  var b : intArray2 := intArray2 [10] of 1
+in
+  a = b
+end

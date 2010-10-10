@@ -1,0 +1,7 @@
+let
+  type r1 = {name: string, age: int}
+  var person1 : r1 := r1 {name="Steven", age=39}
+  var person2 : r1 := r1 {name="Steven", age=39}
+in
+  person1 = person2
+end

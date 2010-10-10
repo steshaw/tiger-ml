@@ -9,7 +9,7 @@ struct
   structure E = Env
   structure T = Types
 
-  (* TODO: Handle record and array types' unique field *)
+  (* FIXME: lvalue expressions are broken. See testcases/test42.tig *)
 
   (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
   (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
