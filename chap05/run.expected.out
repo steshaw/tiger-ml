@@ -2641,6 +2641,41 @@ type check =>
 ../testcases/test49.tig:5.10:Type 'int' required
 ../testcases/test49.tig:5.10:Type 'int' required
 
+-- ../testcases/test-array-compare-01.tig --
+let
+  type intArray1 = array of int
+  type intArray2 = array of int
+  var a : intArray1 := intArray1 [20] of 0
+  var b : intArray2 := intArray2 [10] of 1
+in
+  a = b
+end
+--
+../testcases/test-array-compare-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (intArray1,
+   ArrayTy(int)),
+  (intArray2,
+   ArrayTy(int))],
+ VarDec(a,true,SOME(intArray1),
+  ArrayExp(intArray1,
+   IntExp(20),
+   IntExp(0))),
+ VarDec(b,true,SOME(intArray2),
+  ArrayExp(intArray2,
+   IntExp(10),
+   IntExp(1)))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(a)),
+   VarExp(
+    SimpleVar(b)))])
+type check =>
+../testcases/test-array-compare-01.tig:7.3:Array types are not equal
+
 -- ../testcases/test-function-decl-return-unit.tig --
 let
   function foo(i:int) = ()
@@ -2747,6 +2782,90 @@ LetExp([
   VarExp(
    SimpleVar(nil))])
 type check =>
+
+-- ../testcases/test-record-compare-01.tig --
+let
+  type r1 = {name: string, age: int}
+  var person1 : r1 := r1 {name="Steven", age=39}
+  var person2 : r1 := r1 {name="Steven", age=39}
+in
+  person1 = person2
+end
+--
+../testcases/test-record-compare-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (r1,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)])],
+ VarDec(person1,true,SOME(r1),
+  RecordExp(r1,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))])),
+ VarDec(person2,true,SOME(r1),
+  RecordExp(r1,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))]))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(person1)),
+   VarExp(
+    SimpleVar(person2)))])
+type check =>
+
+-- ../testcases/test-record-compare-02.tig --
+let
+  type r1 = {name: string, age: int}
+  type r2 = {name: string, age: int}
+  var person1 := r1 {name="Steven", age=39}
+  var person2 := r2 {name="Steven", age=39}
+in
+  person1 = person2
+end
+--
+../testcases/test-record-compare-02.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (r1,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)]),
+  (r2,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)])],
+ VarDec(person1,true,NONE,
+  RecordExp(r1,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))])),
+ VarDec(person2,true,NONE,
+  RecordExp(r2,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))]))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(person1)),
+   VarExp(
+    SimpleVar(person2)))])
+type check =>
+../testcases/test-record-compare-02.tig:7.3:Record types are not equal
 
 -- ../testcases/test-record-exp-01.tig --
 let
