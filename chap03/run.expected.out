@@ -74,10 +74,13 @@
 ../testcases/test48.tig:
 ../testcases/test49.tig:
 ../testcases/test49.tig:5.18:syntax error: inserting  PLUS
+../testcases/test-array-compare-01.tig:
 ../testcases/test-function-decl-return-unit.tig:
 ../testcases/test-fun-dec-01.tig:
 ../testcases/test-mutually-recursive-function-01.tig:
 ../testcases/test-mutually-recursive-types-01.tig:
+../testcases/test-record-compare-01.tig:
+../testcases/test-record-compare-02.tig:
 ../testcases/test-record-exp-01.tig:
 ../testcases/test-record-exp-02.tig:
 ../testcases/test-record-exp-03.tig:
