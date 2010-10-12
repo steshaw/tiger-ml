@@ -136,7 +136,7 @@ type check =>
 
 -- ../testcases/aa-test09.tig --
 let
-  function noargs() = print("no-arg function")
+  function noargs() = ()
 in
   noargs(a)
 end
@@ -147,8 +147,7 @@ LetExp([
  FunctionDec[
   (noargs,[],
    NONE,
-   CallExp(print,[
-    StringExp("no-arg function")]))]],
+   NilExp)]],
  SeqExp[
   CallExp(noargs,[
    VarExp(

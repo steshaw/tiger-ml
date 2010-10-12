@@ -1,5 +1,5 @@
 let
-  function noargs() = print("no-arg function")
+  function noargs() = ()
 in
   noargs(a)
 end
