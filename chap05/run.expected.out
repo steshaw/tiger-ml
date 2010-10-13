@@ -2670,6 +2670,102 @@ LetExp([
 type check =>
 ../testcases/test-array-compare-01.tig:7.3:Array types are not equal
 
+-- ../testcases/test-duplicate-type.tig --
+let
+  type a = int
+  type b = a
+  type a = string
+in
+  ()
+end
+--
+../testcases/test-duplicate-type.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   NameTy(int)),
+  (b,
+   NameTy(a)),
+  (a,
+   NameTy(string))]],
+ SeqExp[
+  NilExp])
+type check =>
+
+-- ../testcases/test-duplicate-var-01.tig --
+let
+  var a:int := 0
+  var b:string := ""
+  var a:int := 0 /* error: duplicate variable 'a' */
+in
+  a
+end
+--
+../testcases/test-duplicate-var-01.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  IntExp(0)),
+ VarDec(b,true,SOME(string),
+  StringExp("")),
+ VarDec(a,true,SOME(int),
+  IntExp(0))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+
+-- ../testcases/test-duplicate-var-02.tig --
+let
+  function a():int = 0
+  function b():string = ""
+  function a():string = "" /* error: duplicate function/variable 'a' */
+in
+  a()
+end
+--
+../testcases/test-duplicate-var-02.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (a,[],
+   SOME(int),
+   IntExp(0)),
+  (b,[],
+   SOME(string),
+   StringExp("")),
+  (a,[],
+   SOME(string),
+   StringExp(""))]],
+ SeqExp[
+  CallExp(a,[])])
+type check =>
+
+-- ../testcases/test-duplicate-var-03.tig --
+let
+  var a:int := 0
+  var b:string := ""
+  function a():int = 0 /* ok: Here, function 'a' shadows var 'a' from above */
+in
+  a()
+end
+--
+../testcases/test-duplicate-var-03.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  IntExp(0)),
+ VarDec(b,true,SOME(string),
+  StringExp("")),
+ FunctionDec[
+  (a,[],
+   SOME(int),
+   IntExp(0))]],
+ SeqExp[
+  CallExp(a,[])])
+type check =>
+
 -- ../testcases/test-function-decl-return-unit.tig --
 let
   function foo(i:int) = ()

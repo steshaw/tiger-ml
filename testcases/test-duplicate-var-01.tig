@@ -1,0 +1,7 @@
+let
+  var a:int := 0
+  var b:string := ""
+  var a:int := 0 /* error: duplicate variable 'a' */
+in
+  a
+end

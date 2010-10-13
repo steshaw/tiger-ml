@@ -1,0 +1,7 @@
+let
+  var a:int := 0
+  var b:string := ""
+  function a():int = 0 /* ok: Here, function 'a' shadows var 'a' from above */
+in
+  a()
+end

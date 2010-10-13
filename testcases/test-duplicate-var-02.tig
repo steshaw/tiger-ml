@@ -1,0 +1,7 @@
+let
+  function a():int = 0
+  function b():string = ""
+  function a():string = "" /* error: duplicate function/variable 'a' */
+in
+  a()
+end
