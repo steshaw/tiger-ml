@@ -13,6 +13,8 @@ struct
   (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
   (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
 
+  (* TODO: Consider adding boolean type to the language *)
+
   type expty = {exp: Translate.exp, ty: T.ty}
 
   val todoAccess = ()
@@ -24,6 +26,8 @@ struct
   (* Value to use when expression is in error and no better value/ty can be provided *)
   val errorTrExpTy = {exp=todoTrExp, ty=T.NIL}
   val errorTrExp = ()
+
+  val wouldBeBooleanTy = T.INT
 
   val error = ErrorMsg.error
 
@@ -321,48 +325,43 @@ struct
               val leftTy = actual_ty (pos, tenv, leftTyBare) (* XXX: Not required? *)
               val rightTy = actual_ty (pos, tenv, rightTyBare) (* XXX: Not required? *)
           in
-(*
-            print ("trexp(OpExp _) oper=" ^ P.opname oper ^ "\n");
-*)
+            (* The following are int-only operations: + - * / < > <= >= *)
             case oper 
-              of (A.PlusOp | A.MinusOp | A.TimesOp | A.DivideOp | A.LtOp | A.LeOp | A.GtOp | A.GeOp) => 
-                (* The following are int-only operations: + - * / < > <= >= *)
+              of (A.PlusOp | A.MinusOp | A.TimesOp | A.DivideOp) =>
                 let in
-(*
-                  print "arith and comparision\n";
-*)
                   checkInt(leftA, pos);
                   checkInt(rightA, pos);
-                  (* TODO: Result of comparison ought to be Boolean *)
                   {exp=todoTrExp, ty=T.INT}
                 end
+              | (A.LtOp | A.LeOp | A.GtOp | A.GeOp) => 
+                let in
+                  checkInt(leftA, pos);
+                  checkInt(rightA, pos);
+                  {exp=todoTrExp, ty=wouldBeBooleanTy}
+                end
               | (A.EqOp | A.NeqOp) => let in
-(*
-                print "= and <>\n";
-*)
-                (* Operators = and <> operate on int, string, record and arrays *)
-                (* TODO: Remove the duplication when checking unique values for records and arrays *)
-                (* TODO: Result of comparison ought to be Boolean *)
+                (* Operators = and <> operate on int, string, record and arrays. *)
+                (* TODO: Refactor checking of unique type for records/arrays. *)
                 case (leftTy, rightTy)
-                  of (T.INT, T.INT) => {exp=todoTrExp, ty=T.INT}
-                   | (T.STRING, T.STRING) => {exp=todoTrExp, ty=T.INT}
-                   | (T.RECORD (_, lUnique), T.RECORD (_, rUnique)) => 
+                  of (T.INT, T.INT) => {exp=todoTrExp, ty=wouldBeBooleanTy}
+                   | (T.STRING, T.STRING) => {exp=todoTrExp, ty=wouldBeBooleanTy}
+                   | (T.RECORD (_, lUnique), T.RECORD (_, rUnique)) =>
                      if lUnique <> rUnique then
                        (error pos "Record types are not equal"; errorTrExpTy)
-                     else {exp=todoTrExp, ty=T.INT}
-                   | (T.NIL, T.RECORD _) => {exp=todoTrExp, ty=T.INT}
-                   | (T.RECORD _, T.NIL) => {exp=todoTrExp, ty=T.INT}
+                     else {exp=todoTrExp, ty=wouldBeBooleanTy}
+                   | (T.NIL, T.RECORD _) => {exp=todoTrExp, ty=wouldBeBooleanTy}
+                   | (T.RECORD _, T.NIL) => {exp=todoTrExp, ty=wouldBeBooleanTy}
                    | (T.ARRAY (lTy, lUnique), T.ARRAY (rTy, rUnique)) =>
                      if lUnique <> rUnique then
                        (error pos "Array types are not equal"; errorTrExpTy)
-                     else {exp=todoTrExp, ty=T.INT}
+                     else {exp=todoTrExp, ty=wouldBeBooleanTy}
                    | _ => (error pos "Types mismatch"; errorTrExpTy)
                 end
           end
 
         | trexp(A.LetExp {decs, body, pos}) =
             let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
-            (* TODO: Book has transExp(venv', tenv') body. Wonder if this makes it easier to map/app. *)
+            (* TODO: The book has transExp(venv', tenv') body. Wonder if this makes it easier to map/app. *)
             in transExp(venv', tenv', body)
             end
 
