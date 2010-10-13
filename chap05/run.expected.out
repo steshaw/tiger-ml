@@ -1198,16 +1198,16 @@ type check =>
 /* define valid recursive types */
 let
 /* define a list */
-type intlist = {hd: int, tl: intlist} 
+type intlist = {hd: int, tl: intlist}
 
 /* define a tree */
 type tree ={key: int, children: treelist}
 type treelist = {hd: tree, tl: treelist}
 
-var lis:intlist := intlist { hd=0, tl= nil } 
+var lis:intlist := intlist {hd=0, tl=nil}
 
 in
-	lis
+  lis
 end
 --
 ../testcases/test05.tig:
@@ -1238,7 +1238,6 @@ LetExp([
   VarExp(
    SimpleVar(lis))])
 type check =>
-../testcases/test05.tig:10.36:types do not match
 
 -- ../testcases/test06.tig --
 /* define valid mutually recursive procedures */

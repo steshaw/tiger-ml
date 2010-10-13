@@ -294,7 +294,7 @@ struct
                 val expA = trexp exp
               in
                 if symbol = tySymbol then
-                  reqSameType(pos, tenv, expA, {exp=(), ty=ty})
+                  reqSameType(pos, tenv, {exp=(), ty=ty}, expA)
                 else
                   error pos "field is not in record type"
               end
