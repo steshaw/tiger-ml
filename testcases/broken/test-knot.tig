@@ -1,0 +1,7 @@
+let
+  type b = a
+  type a = b
+  function foo(a: a):unit = ()
+in
+  nil
+end

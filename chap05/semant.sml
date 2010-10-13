@@ -9,8 +9,7 @@ struct
   structure E = Env
   structure T = Types
 
-  (* FIXME: lvalue expressions are broken. See testcases/test42.tig *)
-
+  (* FIXME: Loops in type aliases cause non-halting type check phase *)
   (* FIXME: Reject multiple definitions with same type name. When consecutive only - otherwise shadows. *)
   (* FIXME: Reject multiple definitions with same variable name? or shadows? *)
 
@@ -61,34 +60,33 @@ struct
 
   fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
     (case S.look(venv, sym)
-      of SOME(E.VarEntry {ty}) => ty (* XXX: probably need actual_ty here *)
+      of SOME(E.VarEntry {ty}) => actual_ty (pos, tenv, ty)
        | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
        | _ => (error pos "Variable does not exist"; T.NIL)
     )
 
     | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) =
       let
-        (* XXX: probably need actual_ty here *)
         val ty = findVarType(tenv, venv, var) (* Lookup type of nested var. It should be a record type. *)
       in
         case ty
           of T.RECORD (fields, unique) =>
             (case List.find (fn (fSym, fTy) => fSym = sym) fields
-              of SOME(sym, ty) => ty
+              of SOME(sym, ty) => actual_ty (pos, tenv, ty)
               |  NONE          => (error pos ("field " ^ S.name sym ^ " does not exist"); T.NIL)
             )
-          |  _                       => (error pos "variable is not a record"; T.NIL)
+          |  _                       => (error pos "Variable is not a record"; T.NIL)
       end
 
     | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) =
       let
-        (* Lookup type of nested var. It should be an array type. Dig past type aliases (NAME types). *)
-        val ty = actual_ty(pos, tenv, findVarType(tenv, venv, var)) 
+        (* Lookup type of nested var. It should be an array type. *)
+        val ty = findVarType(tenv, venv, var)
         val expA = transExp(venv, tenv, exp)
       in
         case ty
-          of T.ARRAY (ty, unique) => (reqSameType(pos, tenv, expA, {exp=(), ty=T.INT}); ty)
-          |  _                    => (error pos "variable is not an array"; T.NIL)
+          of T.ARRAY (ty, unique) => (reqSameType(pos, tenv, expA, {exp=(), ty=T.INT}); actual_ty (pos, tenv, ty))
+          |  _                    => (error pos "Variable is not an array"; T.NIL)
       end
 
   and transVar(venv, tenv, var) = todoExpTy
@@ -199,15 +197,15 @@ struct
 
         | trexp(A.ArrayExp {typ=tySymbol, size=sizeExp, init=initExp, pos}) =
           let
-            val recordTy = lookupActualType(pos, tenv, tySymbol)
+            val arrayTy = lookupActualType(pos, tenv, tySymbol)
             val sizeA = trexp sizeExp
             val initA = trexp initExp
           in
             checkInt(sizeA, pos);
-            case recordTy
+            case arrayTy
               of T.ARRAY (ty, unique) =>
                   (reqSameType(pos, tenv, {exp=(), ty=ty}, initA);
-                   {exp=todoTrExp, ty=recordTy})
+                   {exp=todoTrExp, ty=arrayTy})
                | _ => (error pos "type is not an array";
                       {exp=todoTrExp, ty=T.UNIT})
           end
@@ -220,7 +218,6 @@ struct
             (* TODO: ensure loop variable is not assigned to *)
             val bodyA = transExp (venv', tenv, body)
           in
-            (* FIXME: Introduce the varSym variable *)
             checkInt(loA, pos);
             checkInt(hiA, pos);
             checkUnit(bodyA, pos);

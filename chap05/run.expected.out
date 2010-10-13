@@ -191,7 +191,7 @@ VarExp(
   IntExp(0)))
 type check =>
 ../testcases/aa-test10.tig:1.1:Variable does not exist
-../testcases/aa-test10.tig:1.1:variable is not an array
+../testcases/aa-test10.tig:1.1:Variable is not an array
 
 -- ../testcases/aa-test11.fixed.tig --
 let
@@ -231,7 +231,7 @@ AssignExp(
  StringExp("hello"))
 type check =>
 ../testcases/aa-test11.tig:1.1:Variable does not exist
-../testcases/aa-test11.tig:1.1:variable is not an array
+../testcases/aa-test11.tig:1.1:Variable is not an array
 ../testcases/aa-test11.tig:1.1:types do not match
 
 -- ../testcases/aa-test12.fixed.tig --
@@ -1857,7 +1857,7 @@ LetExp([
     SimpleVar(d),
     IntExp(3)))])
 type check =>
-../testcases/test24.tig:5.2:variable is not an array
+../testcases/test24.tig:5.2:Variable is not an array
 
 -- ../testcases/test25.tig --
 /* error : variable not record */
@@ -1879,7 +1879,7 @@ LetExp([
     SimpleVar(d),
     f))])
 type check =>
-../testcases/test25.tig:5.2:variable is not a record
+../testcases/test25.tig:5.2:Variable is not a record
 
 -- ../testcases/test26.tig --
 /* error : integer required */
@@ -2425,10 +2425,6 @@ LetExp([
     IntExp(2)),
    IntExp(2323))])
 type check =>
-../testcases/test42.tig:22.1:variable is not a record
-../testcases/test42.tig:22.1:types do not match
-../testcases/test42.tig:23.1:variable is not a record
-../testcases/test42.tig:23.1:types do not match
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
