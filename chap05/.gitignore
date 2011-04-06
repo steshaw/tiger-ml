@@ -1,5 +1,6 @@
 tiger.grm.sml
 sources.x86-linux
+sources.x86-darwin
 .cm
 run.actual.out
 run.diff.out

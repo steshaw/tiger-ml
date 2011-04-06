@@ -5,7 +5,10 @@ ml-yacc tiger.grm &&
   ml-build sources.cm Main.main &&
   head -1 tiger.grm.desc &&
   (
-    for tigerSource in ../testcases/*.tig; do
+    # FIXME: Hack to make the sort-order the same on Mac/Darwin as on Linux.
+    # FIXME: Luckily we don't use 'z' in our testcase file names...
+    files=$(ls ../testcases/*.tig | sed 's/-/z/g' | sort | sed -e 's/z/-/g')
+    for tigerSource in $files; do
       echo -- $tigerSource --
       cat $tigerSource
       echo --

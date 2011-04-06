@@ -1,4 +1,5 @@
 sources.x86-linux
+sources.x86-darwin
 tiger.lex.sml
 .cm
 run.actual.out
