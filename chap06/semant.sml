@@ -15,13 +15,14 @@ struct
 
   (* TODO: Consider adding boolean type to the language *)
 
-  type expty = {exp: Translate.exp, ty: T.ty}
+  type expty = {(* exp: Translate.exp,*) ty: T.ty}
 
-  val todoAccess = ()
-  val todoTy = T.INT
-  val todoTrExp = ()
-  val todoExpTy = {exp=(), ty=todoTy}
-  val todoDecValEntTyEnv = {venv=E.base_venv, tenv=E.base_tenv}
+  val todoLevel = TL.outermostLevel (* TODO *)
+  val todoAccess = TL.globalAccess (* TODO *)
+  val todoTy = T.INT (* TODO *)
+  val todoTrExp = () (* TODO *)
+  val todoExpTy = {exp=(), ty=todoTy} (* TODO *)
+  val todoDecValEntTyEnv = {venv=E.base_venv, tenv=E.base_tenv} (* TODO *)
 
   (* Value to use when expression is in error and no better value/ty can be provided *)
   val errorTrExpTy = {exp=todoTrExp, ty=T.NIL}
@@ -64,7 +65,7 @@ struct
 
   fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
     (case S.look(venv, sym)
-      of SOME(E.VarEntry {ty}) => actual_ty (pos, tenv, ty)
+      of SOME(E.VarEntry {access=_, ty}) => actual_ty (pos, tenv, ty)
        | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
        | _ => (error pos "Variable does not exist"; T.NIL)
     )
@@ -97,7 +98,7 @@ struct
 
   and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
     let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
-    in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=ty})}
+    in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {access=todoAccess, ty=ty})}
     end
 
   |   transDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
@@ -105,7 +106,7 @@ struct
         val decTy = lookupActualType(pos, tenv, symbol)
     in
       reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
-      {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {ty=decTy})} (* continue with declared type *)
+      {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {access=todoAccess, ty=decTy})} (* continue with declared type *)
     end
 
   | transDec(venv, tenv, A.TypeDec typeDecs) =
@@ -154,7 +155,7 @@ struct
               val resTy = computeResultType (tenv, result)
               fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
               val params' = map transParam params (* map [ty] => [{name, ty}] *)
-              fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {(*access=todoAccess,*) ty=ty})
+              fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {access=todoAccess, ty=ty})
               val venv' = foldl enterParam venv params'
               val bodyA = transExp(venv', tenv, body);
             in
@@ -170,7 +171,12 @@ struct
           fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
           val params' = map transParam params (* map [ty] => [{name, ty}] *)
         in
-          S.enter(venv, name, E.FunEntry {formals=map #ty params', result=resTy})
+          S.enter(venv, name, 
+                  E.FunEntry {
+                    level=todoLevel, 
+                    label=Temp.newLabel(), 
+                    formals=map #ty params', 
+                    result=resTy})
         end
       val venv' = foldl enterFunHeader venv funDecs
     in
@@ -218,7 +224,7 @@ struct
           let
             val loA = trexp lo
             val hiA = trexp hi
-            val venv'=S.enter(venv, varSym, E.VarEntry {ty=T.INT}) (* declare loop variable *)
+            val venv'=S.enter(venv, varSym, E.VarEntry {access=todoAccess, ty=T.INT}) (* declare loop variable *)
             (* TODO: ensure loop variable is not assigned to *)
             val bodyA = transExp (venv', tenv, body)
           in
@@ -244,7 +250,7 @@ struct
             case S.look(venv, func)
               of SOME(E.VarEntry _) => (error pos "Variable is not a function"; errorTrExpTy)
                | NONE => (error pos "Function does not exist"; errorTrExpTy)
-               | SOME(E.FunEntry {formals, result=resTy}) =>
+               | SOME(E.FunEntry {level=_, label=_, formals, result=resTy}) =>
                   let
                     val formalsN = length formals
                     val actualsN = length args
@@ -374,11 +380,11 @@ struct
             
       and trvar(A.SimpleVar(id, pos)) =
         (case S.look(venv, id)
-          of SOME(E.VarEntry {ty}) => {exp=todoTrExp, ty=actual_ty(pos, tenv, ty)}
-           | SOME(E.FunEntry _)    => (error pos ("variable points to a function - compiler bug?: " ^ S.name id);
-                                       {exp=errorTrExp, ty=T.INT})
-           | NONE                  => (error pos ("undefined variable " ^ S.name id);
-                                       {exp=errorTrExp, ty=T.INT})
+          of SOME(E.VarEntry {access=_, ty}) => {exp=todoTrExp, ty=actual_ty(pos, tenv, ty)}
+           | SOME(E.FunEntry _)              => (error pos ("variable points to a function - compiler bug?: " ^ S.name id);
+                                                {exp=errorTrExp, ty=T.INT})
+           | NONE                            => (error pos ("undefined variable " ^ S.name id);
+                                                {exp=errorTrExp, ty=T.INT})
         )
         | trvar(A.FieldVar(var, sym, pos)) = todoExpTy
         | trvar(A.SubscriptVar(var, exp, pos)) = todoExpTy
@@ -388,8 +394,10 @@ struct
 
   and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy (* XXX: what's this? *)
 
-  and transProg(exp: A.exp):unit =
-    (transExp(E.base_venv, E.base_tenv, exp);
-     ())
+  and transProg(exp: A.exp):unit = 
+    let in 
+      transExp(E.base_venv, E.base_tenv, exp);
+      ()
+    end
 
 end

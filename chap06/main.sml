@@ -11,12 +11,15 @@ struct
       print ("parse =>\n");
       PP.print(TextIO.stdOut, ast);
       print ("type check =>\n");
-      Semant.transProg(ast) (* type check *)
-        handle _ => ErrorMsg.error 1 "type check failed with unknown exception"
+      Semant.transProg(ast); (* pass: type check *)
+      FindEscape.findEscape(ast) (* pass: note variables that escape *)
+    handle Fail msg => ErrorMsg.error 1 ("failed with: " ^ msg)
+    handle        _ => ErrorMsg.error 1 "type check failed with unknown exception"
     end
   end
 
-  fun main(cmd : string, args : string list) : OS.Process.status = let in
-    app compile args; 0
-  end
+  fun main(cmd: string, args: string list): OS.Process.status =
+    let in
+      app compile args; 0
+    end
 end

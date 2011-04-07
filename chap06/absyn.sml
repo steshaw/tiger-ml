@@ -1,7 +1,9 @@
 structure Absyn =
 struct
 
-type pos = int   and   symbol = Symbol.symbol
+type pos = int
+
+type symbol = Symbol.symbol
 
 datatype var
   = SimpleVar of symbol * pos

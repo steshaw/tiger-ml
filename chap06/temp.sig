@@ -1,11 +1,11 @@
+(* vim: set filetype=sml: *)
 signature TEMP = 
 sig
   eqtype temp
-  val newtemp : unit -> temp
+  val newTemp : unit -> temp
   structure Table : TABLE sharing type Table.key = temp
-  val makestring: temp -> string
+  val makeString: temp -> string
   type label = Symbol.symbol
-  val newlabel : unit -> label
-  val namedlabel : string -> label
+  val newLabel : unit -> label
+  val namedLabel : string -> label
 end
-
