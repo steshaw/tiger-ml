@@ -1,0 +1,3130 @@
+-- ../testcases/aaa-nil.tig --
+nil
+--
+../testcases/aaa-nil.tig:
+parse =>
+VarExp(
+ SimpleVar(nil))
+type check =>
+
+-- ../testcases/aa-test01.tig --
+1
+--
+../testcases/aa-test01.tig:
+parse =>
+IntExp(1)
+type check =>
+
+-- ../testcases/aa-test02.tig --
+"hello"
+--
+../testcases/aa-test02.tig:
+parse =>
+StringExp("hello")
+type check =>
+
+-- ../testcases/aa-test03.tig --
+()
+--
+../testcases/aa-test03.tig:
+parse =>
+NilExp
+type check =>
+
+-- ../testcases/aa-test04.tig --
+nil
+--
+../testcases/aa-test04.tig:
+parse =>
+VarExp(
+ SimpleVar(nil))
+type check =>
+
+-- ../testcases/aa-test05.tig --
+if 1 < 2 then "yep" else "nah"
+--
+../testcases/aa-test05.tig:
+parse =>
+IfExp(
+ OpExp(LtOp,
+  IntExp(1),
+  IntExp(2)),
+ StringExp("yep"),
+ StringExp("nah"))
+type check =>
+
+-- ../testcases/aa-test06.tig --
+let var a := 1 in a end
+--
+../testcases/aa-test06.tig:
+parse =>
+LetExp([
+ VarDec(a,true,NONE,
+  IntExp(1))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+
+-- ../testcases/aa-test07.tig --
+let
+  var a:int := 100
+  function foo(a: int) = print("hi")
+in
+  foo(100)
+end
+--
+../testcases/aa-test07.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  IntExp(100)),
+ FunctionDec[
+  (foo,[
+   (a,true,int)],
+   NONE,
+   CallExp(print,[
+    StringExp("hi")]))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(100)])])
+type check =>
+
+-- ../testcases/aa-test08.tig --
+let
+  var a:int := 100
+  function foo(a: int) = print("hi")
+in
+  a := a + 1;
+  foo(a);
+  print(if a > 0 then "positive" else "not positive");
+  exit(0)
+end
+--
+../testcases/aa-test08.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  IntExp(100)),
+ FunctionDec[
+  (foo,[
+   (a,true,int)],
+   NONE,
+   CallExp(print,[
+    StringExp("hi")]))]],
+ SeqExp[
+  AssignExp(
+   SimpleVar(a),
+   OpExp(PlusOp,
+    VarExp(
+     SimpleVar(a)),
+    IntExp(1))),
+  CallExp(foo,[
+   VarExp(
+    SimpleVar(a))]),
+  CallExp(print,[
+   IfExp(
+    OpExp(GtOp,
+     VarExp(
+      SimpleVar(a)),
+     IntExp(0)),
+    StringExp("positive"),
+    StringExp("not positive"))]),
+  CallExp(exit,[
+   IntExp(0)])])
+type check =>
+
+-- ../testcases/aa-test09.tig --
+let
+  function noargs() = ()
+in
+  noargs(a)
+end
+--
+../testcases/aa-test09.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (noargs,[],
+   NONE,
+   NilExp)]],
+ SeqExp[
+  CallExp(noargs,[
+   VarExp(
+    SimpleVar(a))])])
+type check =>
+../testcases/aa-test09.tig:4.3:Function has the wrong arity
+
+-- ../testcases/aa-test10.fixed.tig --
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0]
+end
+--
+../testcases/aa-test10.fixed.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (stringArray,
+   ArrayTy(string))],
+ VarDec(a,true,NONE,
+  ArrayExp(stringArray,
+   IntExp(1),
+   StringExp("")))],
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(a),
+    IntExp(0)))])
+type check =>
+
+-- ../testcases/aa-test10.tig --
+a[0]
+--
+../testcases/aa-test10.tig:
+parse =>
+VarExp(
+ SubscriptVar(
+  SimpleVar(a),
+  IntExp(0)))
+type check =>
+../testcases/aa-test10.tig:1.1:Variable does not exist
+../testcases/aa-test10.tig:1.1:Variable is not an array
+
+-- ../testcases/aa-test11.fixed.tig --
+let
+  type stringArray = array of string
+  var a := stringArray [1] of ""
+in
+  a[0] := "hello"
+end
+--
+../testcases/aa-test11.fixed.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (stringArray,
+   ArrayTy(string))],
+ VarDec(a,true,NONE,
+  ArrayExp(stringArray,
+   IntExp(1),
+   StringExp("")))],
+ SeqExp[
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(a),
+    IntExp(0)),
+   StringExp("hello"))])
+type check =>
+
+-- ../testcases/aa-test11.tig --
+a[0] := "hello"
+--
+../testcases/aa-test11.tig:
+parse =>
+AssignExp(
+ SubscriptVar(
+  SimpleVar(a),
+  IntExp(0)),
+ StringExp("hello"))
+type check =>
+../testcases/aa-test11.tig:1.1:Variable does not exist
+../testcases/aa-test11.tig:1.1:Variable is not an array
+../testcases/aa-test11.tig:1.1:types do not match
+
+-- ../testcases/aa-test12.fixed.tig --
+let
+  type a = array of string
+in
+  a[20] of ""
+end
+--
+../testcases/aa-test12.fixed.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   ArrayTy(string))]],
+ SeqExp[
+  ArrayExp(a,
+   IntExp(20),
+   StringExp(""))])
+type check =>
+
+-- ../testcases/aa-test12.tig --
+a[20] of ""
+--
+../testcases/aa-test12.tig:
+parse =>
+ArrayExp(a,
+ IntExp(20),
+ StringExp(""))
+type check =>
+../testcases/aa-test12.tig:1.1:Type 'a' is not defined
+../testcases/aa-test12.tig:1.1:type is not an array
+
+-- ../testcases/aa-test13.tig --
+let in
+  print(concat(concat(concat("1", "2"), "3"), "hi"))
+end
+--
+../testcases/aa-test13.tig:
+parse =>
+LetExp([],
+ SeqExp[
+  CallExp(print,[
+   CallExp(concat,[
+    CallExp(concat,[
+     CallExp(concat,[
+      StringExp("1"),
+      StringExp("2")]),
+     StringExp("3")]),
+    StringExp("hi")])])])
+type check =>
+
+-- ../testcases/aa-test14.tig --
+let 
+  var a1 := 1 + 2 + 3 + 4
+  var a2 := 1 - 2 - 3 - 4
+  var a3 := 1 * 2 * 3 * 4
+  var a4 := 1 / 2 / 3 / 4
+  var t1 := 1 + 2 * 3
+  var t2 := 2 * 3 + 1
+  var t2 := 2 * (3 + 1)
+  var t3 := a1 < 1 | a1 > 10
+  var t4 := a1 >= 1 & a1 <= 10
+in
+  1
+end
+--
+../testcases/aa-test14.tig:
+parse =>
+LetExp([
+ VarDec(a1,true,NONE,
+  OpExp(PlusOp,
+   OpExp(PlusOp,
+    OpExp(PlusOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(a2,true,NONE,
+  OpExp(MinusOp,
+   OpExp(MinusOp,
+    OpExp(MinusOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(a3,true,NONE,
+  OpExp(TimesOp,
+   OpExp(TimesOp,
+    OpExp(TimesOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(a4,true,NONE,
+  OpExp(DivideOp,
+   OpExp(DivideOp,
+    OpExp(DivideOp,
+     IntExp(1),
+     IntExp(2)),
+    IntExp(3)),
+   IntExp(4))),
+ VarDec(t1,true,NONE,
+  OpExp(PlusOp,
+   IntExp(1),
+   OpExp(TimesOp,
+    IntExp(2),
+    IntExp(3)))),
+ VarDec(t2,true,NONE,
+  OpExp(PlusOp,
+   OpExp(TimesOp,
+    IntExp(2),
+    IntExp(3)),
+   IntExp(1))),
+ VarDec(t2,true,NONE,
+  OpExp(TimesOp,
+   IntExp(2),
+   SeqExp[
+    OpExp(PlusOp,
+     IntExp(3),
+     IntExp(1))])),
+ VarDec(t3,true,NONE,
+  IfExp(
+   OpExp(LtOp,
+    VarExp(
+     SimpleVar(a1)),
+    IntExp(1)),
+   IntExp(1),
+   OpExp(GtOp,
+    VarExp(
+     SimpleVar(a1)),
+    IntExp(10)))),
+ VarDec(t4,true,NONE,
+  IfExp(
+   OpExp(GeOp,
+    VarExp(
+     SimpleVar(a1)),
+    IntExp(1)),
+   OpExp(LeOp,
+    VarExp(
+     SimpleVar(a1)),
+    IntExp(10)),
+   IntExp(0)))],
+ SeqExp[
+  IntExp(1)])
+type check =>
+
+-- ../testcases/aa-test15.tig --
+let
+  type foo = int
+  type bar = foo
+  var a: bar := 10
+in
+  a
+end
+--
+../testcases/aa-test15.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   NameTy(int)),
+  (bar,
+   NameTy(foo))],
+ VarDec(a,true,SOME(bar),
+  IntExp(10))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+
+-- ../testcases/aa-test16.tig --
+let
+  type foo = int
+  type bar = foo
+  var a: bar := 1
+in
+  1
+end
+--
+../testcases/aa-test16.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   NameTy(int)),
+  (bar,
+   NameTy(foo))],
+ VarDec(a,true,SOME(bar),
+  IntExp(1))],
+ SeqExp[
+  IntExp(1)])
+type check =>
+
+-- ../testcases/aa-test17.tig --
+let
+  function foo(i: notExist):int = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test17.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,notExist)],
+   SOME(int),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+type check =>
+../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
+../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
+../testcases/aa-test17.tig:2.35:Type 'int' required
+../testcases/aa-test17.tig:4.3:types do not match
+
+-- ../testcases/aa-test18.tig --
+let
+  function foo(i: int):notExist = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test18.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+   SOME(notExist),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+type check =>
+../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
+../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
+../testcases/aa-test18.tig:2.3:types do not match
+
+-- ../testcases/aa-test19.tig --
+let
+  function foo(i: int):notExist = i * 2
+in
+  foo(10)
+end
+--
+../testcases/aa-test19.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+   SOME(notExist),
+   OpExp(TimesOp,
+    VarExp(
+     SimpleVar(i)),
+    IntExp(2)))]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(10)])])
+type check =>
+../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
+../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
+../testcases/aa-test19.tig:2.3:types do not match
+
+-- ../testcases/merge.tig --
+let 
+
+ type any = {any : int}
+ var buffer := getchar()
+
+function readint(any: any) : int =
+ let var i := 0
+     function isdigit(s : string) : int = 
+		  ord(buffer)>=ord("0") & ord(buffer)<=ord("9")
+     function skipto() =
+       while buffer=" " | buffer="\n"
+         do buffer := getchar()
+  in skipto();
+     any.any := isdigit(buffer);
+     while isdigit(buffer)
+       do (i := i*10+ord(buffer)-ord("0"); buffer := getchar());
+     i
+ end
+
+ type list = {first: int, rest: list}
+
+ function readlist() : list =
+    let var any := any{any=0}
+        var i := readint(any)
+     in if any.any
+         then list{first=i,rest=readlist()}
+         else nil
+    end
+
+ function merge(a: list, b: list) : list =
+   if a=nil then b
+   else if b=nil then a
+   else if a.first < b.first 
+      then list{first=a.first,rest=merge(a.rest,b)}
+      else list{first=b.first,rest=merge(a,b.rest)}
+
+ function printint(i: int) =
+  let function f(i:int) = if i>0 
+	     then (f(i/10); print(chr(i-i/10*10+ord("0"))))
+   in if i<0 then (print("-"); f(-i))
+      else if i>0 then f(i)
+      else print("0")
+  end
+
+ function printlist(l: list) =
+   if l=nil then print("\n")
+   else (printint(l.first); print(" "); printlist(l.rest))
+
+   var list1 := readlist()
+   var list2 := (buffer:=getchar(); readlist())
+
+
+  /* BODY OF MAIN PROGRAM */
+ in printlist(merge(list1,list2))
+end
+
+--
+../testcases/merge.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (any,
+   RecordTy[
+    (any,true,int)])],
+ VarDec(buffer,true,NONE,
+  CallExp(getchar,[])),
+ FunctionDec[
+  (readint,[
+   (any,true,any)],
+   SOME(int),
+   LetExp([
+    VarDec(i,true,NONE,
+     IntExp(0)),
+    FunctionDec[
+     (isdigit,[
+      (s,true,string)],
+      SOME(int),
+      IfExp(
+       OpExp(GeOp,
+        CallExp(ord,[
+         VarExp(
+          SimpleVar(buffer))]),
+        CallExp(ord,[
+         StringExp("0")])),
+       OpExp(LeOp,
+        CallExp(ord,[
+         VarExp(
+          SimpleVar(buffer))]),
+        CallExp(ord,[
+         StringExp("9")])),
+       IntExp(0))),
+     (skipto,[],
+      NONE,
+      WhileExp(
+       IfExp(
+        OpExp(EqOp,
+         VarExp(
+          SimpleVar(buffer)),
+         StringExp(" ")),
+        IntExp(1),
+        OpExp(EqOp,
+         VarExp(
+          SimpleVar(buffer)),
+         StringExp("\n"))),
+       AssignExp(
+        SimpleVar(buffer),
+        CallExp(getchar,[]))))]],
+    SeqExp[
+     CallExp(skipto,[]),
+     AssignExp(
+      FieldVar(
+       SimpleVar(any),
+       any),
+      CallExp(isdigit,[
+       VarExp(
+        SimpleVar(buffer))])),
+     WhileExp(
+      CallExp(isdigit,[
+       VarExp(
+        SimpleVar(buffer))]),
+      SeqExp[
+       AssignExp(
+        SimpleVar(i),
+        OpExp(MinusOp,
+         OpExp(PlusOp,
+          OpExp(TimesOp,
+           VarExp(
+            SimpleVar(i)),
+           IntExp(10)),
+          CallExp(ord,[
+           VarExp(
+            SimpleVar(buffer))])),
+         CallExp(ord,[
+          StringExp("0")]))),
+       AssignExp(
+        SimpleVar(buffer),
+        CallExp(getchar,[]))]),
+     VarExp(
+      SimpleVar(i))]))],
+ TypeDec[
+  (list,
+   RecordTy[
+    (first,true,int),
+    (rest,true,list)])],
+ FunctionDec[
+  (readlist,[],
+   SOME(list),
+   LetExp([
+    VarDec(any,true,NONE,
+     RecordExp(any,[
+
+      (any,
+       IntExp(0))])),
+    VarDec(i,true,NONE,
+     CallExp(readint,[
+      VarExp(
+       SimpleVar(any))]))],
+    SeqExp[
+     IfExp(
+      VarExp(
+       FieldVar(
+        SimpleVar(any),
+        any)),
+      RecordExp(list,[
+
+       (first,
+        VarExp(
+         SimpleVar(i))),
+       (rest,
+        CallExp(readlist,[]))]),
+      VarExp(
+       SimpleVar(nil)))])),
+  (merge,[
+   (a,true,list),
+   (b,true,list)],
+   SOME(list),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(a)),
+     VarExp(
+      SimpleVar(nil))),
+    VarExp(
+     SimpleVar(b)),
+    IfExp(
+     OpExp(EqOp,
+      VarExp(
+       SimpleVar(b)),
+      VarExp(
+       SimpleVar(nil))),
+     VarExp(
+      SimpleVar(a)),
+     IfExp(
+      OpExp(LtOp,
+       VarExp(
+        FieldVar(
+         SimpleVar(a),
+         first)),
+       VarExp(
+        FieldVar(
+         SimpleVar(b),
+         first))),
+      RecordExp(list,[
+
+       (first,
+        VarExp(
+         FieldVar(
+          SimpleVar(a),
+          first))),
+       (rest,
+        CallExp(merge,[
+         VarExp(
+          FieldVar(
+           SimpleVar(a),
+           rest)),
+         VarExp(
+          SimpleVar(b))]))]),
+      RecordExp(list,[
+
+       (first,
+        VarExp(
+         FieldVar(
+          SimpleVar(b),
+          first))),
+       (rest,
+        CallExp(merge,[
+         VarExp(
+          SimpleVar(a)),
+         VarExp(
+          FieldVar(
+           SimpleVar(b),
+           rest))]))]))))),
+  (printint,[
+   (i,true,int)],
+   NONE,
+   LetExp([
+    FunctionDec[
+     (f,[
+      (i,true,int)],
+      NONE,
+      IfExp(
+       OpExp(GtOp,
+        VarExp(
+         SimpleVar(i)),
+        IntExp(0)),
+       SeqExp[
+        CallExp(f,[
+         OpExp(DivideOp,
+          VarExp(
+           SimpleVar(i)),
+          IntExp(10))]),
+        CallExp(print,[
+         CallExp(chr,[
+          OpExp(PlusOp,
+           OpExp(MinusOp,
+            VarExp(
+             SimpleVar(i)),
+            OpExp(TimesOp,
+             OpExp(DivideOp,
+              VarExp(
+               SimpleVar(i)),
+              IntExp(10)),
+             IntExp(10))),
+           CallExp(ord,[
+            StringExp("0")]))])])]))]],
+    SeqExp[
+     IfExp(
+      OpExp(LtOp,
+       VarExp(
+        SimpleVar(i)),
+       IntExp(0)),
+      SeqExp[
+       CallExp(print,[
+        StringExp("-")]),
+       CallExp(f,[
+        OpExp(MinusOp,
+         IntExp(0),
+         VarExp(
+          SimpleVar(i)))])],
+      IfExp(
+       OpExp(GtOp,
+        VarExp(
+         SimpleVar(i)),
+        IntExp(0)),
+       CallExp(f,[
+        VarExp(
+         SimpleVar(i))]),
+       CallExp(print,[
+        StringExp("0")])))])),
+  (printlist,[
+   (l,true,list)],
+   NONE,
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(l)),
+     VarExp(
+      SimpleVar(nil))),
+    CallExp(print,[
+     StringExp("\n")]),
+    SeqExp[
+     CallExp(printint,[
+      VarExp(
+       FieldVar(
+        SimpleVar(l),
+        first))]),
+     CallExp(print,[
+      StringExp(" ")]),
+     CallExp(printlist,[
+      VarExp(
+       FieldVar(
+        SimpleVar(l),
+        rest))])]))],
+ VarDec(list1,true,NONE,
+  CallExp(readlist,[])),
+ VarDec(list2,true,NONE,
+  SeqExp[
+   AssignExp(
+    SimpleVar(buffer),
+    CallExp(getchar,[])),
+   CallExp(readlist,[])])],
+ SeqExp[
+  CallExp(printlist,[
+   CallExp(merge,[
+    VarExp(
+     SimpleVar(list1)),
+    VarExp(
+     SimpleVar(list2))])])])
+type check =>
+
+-- ../testcases/queens.tig --
+/* A program to solve the 8-queens problem */
+
+let
+    var N := 8
+
+    type intArray = array of int
+
+    var row := intArray [ N ] of 0
+    var col := intArray [ N ] of 0
+    var diag1 := intArray [N+N-1] of 0
+    var diag2 := intArray [N+N-1] of 0
+
+    function printboard() =
+       (for i := 0 to N-1
+	 do (for j := 0 to N-1 
+	      do print(if col[i]=j then " O" else " .");
+	     print("\n"));
+         print("\n"))
+
+    function try(c:int) = 
+( /*  for i:= 0 to c do print("."); print("\n"); flush();*/
+     if c=N
+     then printboard()
+     else for r := 0 to N-1
+	   do if row[r]=0 & diag1[r+c]=0 & diag2[r+7-c]=0
+	           then (row[r]:=1; diag1[r+c]:=1; diag2[r+7-c]:=1;
+		         col[c]:=r;
+	                 try(c+1);
+			 row[r]:=0; diag1[r+c]:=0; diag2[r+7-c]:=0)
+
+)
+ in try(0)
+end
+	--
+../testcases/queens.tig:
+parse =>
+LetExp([
+ VarDec(N,true,NONE,
+  IntExp(8)),
+ TypeDec[
+  (intArray,
+   ArrayTy(int))],
+ VarDec(row,true,NONE,
+  ArrayExp(intArray,
+   VarExp(
+    SimpleVar(N)),
+   IntExp(0))),
+ VarDec(col,true,NONE,
+  ArrayExp(intArray,
+   VarExp(
+    SimpleVar(N)),
+   IntExp(0))),
+ VarDec(diag1,true,NONE,
+  ArrayExp(intArray,
+   OpExp(MinusOp,
+    OpExp(PlusOp,
+     VarExp(
+      SimpleVar(N)),
+     VarExp(
+      SimpleVar(N))),
+    IntExp(1)),
+   IntExp(0))),
+ VarDec(diag2,true,NONE,
+  ArrayExp(intArray,
+   OpExp(MinusOp,
+    OpExp(PlusOp,
+     VarExp(
+      SimpleVar(N)),
+     VarExp(
+      SimpleVar(N))),
+    IntExp(1)),
+   IntExp(0))),
+ FunctionDec[
+  (printboard,[],
+   NONE,
+   SeqExp[
+    ForExp(
+i,true,
+     IntExp(0),
+     OpExp(MinusOp,
+      VarExp(
+       SimpleVar(N)),
+      IntExp(1)),
+     SeqExp[
+      ForExp(
+j,true,
+       IntExp(0),
+       OpExp(MinusOp,
+        VarExp(
+         SimpleVar(N)),
+        IntExp(1)),
+       CallExp(print,[
+        IfExp(
+         OpExp(EqOp,
+          VarExp(
+           SubscriptVar(
+            SimpleVar(col),
+            VarExp(
+             SimpleVar(i)))),
+          VarExp(
+           SimpleVar(j))),
+         StringExp(" O"),
+         StringExp(" ."))])),
+      CallExp(print,[
+       StringExp("\n")])]),
+    CallExp(print,[
+     StringExp("\n")])]),
+  (try,[
+   (c,true,int)],
+   NONE,
+   SeqExp[
+    IfExp(
+     OpExp(EqOp,
+      VarExp(
+       SimpleVar(c)),
+      VarExp(
+       SimpleVar(N))),
+     CallExp(printboard,[]),
+     ForExp(
+r,true,
+      IntExp(0),
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(N)),
+       IntExp(1)),
+      IfExp(
+       IfExp(
+        IfExp(
+         OpExp(EqOp,
+          VarExp(
+           SubscriptVar(
+            SimpleVar(row),
+            VarExp(
+             SimpleVar(r)))),
+          IntExp(0)),
+         OpExp(EqOp,
+          VarExp(
+           SubscriptVar(
+            SimpleVar(diag1),
+            OpExp(PlusOp,
+             VarExp(
+              SimpleVar(r)),
+             VarExp(
+              SimpleVar(c))))),
+          IntExp(0)),
+         IntExp(0)),
+        OpExp(EqOp,
+         VarExp(
+          SubscriptVar(
+           SimpleVar(diag2),
+           OpExp(MinusOp,
+            OpExp(PlusOp,
+             VarExp(
+              SimpleVar(r)),
+             IntExp(7)),
+            VarExp(
+             SimpleVar(c))))),
+         IntExp(0)),
+        IntExp(0)),
+       SeqExp[
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(row),
+          VarExp(
+           SimpleVar(r))),
+         IntExp(1)),
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(diag1),
+          OpExp(PlusOp,
+           VarExp(
+            SimpleVar(r)),
+           VarExp(
+            SimpleVar(c)))),
+         IntExp(1)),
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(diag2),
+          OpExp(MinusOp,
+           OpExp(PlusOp,
+            VarExp(
+             SimpleVar(r)),
+            IntExp(7)),
+           VarExp(
+            SimpleVar(c)))),
+         IntExp(1)),
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(col),
+          VarExp(
+           SimpleVar(c))),
+         VarExp(
+          SimpleVar(r))),
+        CallExp(try,[
+         OpExp(PlusOp,
+          VarExp(
+           SimpleVar(c)),
+          IntExp(1))]),
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(row),
+          VarExp(
+           SimpleVar(r))),
+         IntExp(0)),
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(diag1),
+          OpExp(PlusOp,
+           VarExp(
+            SimpleVar(r)),
+           VarExp(
+            SimpleVar(c)))),
+         IntExp(0)),
+        AssignExp(
+         SubscriptVar(
+          SimpleVar(diag2),
+          OpExp(MinusOp,
+           OpExp(PlusOp,
+            VarExp(
+             SimpleVar(r)),
+            IntExp(7)),
+           VarExp(
+            SimpleVar(c)))),
+         IntExp(0))])))])]],
+ SeqExp[
+  CallExp(try,[
+   IntExp(0)])])
+type check =>
+
+-- ../testcases/test01.tig --
+/* an array type and an array variable */
+let
+	type  arrtype = array of int
+	var arr1:arrtype := arrtype [10] of 0
+in
+	arr1
+end
+--
+../testcases/test01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (arrtype,
+   ArrayTy(int))],
+ VarDec(arr1,true,SOME(arrtype),
+  ArrayExp(arrtype,
+   IntExp(10),
+   IntExp(0)))],
+ SeqExp[
+  VarExp(
+   SimpleVar(arr1))])
+type check =>
+
+-- ../testcases/test02.tig --
+/* arr1 is valid since expression 0 is int = myint */
+let
+	type myint = int
+	type  arrtype = array of myint
+
+	var arr1:arrtype := arrtype [10] of 0
+in
+	arr1
+end
+--
+../testcases/test02.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (myint,
+   NameTy(int)),
+  (arrtype,
+   ArrayTy(myint))],
+ VarDec(arr1,true,SOME(arrtype),
+  ArrayExp(arrtype,
+   IntExp(10),
+   IntExp(0)))],
+ SeqExp[
+  VarExp(
+   SimpleVar(arr1))])
+type check =>
+
+-- ../testcases/test03.tig --
+/* a record type and a record variable */
+let
+	type  rectype = {name:string, age:int}
+	var rec1:rectype := rectype {name="Nobody", age=1000}
+in
+	rec1.name := "Somebody";
+	rec1
+end
+--
+../testcases/test03.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)])],
+ VarDec(rec1,true,SOME(rectype),
+  RecordExp(rectype,[
+
+   (name,
+    StringExp("Nobody")),
+   (age,
+    IntExp(1000))]))],
+ SeqExp[
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    name),
+   StringExp("Somebody")),
+  VarExp(
+   SimpleVar(rec1))])
+type check =>
+
+-- ../testcases/test04.tig --
+/* define a recursive function */
+let
+
+/* calculate n! */
+function nfactor(n: int): int =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
+../testcases/test04.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (nfactor,[
+   (n,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(0)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(nfactor,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
+type check =>
+
+-- ../testcases/test05.tig --
+/* define valid recursive types */
+let
+/* define a list */
+type intlist = {hd: int, tl: intlist}
+
+/* define a tree */
+type tree ={key: int, children: treelist}
+type treelist = {hd: tree, tl: treelist}
+
+var lis:intlist := intlist {hd=0, tl=nil}
+
+in
+  lis
+end
+--
+../testcases/test05.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (intlist,
+   RecordTy[
+    (hd,true,int),
+    (tl,true,intlist)]),
+  (tree,
+   RecordTy[
+    (key,true,int),
+    (children,true,treelist)]),
+  (treelist,
+   RecordTy[
+    (hd,true,tree),
+    (tl,true,treelist)])],
+ VarDec(lis,true,SOME(intlist),
+  RecordExp(intlist,[
+
+   (hd,
+    IntExp(0)),
+   (tl,
+    VarExp(
+     SimpleVar(nil)))]))],
+ SeqExp[
+  VarExp(
+   SimpleVar(lis))])
+type check =>
+
+-- ../testcases/test06.tig --
+/* define valid mutually recursive procedures */
+let
+
+function do_nothing1(a: int, b: string)=
+		do_nothing2(a+1)
+
+function do_nothing2(d: int) =
+		do_nothing1(d, "str")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
+../testcases/test06.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,int),
+   (b,true,string)],
+   NONE,
+   CallExp(do_nothing2,[
+    OpExp(PlusOp,
+     VarExp(
+      SimpleVar(a)),
+     IntExp(1))])),
+  (do_nothing2,[
+   (d,true,int)],
+   NONE,
+   CallExp(do_nothing1,[
+    VarExp(
+     SimpleVar(d)),
+    StringExp("str")]))]],
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp("str2")])])
+type check =>
+
+-- ../testcases/test07.tig --
+/* define valid mutually recursive functions */
+let
+
+function do_nothing1(a: int, b: string):int=
+		(do_nothing2(a+1);0)
+
+function do_nothing2(d: int):string =
+		(do_nothing1(d, "str");" ")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
+../testcases/test07.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,int),
+   (b,true,string)],
+   SOME(int),
+   SeqExp[
+    CallExp(do_nothing2,[
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))]),
+    IntExp(0)]),
+  (do_nothing2,[
+   (d,true,int)],
+   SOME(string),
+   SeqExp[
+    CallExp(do_nothing1,[
+     VarExp(
+      SimpleVar(d)),
+     StringExp("str")]),
+    StringExp(" ")])]],
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp("str2")])])
+type check =>
+
+-- ../testcases/test08.tig --
+/* correct if */
+if (10 > 20) then 30 else 40	
+--
+../testcases/test08.tig:
+parse =>
+IfExp(
+ SeqExp[
+  OpExp(GtOp,
+   IntExp(10),
+   IntExp(20))],
+ IntExp(30),
+ IntExp(40))
+type check =>
+
+-- ../testcases/test09.tig --
+/* error : types of then - else differ */
+
+if (5>4) then 13 else  " "
+--
+../testcases/test09.tig:
+parse =>
+IfExp(
+ SeqExp[
+  OpExp(GtOp,
+   IntExp(5),
+   IntExp(4))],
+ IntExp(13),
+ StringExp(" "))
+type check =>
+../testcases/test09.tig:3.1:types do not match
+
+-- ../testcases/test10.tig --
+/* error : body of while not unit */
+while(10 > 5) do 5+6
+--
+../testcases/test10.tig:
+parse =>
+WhileExp(
+ SeqExp[
+  OpExp(GtOp,
+   IntExp(10),
+   IntExp(5))],
+ OpExp(PlusOp,
+  IntExp(5),
+  IntExp(6)))
+type check =>
+../testcases/test10.tig:2.1:unit required
+
+-- ../testcases/test11.tig --
+/* error hi expr is not int, and index variable erroneously assigned to.  */
+for i:=10 to " " do 
+	i := i - 1
+--
+../testcases/test11.tig:
+parse =>
+ForExp(
+i,true,
+ IntExp(10),
+ StringExp(" "),
+ AssignExp(
+  SimpleVar(i),
+  OpExp(MinusOp,
+   VarExp(
+    SimpleVar(i)),
+   IntExp(1))))
+type check =>
+../testcases/test11.tig:2.1:Type 'int' required
+
+-- ../testcases/test12.tig --
+/* valid for and let */
+
+let
+	var a:= 0
+in 
+	for i:=0 to 100 do (a:=a+1;())
+end
+--
+../testcases/test12.tig:
+parse =>
+LetExp([
+ VarDec(a,true,NONE,
+  IntExp(0))],
+ SeqExp[
+  ForExp(
+i,true,
+   IntExp(0),
+   IntExp(100),
+   SeqExp[
+    AssignExp(
+     SimpleVar(a),
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))),
+    NilExp])])
+type check =>
+
+-- ../testcases/test13.tig --
+/* error: comparison of incompatible types */
+
+3 > "df"
+--
+../testcases/test13.tig:
+parse =>
+OpExp(GtOp,
+ IntExp(3),
+ StringExp("df"))
+type check =>
+../testcases/test13.tig:3.1:Type 'int' required
+
+-- ../testcases/test14.tig --
+/* error : compare rec with array */
+
+let
+
+	type arrtype = array of int
+	type rectype = {name:string, id: int}
+
+	var rec := rectype {name="aname", id=0}
+	var arr := arrtype [3] of 0
+
+in
+	if rec <> arr then 3 else 4
+end
+--
+../testcases/test14.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (arrtype,
+   ArrayTy(int)),
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(rec,true,NONE,
+  RecordExp(rectype,[
+
+   (name,
+    StringExp("aname")),
+   (id,
+    IntExp(0))])),
+ VarDec(arr,true,NONE,
+  ArrayExp(arrtype,
+   IntExp(3),
+   IntExp(0)))],
+ SeqExp[
+  IfExp(
+   OpExp(NeqOp,
+    VarExp(
+     SimpleVar(rec)),
+    VarExp(
+     SimpleVar(arr))),
+   IntExp(3),
+   IntExp(4))])
+type check =>
+../testcases/test14.tig:12.5:Types mismatch
+../testcases/test14.tig:12.2:Type 'int' required
+
+-- ../testcases/test15.tig --
+/* error : if-then returns non unit */
+
+if 20 then 3
+--
+../testcases/test15.tig:
+parse =>
+IfExp(
+ IntExp(20),
+ IntExp(3))
+type check =>
+../testcases/test15.tig:3.1:unit required
+
+-- ../testcases/test16.tig --
+/* error: Mutually recursive types that do not pass through record or array. */
+let 
+  type a=c
+  type b=a
+  type c=d
+  type d=a
+in
+ nil
+end
+--
+../testcases/test16.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   NameTy(c)),
+  (b,
+   NameTy(a)),
+  (c,
+   NameTy(d)),
+  (d,
+   NameTy(a))]],
+ SeqExp[
+  VarExp(
+   SimpleVar(nil))])
+type check =>
+
+-- ../testcases/test17.tig --
+/* error: definition of recursive types is interrupted */
+let
+/* define a tree */
+type tree ={key: int, children: treelist}
+var d:int :=0
+type treelist = {hd: tree, tl: treelist}
+
+in
+	d
+end
+--
+../testcases/test17.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (tree,
+   RecordTy[
+    (key,true,int),
+    (children,true,treelist)])],
+ VarDec(d,true,SOME(int),
+  IntExp(0)),
+ TypeDec[
+  (treelist,
+   RecordTy[
+    (hd,true,tree),
+    (tl,true,treelist)])]],
+ SeqExp[
+  VarExp(
+   SimpleVar(d))])
+type check =>
+../testcases/test17.tig:4.23:Type 'treelist' is not defined
+
+-- ../testcases/test18.tig --
+/* error : definition of recursive functions is interrupted */
+let
+
+function do_nothing1(a: int, b: string):int=
+		(do_nothing2(a+1);0)
+
+var d:=0
+
+function do_nothing2(d: int):string =
+		(do_nothing1(d, "str");" ")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
+../testcases/test18.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,int),
+   (b,true,string)],
+   SOME(int),
+   SeqExp[
+    CallExp(do_nothing2,[
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))]),
+    IntExp(0)])],
+ VarDec(d,true,NONE,
+  IntExp(0)),
+ FunctionDec[
+  (do_nothing2,[
+   (d,true,int)],
+   SOME(string),
+   SeqExp[
+    CallExp(do_nothing1,[
+     VarExp(
+      SimpleVar(d)),
+     StringExp("str")]),
+    StringExp(" ")])]],
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp("str2")])])
+type check =>
+../testcases/test18.tig:5.4:Function does not exist
+
+-- ../testcases/test19.tig --
+/* error : second function uses variables local to the first one, undeclared variable */
+let
+
+function do_nothing1(a: int, b: string):int=
+		(do_nothing2(a+1);0)
+
+function do_nothing2(d: int):string =
+		(do_nothing1(a, "str");" ")
+
+in
+	do_nothing1(0, "str2")
+end
+
+--
+../testcases/test19.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (do_nothing1,[
+   (a,true,int),
+   (b,true,string)],
+   SOME(int),
+   SeqExp[
+    CallExp(do_nothing2,[
+     OpExp(PlusOp,
+      VarExp(
+       SimpleVar(a)),
+      IntExp(1))]),
+    IntExp(0)]),
+  (do_nothing2,[
+   (d,true,int)],
+   SOME(string),
+   SeqExp[
+    CallExp(do_nothing1,[
+     VarExp(
+      SimpleVar(a)),
+     StringExp("str")]),
+    StringExp(" ")])]],
+ SeqExp[
+  CallExp(do_nothing1,[
+   IntExp(0),
+   StringExp("str2")])])
+type check =>
+../testcases/test19.tig:8.16:Variable does not exist
+../testcases/test19.tig:8.4:types do not match
+
+-- ../testcases/test20.tig --
+/* error: undeclared variable i */
+
+while 10 > 5 do (i+1;())
+--
+../testcases/test20.tig:
+parse =>
+WhileExp(
+ OpExp(GtOp,
+  IntExp(10),
+  IntExp(5)),
+ SeqExp[
+  OpExp(PlusOp,
+   VarExp(
+    SimpleVar(i)),
+   IntExp(1)),
+  NilExp])
+type check =>
+../testcases/test20.tig:3.18:Variable does not exist
+../testcases/test20.tig:3.18:Type 'int' required
+
+-- ../testcases/test21.fixed.tig --
+let
+
+/* calculate n! */
+function nfactor(n: int):int =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
+../testcases/test21.fixed.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (nfactor,[
+   (n,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(0)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(nfactor,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
+type check =>
+
+-- ../testcases/test21.tig --
+/* error : procedure returns value  and procedure is used in arexpr */
+let
+
+/* calculate n! */
+function nfactor(n: int) =
+		if  n = 0 
+			then 1
+			else n * nfactor(n-1)
+
+in
+	nfactor(10)
+end
+
+--
+../testcases/test21.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (nfactor,[
+   (n,true,int)],
+   NONE,
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(0)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(nfactor,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(nfactor,[
+   IntExp(10)])])
+type check =>
+../testcases/test21.tig:8.9:Type 'int' required
+../testcases/test21.tig:5.1:types do not match
+
+-- ../testcases/test22.tig --
+/* error : field not in record type */
+
+let 
+	type rectype = {name:string , id:int}
+	var rec1 := rectype {name="Name", id=0}
+in
+	rec1.nam := "asd"
+end
+--
+../testcases/test22.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(rec1,true,NONE,
+  RecordExp(rectype,[
+
+   (name,
+    StringExp("Name")),
+   (id,
+    IntExp(0))]))],
+ SeqExp[
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    nam),
+   StringExp("asd"))])
+type check =>
+../testcases/test22.tig:7.2:field nam does not exist
+../testcases/test22.tig:7.2:types do not match
+
+-- ../testcases/test23.tig --
+/* error : type mismatch */
+
+let 
+	type rectype = {name:string , id:int}
+	var rec1 := rectype {name="aname", id=0}
+in
+	rec1.name := 3;
+	rec1.id := "" 
+end
+--
+../testcases/test23.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(rec1,true,NONE,
+  RecordExp(rectype,[
+
+   (name,
+    StringExp("aname")),
+   (id,
+    IntExp(0))]))],
+ SeqExp[
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    name),
+   IntExp(3)),
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    id),
+   StringExp(""))])
+type check =>
+../testcases/test23.tig:7.2:types do not match
+../testcases/test23.tig:8.2:types do not match
+
+-- ../testcases/test24.tig --
+/* error : variable not array */
+let 
+	var d:=0
+in
+	d[3]
+end
+
+--
+../testcases/test24.tig:
+parse =>
+LetExp([
+ VarDec(d,true,NONE,
+  IntExp(0))],
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(d),
+    IntExp(3)))])
+type check =>
+../testcases/test24.tig:5.2:Variable is not an array
+
+-- ../testcases/test25.tig --
+/* error : variable not record */
+let 
+	var d:=0
+in
+	d.f 
+end
+
+--
+../testcases/test25.tig:
+parse =>
+LetExp([
+ VarDec(d,true,NONE,
+  IntExp(0))],
+ SeqExp[
+  VarExp(
+   FieldVar(
+    SimpleVar(d),
+    f))])
+type check =>
+../testcases/test25.tig:5.2:Variable is not a record
+
+-- ../testcases/test26.tig --
+/* error : integer required */
+
+3 + "var"
+--
+../testcases/test26.tig:
+parse =>
+OpExp(PlusOp,
+ IntExp(3),
+ StringExp("var"))
+type check =>
+../testcases/test26.tig:3.1:Type 'int' required
+
+-- ../testcases/test27.tig --
+/* locals hide globals */
+let
+	var a:=0
+
+	function g(a:int):int = a 
+in
+ g(2)
+end
+--
+../testcases/test27.tig:
+parse =>
+LetExp([
+ VarDec(a,true,NONE,
+  IntExp(0)),
+ FunctionDec[
+  (g,[
+   (a,true,int)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  CallExp(g,[
+   IntExp(2)])])
+type check =>
+
+-- ../testcases/test28.tig --
+/* error : different record types */
+
+let
+	type rectype1 = {name:string , id:int}
+	type rectype2 = {name:string , id:int}
+
+	var rec1: rectype1 := rectype2 {name="Name", id=0}
+in
+	rec1
+end
+--
+../testcases/test28.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype1,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)]),
+  (rectype2,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(rec1,true,SOME(rectype1),
+  RecordExp(rectype2,[
+
+   (name,
+    StringExp("Name")),
+   (id,
+    IntExp(0))]))],
+ SeqExp[
+  VarExp(
+   SimpleVar(rec1))])
+type check =>
+../testcases/test28.tig:7.2:types do not match
+
+-- ../testcases/test29.tig --
+/* error : different array types */
+
+let
+	type arrtype1 = array of int
+	type arrtype2 = array of int
+
+	var arr1: arrtype1 := arrtype2 [10] of 0
+in
+	arr1
+end
+--
+../testcases/test29.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (arrtype1,
+   ArrayTy(int)),
+  (arrtype2,
+   ArrayTy(int))],
+ VarDec(arr1,true,SOME(arrtype1),
+  ArrayExp(arrtype2,
+   IntExp(10),
+   IntExp(0)))],
+ SeqExp[
+  VarExp(
+   SimpleVar(arr1))])
+type check =>
+../testcases/test29.tig:7.2:types do not match
+
+-- ../testcases/test30.tig --
+/* synonyms are fine */
+
+let 
+		type a = array of int
+		type b = a
+
+		var arr1:a := b [10] of 0
+in
+		arr1[2] 
+end
+--
+../testcases/test30.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   ArrayTy(int)),
+  (b,
+   NameTy(a))],
+ VarDec(arr1,true,SOME(a),
+  ArrayExp(b,
+   IntExp(10),
+   IntExp(0)))],
+ SeqExp[
+  VarExp(
+   SubscriptVar(
+    SimpleVar(arr1),
+    IntExp(2)))])
+type check =>
+
+-- ../testcases/test31.tig --
+/* error : type constraint and init value differ */
+let 
+	var a:int := " "
+in
+	a
+end
+--
+../testcases/test31.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  StringExp(" "))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+../testcases/test31.tig:3.2:types do not match
+
+-- ../testcases/test32.tig --
+/* error : initializing exp and array type differ */
+
+let
+	type arrayty = array of int
+
+	var a := arrayty [10] of " "
+in
+	0
+end
+--
+../testcases/test32.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (arrayty,
+   ArrayTy(int))],
+ VarDec(a,true,NONE,
+  ArrayExp(arrayty,
+   IntExp(10),
+   StringExp(" ")))],
+ SeqExp[
+  IntExp(0)])
+type check =>
+../testcases/test32.tig:6.11:types do not match
+
+-- ../testcases/test33.tig --
+/* error : unknown type */
+let
+	var a:= rectype {}
+in
+	0
+end
+--
+../testcases/test33.tig:
+parse =>
+LetExp([
+ VarDec(a,true,NONE,
+  RecordExp(rectype,[
+]))],
+ SeqExp[
+  IntExp(0)])
+type check =>
+../testcases/test33.tig:3.10:Type 'rectype' is not defined
+../testcases/test33.tig:3.10:Not a record type
+
+-- ../testcases/test34.tig --
+/* error : formals and actuals have different types */
+let
+	function g (a:int , b:string):int = a
+in
+	g("one", "two")
+end
+--
+../testcases/test34.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (g,[
+   (a,true,int),
+   (b,true,string)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  CallExp(g,[
+   StringExp("one"),
+   StringExp("two")])])
+type check =>
+../testcases/test34.tig:5.2:types do not match
+
+-- ../testcases/test35.tig --
+/* error : formals are more then actuals */
+let
+	function g (a:int , b:string):int = a
+in
+	g("one")
+end
+--
+../testcases/test35.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (g,[
+   (a,true,int),
+   (b,true,string)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  CallExp(g,[
+   StringExp("one")])])
+type check =>
+../testcases/test35.tig:5.2:Function has the wrong arity
+
+-- ../testcases/test36.tig --
+/* error : formals are fewer then actuals */
+let
+	function g (a:int , b:string):int = a
+in
+	g(3,"one",5)
+end
+--
+../testcases/test36.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (g,[
+   (a,true,int),
+   (b,true,string)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  CallExp(g,[
+   IntExp(3),
+   StringExp("one"),
+   IntExp(5)])])
+type check =>
+../testcases/test36.tig:5.2:Function has the wrong arity
+
+-- ../testcases/test37.tig --
+/* redeclaration of variable; this is legal, there are two different
+   variables with the same name.  The second one hides the first.  */
+let
+	var a := 0
+	var a := " "
+in
+	0
+end
+--
+../testcases/test37.tig:
+parse =>
+LetExp([
+ VarDec(a,true,NONE,
+  IntExp(0)),
+ VarDec(a,true,NONE,
+  StringExp(" "))],
+ SeqExp[
+  IntExp(0)])
+type check =>
+
+-- ../testcases/test38.tig --
+/* This is illegal, since there are two types with the same name
+    in the same (consecutive) batch of mutually recursive types. 
+    See also test47  */
+let
+	type a = int
+	type a = string
+in
+	0
+end
+--
+../testcases/test38.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   NameTy(int)),
+  (a,
+   NameTy(string))]],
+ SeqExp[
+  IntExp(0)])
+type check =>
+
+-- ../testcases/test39.tig --
+/* This is illegal, since there are two functions with the same name
+    in the same (consecutive) batch of mutually recursive functions.
+   See also test48 */
+let
+	function g(a:int):int = a
+	function g(a:int):int = a
+in
+	0
+end
+--
+../testcases/test39.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (g,[
+   (a,true,int)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a))),
+  (g,[
+   (a,true,int)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  IntExp(0)])
+type check =>
+
+-- ../testcases/test40.tig --
+/* error : procedure returns value */
+let
+	function g(a:int) = a
+in 
+	g(2)
+end
+
+--
+../testcases/test40.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (g,[
+   (a,true,int)],
+   NONE,
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  CallExp(g,[
+   IntExp(2)])])
+type check =>
+../testcases/test40.tig:3.2:types do not match
+
+-- ../testcases/test41.tig --
+/* local types hide global */
+let
+	type a = int
+in
+	let
+		type a = string
+	in
+		0
+	end
+end
+--
+../testcases/test41.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   NameTy(int))]],
+ SeqExp[
+  LetExp([
+   TypeDec[
+    (a,
+     NameTy(string))]],
+   SeqExp[
+    IntExp(0)])])
+type check =>
+
+-- ../testcases/test42.tig --
+/* correct declarations */
+let 
+
+type arrtype1 = array of int
+type rectype1 = {name:string, address:string, id: int , age: int}
+type arrtype2 = array of rectype1
+type rectype2 = {name : string, dates: arrtype1}
+
+type arrtype3 = array of string
+
+var arr1 := arrtype1 [10] of 0
+var arr2  := arrtype2 [5] of rectype1 {name="aname", address="somewhere", id=0, age=0}
+var arr3:arrtype3 := arrtype3 [100] of ""
+
+var rec1 := rectype1 {name="Kapoios", address="Kapou", id=02432, age=44}
+var rec2 := rectype2 {name="Allos", dates= arrtype1 [3] of 1900}
+
+in
+
+arr1[0] := 1; 
+arr1[9] := 3;
+arr2[3].name := "kati";
+arr2[1].age := 23;
+arr3[34] := "sfd";
+
+rec1.name := "sdf";
+rec2.dates[0] := 2323;
+rec2.dates[2] := 2323
+
+end
+--
+../testcases/test42.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (arrtype1,
+   ArrayTy(int)),
+  (rectype1,
+   RecordTy[
+    (name,true,string),
+    (address,true,string),
+    (id,true,int),
+    (age,true,int)]),
+  (arrtype2,
+   ArrayTy(rectype1)),
+  (rectype2,
+   RecordTy[
+    (name,true,string),
+    (dates,true,arrtype1)]),
+  (arrtype3,
+   ArrayTy(string))],
+ VarDec(arr1,true,NONE,
+  ArrayExp(arrtype1,
+   IntExp(10),
+   IntExp(0))),
+ VarDec(arr2,true,NONE,
+  ArrayExp(arrtype2,
+   IntExp(5),
+   RecordExp(rectype1,[
+
+    (name,
+     StringExp("aname")),
+    (address,
+     StringExp("somewhere")),
+    (id,
+     IntExp(0)),
+    (age,
+     IntExp(0))]))),
+ VarDec(arr3,true,SOME(arrtype3),
+  ArrayExp(arrtype3,
+   IntExp(100),
+   StringExp(""))),
+ VarDec(rec1,true,NONE,
+  RecordExp(rectype1,[
+
+   (name,
+    StringExp("Kapoios")),
+   (address,
+    StringExp("Kapou")),
+   (id,
+    IntExp(2432)),
+   (age,
+    IntExp(44))])),
+ VarDec(rec2,true,NONE,
+  RecordExp(rectype2,[
+
+   (name,
+    StringExp("Allos")),
+   (dates,
+    ArrayExp(arrtype1,
+     IntExp(3),
+     IntExp(1900)))]))],
+ SeqExp[
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(arr1),
+    IntExp(0)),
+   IntExp(1)),
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(arr1),
+    IntExp(9)),
+   IntExp(3)),
+  AssignExp(
+   FieldVar(
+    SubscriptVar(
+     SimpleVar(arr2),
+     IntExp(3)),
+    name),
+   StringExp("kati")),
+  AssignExp(
+   FieldVar(
+    SubscriptVar(
+     SimpleVar(arr2),
+     IntExp(1)),
+    age),
+   IntExp(23)),
+  AssignExp(
+   SubscriptVar(
+    SimpleVar(arr3),
+    IntExp(34)),
+   StringExp("sfd")),
+  AssignExp(
+   FieldVar(
+    SimpleVar(rec1),
+    name),
+   StringExp("sdf")),
+  AssignExp(
+   SubscriptVar(
+    FieldVar(
+     SimpleVar(rec2),
+     dates),
+    IntExp(0)),
+   IntExp(2323)),
+  AssignExp(
+   SubscriptVar(
+    FieldVar(
+     SimpleVar(rec2),
+     dates),
+    IntExp(2)),
+   IntExp(2323))])
+type check =>
+
+-- ../testcases/test43.tig --
+/* initialize with unit and causing type mismatch in addition */
+
+let 
+	var a := ()
+in
+	a + 3
+end
+--
+../testcases/test43.tig:
+parse =>
+LetExp([
+ VarDec(a,true,NONE,
+  NilExp)],
+ SeqExp[
+  OpExp(PlusOp,
+   VarExp(
+    SimpleVar(a)),
+   IntExp(3))])
+type check =>
+../testcases/test43.tig:6.2:Type 'int' required
+
+-- ../testcases/test44.tig --
+/* valid nil initialization and assignment */
+let 
+
+	type rectype = {name:string, id:int}
+	var b:rectype := nil
+
+in
+
+	b := nil
+
+end
+--
+../testcases/test44.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(b,true,SOME(rectype),
+  VarExp(
+   SimpleVar(nil)))],
+ SeqExp[
+  AssignExp(
+   SimpleVar(b),
+   VarExp(
+    SimpleVar(nil)))])
+type check =>
+
+-- ../testcases/test45.tig --
+/* error: initializing nil expressions not constrained by record type */
+let 
+	type rectype = {name:string, id:int}
+
+	var a:= nil
+in
+	a
+end
+--
+../testcases/test45.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(a,true,NONE,
+  VarExp(
+   SimpleVar(nil)))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+
+-- ../testcases/test46.tig --
+/* valid rec comparisons */
+let 
+	type rectype = {name:string, id:int}
+	var b:rectype := nil
+in
+	b = nil;
+	b <> nil
+end
+--
+../testcases/test46.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(b,true,SOME(rectype),
+  VarExp(
+   SimpleVar(nil)))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(b)),
+   VarExp(
+    SimpleVar(nil))),
+  OpExp(NeqOp,
+   VarExp(
+    SimpleVar(b)),
+   VarExp(
+    SimpleVar(nil)))])
+type check =>
+
+-- ../testcases/test47.tig --
+/* This is legal.  The second type "a" simply hides the first one.
+   Because of the intervening variable declaration, the two "a" types
+   are not in the same  batch of mutually recursive types.
+   See also test38 */
+let
+	type a = int
+	var b := 4
+	type a = string
+in
+	0
+end
+--
+../testcases/test47.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   NameTy(int))],
+ VarDec(b,true,NONE,
+  IntExp(4)),
+ TypeDec[
+  (a,
+   NameTy(string))]],
+ SeqExp[
+  IntExp(0)])
+type check =>
+
+-- ../testcases/test48.tig --
+/* This is legal.  The second function "g" simply hides the first one.
+   Because of the intervening variable declaration, the two "g" functions
+   are not in the same  batch of mutually recursive functions. 
+   See also test39 */
+let
+	function g(a:int):int = a
+	type t = int
+	function g(a:int):int = a
+in
+	0
+end
+--
+../testcases/test48.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (g,[
+   (a,true,int)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))],
+ TypeDec[
+  (t,
+   NameTy(int))],
+ FunctionDec[
+  (g,[
+   (a,true,int)],
+   SOME(int),
+   VarExp(
+    SimpleVar(a)))]],
+ SeqExp[
+  IntExp(0)])
+type check =>
+
+-- ../testcases/test49.tig --
+/* error: syntax error, nil should not be preceded by type-id.  */
+let 
+	type rectype = {name:string, id:int}
+
+	var a:= rectype nil
+in
+	a
+end
+--
+../testcases/test49.tig:
+../testcases/test49.tig:5.18:syntax error: inserting  PLUS
+parse =>
+LetExp([
+ TypeDec[
+  (rectype,
+   RecordTy[
+    (name,true,string),
+    (id,true,int)])],
+ VarDec(a,true,NONE,
+  OpExp(PlusOp,
+   VarExp(
+    SimpleVar(rectype)),
+   VarExp(
+    SimpleVar(nil))))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+../testcases/test49.tig:5.10:Variable does not exist
+../testcases/test49.tig:5.10:Type 'int' required
+../testcases/test49.tig:5.10:Type 'int' required
+
+-- ../testcases/test-array-compare-01.tig --
+let
+  type intArray1 = array of int
+  type intArray2 = array of int
+  var a : intArray1 := intArray1 [20] of 0
+  var b : intArray2 := intArray2 [10] of 1
+in
+  a = b
+end
+--
+../testcases/test-array-compare-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (intArray1,
+   ArrayTy(int)),
+  (intArray2,
+   ArrayTy(int))],
+ VarDec(a,true,SOME(intArray1),
+  ArrayExp(intArray1,
+   IntExp(20),
+   IntExp(0))),
+ VarDec(b,true,SOME(intArray2),
+  ArrayExp(intArray2,
+   IntExp(10),
+   IntExp(1)))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(a)),
+   VarExp(
+    SimpleVar(b)))])
+type check =>
+../testcases/test-array-compare-01.tig:7.3:Array types are not equal
+
+-- ../testcases/test-duplicate-type.tig --
+let
+  type a = int
+  type b = a
+  type a = string
+in
+  ()
+end
+--
+../testcases/test-duplicate-type.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (a,
+   NameTy(int)),
+  (b,
+   NameTy(a)),
+  (a,
+   NameTy(string))]],
+ SeqExp[
+  NilExp])
+type check =>
+
+-- ../testcases/test-duplicate-var-01.tig --
+let
+  var a:int := 0
+  var b:string := ""
+  var a:int := 0 /* error: duplicate variable 'a' */
+in
+  a
+end
+--
+../testcases/test-duplicate-var-01.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  IntExp(0)),
+ VarDec(b,true,SOME(string),
+  StringExp("")),
+ VarDec(a,true,SOME(int),
+  IntExp(0))],
+ SeqExp[
+  VarExp(
+   SimpleVar(a))])
+type check =>
+
+-- ../testcases/test-duplicate-var-02.tig --
+let
+  function a():int = 0
+  function b():string = ""
+  function a():string = "" /* error: duplicate function/variable 'a' */
+in
+  a()
+end
+--
+../testcases/test-duplicate-var-02.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (a,[],
+   SOME(int),
+   IntExp(0)),
+  (b,[],
+   SOME(string),
+   StringExp("")),
+  (a,[],
+   SOME(string),
+   StringExp(""))]],
+ SeqExp[
+  CallExp(a,[])])
+type check =>
+
+-- ../testcases/test-duplicate-var-03.tig --
+let
+  var a:int := 0
+  var b:string := ""
+  function a():int = 0 /* ok: Here, function 'a' shadows var 'a' from above */
+in
+  a()
+end
+--
+../testcases/test-duplicate-var-03.tig:
+parse =>
+LetExp([
+ VarDec(a,true,SOME(int),
+  IntExp(0)),
+ VarDec(b,true,SOME(string),
+  StringExp("")),
+ FunctionDec[
+  (a,[],
+   SOME(int),
+   IntExp(0))]],
+ SeqExp[
+  CallExp(a,[])])
+type check =>
+
+-- ../testcases/test-function-decl-return-unit.tig --
+let
+  function foo(i:int) = ()
+in
+  foo(0)
+end
+--
+../testcases/test-function-decl-return-unit.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (foo,[
+   (i,true,int)],
+   NONE,
+   NilExp)]],
+ SeqExp[
+  CallExp(foo,[
+   IntExp(0)])])
+type check =>
+
+-- ../testcases/test-fun-dec-01.tig --
+let
+  function f():int = "ha"
+in
+  nil
+end
+--
+../testcases/test-fun-dec-01.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (f,[],
+   SOME(int),
+   StringExp("ha"))]],
+ SeqExp[
+  VarExp(
+   SimpleVar(nil))])
+type check =>
+../testcases/test-fun-dec-01.tig:2.3:types do not match
+
+-- ../testcases/test-mutually-recursive-function-01.tig --
+let
+  function one(i:int):int = if i > 1 then two(i - 1) else 0
+  function two(j:int):int = if j = 0 then 1 else one(j)
+in
+  one(100)
+end
+--
+../testcases/test-mutually-recursive-function-01.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (one,[
+   (i,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(GtOp,
+     VarExp(
+      SimpleVar(i)),
+     IntExp(1)),
+    CallExp(two,[
+     OpExp(MinusOp,
+      VarExp(
+       SimpleVar(i)),
+      IntExp(1))]),
+    IntExp(0))),
+  (two,[
+   (j,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(EqOp,
+     VarExp(
+      SimpleVar(j)),
+     IntExp(0)),
+    IntExp(1),
+    CallExp(one,[
+     VarExp(
+      SimpleVar(j))])))]],
+ SeqExp[
+  CallExp(one,[
+   IntExp(100)])])
+type check =>
+
+-- ../testcases/test-mutually-recursive-types-01.tig --
+let
+  type foo = {bar: bar, foo:foo}
+  type bar = {foo:foo}
+in
+  nil
+end
+--
+../testcases/test-mutually-recursive-types-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (bar,true,bar),
+    (foo,true,foo)]),
+  (bar,
+   RecordTy[
+    (foo,true,foo)])]],
+ SeqExp[
+  VarExp(
+   SimpleVar(nil))])
+type check =>
+
+-- ../testcases/test-record-compare-01.tig --
+let
+  type r1 = {name: string, age: int}
+  var person1 : r1 := r1 {name="Steven", age=39}
+  var person2 : r1 := r1 {name="Steven", age=39}
+in
+  person1 = person2
+end
+--
+../testcases/test-record-compare-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (r1,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)])],
+ VarDec(person1,true,SOME(r1),
+  RecordExp(r1,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))])),
+ VarDec(person2,true,SOME(r1),
+  RecordExp(r1,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))]))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(person1)),
+   VarExp(
+    SimpleVar(person2)))])
+type check =>
+
+-- ../testcases/test-record-compare-02.tig --
+let
+  type r1 = {name: string, age: int}
+  type r2 = {name: string, age: int}
+  var person1 := r1 {name="Steven", age=39}
+  var person2 := r2 {name="Steven", age=39}
+in
+  person1 = person2
+end
+--
+../testcases/test-record-compare-02.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (r1,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)]),
+  (r2,
+   RecordTy[
+    (name,true,string),
+    (age,true,int)])],
+ VarDec(person1,true,NONE,
+  RecordExp(r1,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))])),
+ VarDec(person2,true,NONE,
+  RecordExp(r2,[
+
+   (name,
+    StringExp("Steven")),
+   (age,
+    IntExp(39))]))],
+ SeqExp[
+  OpExp(EqOp,
+   VarExp(
+    SimpleVar(person1)),
+   VarExp(
+    SimpleVar(person2)))])
+type check =>
+../testcases/test-record-compare-02.tig:7.3:Record types are not equal
+
+-- ../testcases/test-record-exp-01.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1}
+end
+--
+../testcases/test-record-exp-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1))])])
+type check =>
+../testcases/test-record-exp-01.tig:4.3:Record expression has the wrong arity
+
+-- ../testcases/test-record-exp-02.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1, b=2} /* error: types do not match */
+end
+--
+../testcases/test-record-exp-02.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1)),
+   (b,
+    IntExp(2))])])
+type check =>
+../testcases/test-record-exp-02.tig:4.13:types do not match
+
+-- ../testcases/test-record-exp-03.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {a=1, b=""}
+end
+--
+../testcases/test-record-exp-03.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (a,
+    IntExp(1)),
+   (b,
+    StringExp(""))])])
+type check =>
+
+-- ../testcases/test-record-exp-04.tig --
+let
+  type foo = {a:int, b:string}
+in
+  foo {b = "", a = 1}
+end
+--
+../testcases/test-record-exp-04.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (foo,
+   RecordTy[
+    (a,true,int),
+    (b,true,string)])]],
+ SeqExp[
+  RecordExp(foo,[
+
+   (b,
+    StringExp("")),
+   (a,
+    IntExp(1))])])
+type check =>
+../testcases/test-record-exp-04.tig:4.8:field is not in record type
+../testcases/test-record-exp-04.tig:4.16:field is not in record type
+
+-- ../testcases/test-recursive-function-01.tig --
+let
+  function factorial(n:int):int =
+    if n <= 1 then 1
+    else n * factorial(n - 1)
+in
+  factorial(7)
+end
+--
+../testcases/test-recursive-function-01.tig:
+parse =>
+LetExp([
+ FunctionDec[
+  (factorial,[
+   (n,true,int)],
+   SOME(int),
+   IfExp(
+    OpExp(LeOp,
+     VarExp(
+      SimpleVar(n)),
+     IntExp(1)),
+    IntExp(1),
+    OpExp(TimesOp,
+     VarExp(
+      SimpleVar(n)),
+     CallExp(factorial,[
+      OpExp(MinusOp,
+       VarExp(
+        SimpleVar(n)),
+       IntExp(1))]))))]],
+ SeqExp[
+  CallExp(factorial,[
+   IntExp(7)])])
+type check =>
+
+-- ../testcases/test-recursive-type-01.tig --
+let
+  type list = {head: int, rest: list}
+in
+  nil
+end
+--
+../testcases/test-recursive-type-01.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (list,
+   RecordTy[
+    (head,true,int),
+    (rest,true,list)])]],
+ SeqExp[
+  VarExp(
+   SimpleVar(nil))])
+type check =>
+
+-- ../testcases/test-recursive-type-02.tig --
+let
+  type stringarray = array of stringarray /* error: this has got to be illegal */
+in
+  nil
+end
+--
+../testcases/test-recursive-type-02.tig:
+parse =>
+LetExp([
+ TypeDec[
+  (stringarray,
+   ArrayTy(stringarray))]],
+ SeqExp[
+  VarExp(
+   SimpleVar(nil))])
+type check =>
+
