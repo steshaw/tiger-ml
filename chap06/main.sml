@@ -10,11 +10,12 @@ struct
     in
       print ("parse =>\n");
       PP.print(TextIO.stdOut, ast);
+      print ("find escapes =>\n");
+      FindEscape.findEscape(ast); (* pass: note variables that escape *)
       print ("type check =>\n");
-      Semant.transProg(ast); (* pass: type check *)
-      FindEscape.findEscape(ast) (* pass: note variables that escape *)
-    handle Fail msg => ErrorMsg.error 1 ("failed with: " ^ msg)
-    handle        _ => ErrorMsg.error 1 "type check failed with unknown exception"
+      Semant.transProg(ast) (* pass: type check *)
+        handle Fail msg => ErrorMsg.error 1 ("failed with: " ^ msg)
+        handle        _ => ErrorMsg.error 1 "type check failed with unknown exception"
     end
   end
 

@@ -17,12 +17,10 @@ struct
 
   type expty = {(* exp: Translate.exp,*) ty: T.ty}
 
-  val todoLevel = TL.outermostLevel (* TODO *)
   val todoAccess = TL.globalAccess (* TODO *)
   val todoTy = T.INT (* TODO *)
   val todoTrExp = () (* TODO *)
   val todoExpTy = {exp=(), ty=todoTy} (* TODO *)
-  val todoDecValEntTyEnv = {venv=E.base_venv, tenv=E.base_tenv} (* TODO *)
 
   (* Value to use when expression is in error and no better value/ty can be provided *)
   val errorTrExpTy = {exp=todoTrExp, ty=T.NIL}
@@ -63,16 +61,16 @@ struct
       else ()
     end
 
-  fun findVarType(tenv, venv, A.SimpleVar (sym, pos)) =
+  fun findVarType(level, tenv, venv, A.SimpleVar (sym, pos)) =
     (case S.look(venv, sym)
       of SOME(E.VarEntry {access=_, ty}) => actual_ty (pos, tenv, ty)
        | SOME(E.FunEntry _) => (error pos "Cannot assign to a function"; T.NIL)
        | _ => (error pos "Variable does not exist"; T.NIL)
     )
 
-    | findVarType(tenv, venv, A.FieldVar (var, sym, pos)) =
+    | findVarType(level, tenv, venv, A.FieldVar (var, sym, pos)) =
       let
-        val ty = findVarType(tenv, venv, var) (* Lookup type of nested var. It should be a record type. *)
+        val ty = findVarType(level, tenv, venv, var) (* Lookup type of nested var. It should be a record type. *)
       in
         case ty
           of T.RECORD (fields, unique) =>
@@ -83,11 +81,11 @@ struct
           |  _                       => (error pos "Variable is not a record"; T.NIL)
       end
 
-    | findVarType(tenv, venv, A.SubscriptVar (var, exp, pos)) =
+    | findVarType(level, tenv, venv, A.SubscriptVar (var, exp, pos)) =
       let
         (* Lookup type of nested var. It should be an array type. *)
-        val ty = findVarType(tenv, venv, var)
-        val expA = transExp(venv, tenv, exp)
+        val ty = findVarType(level, tenv, venv, var)
+        val expA = transExp(level, venv, tenv, exp)
       in
         case ty
           of T.ARRAY (ty, unique) => (reqSameType(pos, tenv, expA, {exp=(), ty=T.INT}); actual_ty (pos, tenv, ty))
@@ -96,110 +94,126 @@ struct
 
   and transVar(venv, tenv, var) = todoExpTy
 
-  and transDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
-    let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
-    in {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {access=todoAccess, ty=ty})}
-    end
-
-  |   transDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
-    let val {exp=_ (*TODO*), ty} = transExp(venv, tenv, init)
-        val decTy = lookupActualType(pos, tenv, symbol)
-    in
-      reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
-      {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {access=todoAccess, ty=decTy})} (* continue with declared type *)
-    end
-
-  | transDec(venv, tenv, A.TypeDec typeDecs) =
+  and transDec(level, venv, tenv, dec) =
     let
-      fun updateDecs (venv, tenv) =
-        let
-          fun updateDec {name, ty, pos} = 
-            let
-              fun lookupType(pos, tenv, ty) =
-                case S.look(tenv, ty)
-                  of SOME ty => ty
-                   | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
-              val T.NAME(tyName, tyRef) = lookupType (pos, tenv, name)
-              val ty = case ty
-                of A.NameTy (name, pos) => 
-                    T.NAME (name, ref (SOME (lookupType (pos, tenv, name))))
-                 | A.RecordTy fields => 
-                    T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupType (pos, tenv, typ))) fields, ref ())
-                 | A.ArrayTy (name, pos) => 
-                    T.ARRAY (lookupType (pos, tenv, name), ref ())
-            in
-              tyRef := SOME(ty)
-            end
-        in
-          app updateDec typeDecs
+      fun trDec(venv, tenv, A.VarDec {name, escape, typ=NONE, init, pos}) =
+        let 
+          val {exp=_ (*TODO*), ty} = transExp(level, venv, tenv, init)
+          val access = TL.allocLocal level (!escape)
+        in 
+          {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {access=access, ty=ty})} (* XXX *)
         end
 
-      fun enterTypeHeader ({name, ty, pos}, tenv) = S.enter (tenv, name, T.NAME (name, ref NONE))
-      val tenv' = foldl enterTypeHeader tenv typeDecs
-    in
-      updateDecs (venv, tenv');
-      {tenv=tenv', venv=venv}
-    end
+      |   trDec(venv, tenv, A.VarDec {name, escape, typ=SOME(symbol, decTyPos), init, pos}) =
+        let val {exp=_ (*TODO*), ty} = transExp(level, venv, tenv, init)
+            val decTy = lookupActualType(pos, tenv, symbol)
+            val access = TL.allocLocal level (!escape)
+        in
+          reqSameType(pos, tenv, {exp=(), ty=decTy}, {exp=(), ty=ty});
+          (* continue with declared type *)
+          {tenv=tenv, venv=S.enter(venv, name, E.VarEntry {access=access, ty=decTy})}
+        end
 
-  |  transDec(venv, tenv, A.FunctionDec funDecs) =
-    let
-      fun computeResultType (tenv, result) =
-        (case result
-           of SOME (resTySym, resPos) => lookupActualType (resPos, tenv, resTySym)
-            | NONE => T.UNIT)
-
-      fun transFunDecs(venv, tenv, funDecs) =
+      | trDec(venv, tenv, A.TypeDec typeDecs) =
         let
-          fun transFunDec({name, params, body, pos, result}) =
+          fun updateDecs (venv, tenv) =
+            let
+              fun updateDec {name, ty, pos} = 
+                let
+                  fun lookupType(pos, tenv, ty) =
+                    case S.look(tenv, ty)
+                      of SOME ty => ty
+                       | NONE   => (error pos ("Type '" ^ S.name ty ^ "' is not defined"); T.NIL)
+                  val T.NAME(tyName, tyRef) = lookupType (pos, tenv, name)
+                  val ty = case ty
+                    of A.NameTy (name, pos) => 
+                        T.NAME (name, ref (SOME (lookupType (pos, tenv, name))))
+                     | A.RecordTy fields => 
+                        T.RECORD (map (fn ({name, escape, typ, pos}) => (name, lookupType (pos, tenv, typ))) fields, ref ())
+                     | A.ArrayTy (name, pos) => 
+                        T.ARRAY (lookupType (pos, tenv, name), ref ())
+                in
+                  tyRef := SOME(ty)
+                end
+            in
+              app updateDec typeDecs
+            end
+
+          fun enterTypeHeader ({name, ty, pos}, tenv) = S.enter (tenv, name, T.NAME (name, ref NONE))
+          val tenv' = foldl enterTypeHeader tenv typeDecs
+        in
+          updateDecs (venv, tenv');
+          {tenv=tenv', venv=venv}
+        end
+
+      |  trDec(venv, tenv, A.FunctionDec funDecs) =
+        let
+          fun computeResultType (tenv, result) =
+            (case result
+               of SOME (resTySym, resPos) => lookupActualType (resPos, tenv, resTySym)
+                | NONE => T.UNIT)
+
+          fun transFunDecs(venv, tenv, funDecs) =
+            let
+              fun transFunDec({name, params, body, pos, result}) =
+                let
+                  val resTy = computeResultType (tenv, result)
+                  fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
+                  val params' = map transParam params (* map [ty] => [{name, ty}] *)
+                  fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {access=todoAccess, ty=ty})
+                  val venv' = foldl enterParam venv params'
+                  val bodyA = transExp(level, venv', tenv, body);
+                in
+                  reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy})
+                end
+            in
+              app transFunDec funDecs
+            end
+
+          fun enterFunHeader({name, params, body, pos, result}, venv) =
             let
               val resTy = computeResultType (tenv, result)
               fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
               val params' = map transParam params (* map [ty] => [{name, ty}] *)
-              fun enterParam({name, ty}, venv) = S.enter(venv, name, E.VarEntry {access=todoAccess, ty=ty})
-              val venv' = foldl enterParam venv params'
-              val bodyA = transExp(venv', tenv, body);
+              val label = Temp.newLabel ()
+              fun selectEscape {name, escape, typ, pos} = !escape
+              val newLevel = TL.newLevel {parent = level, name = label, formals = map selectEscape params}
             in
-              reqSameType(pos, tenv, bodyA, {exp=(), ty=resTy})
+              S.enter(venv, name, 
+                      E.FunEntry {
+                        level=newLevel, 
+                        label=label,
+                        formals=map #ty params', 
+                        result=resTy})
             end
+          val venv' = foldl enterFunHeader venv funDecs
         in
-          app transFunDec funDecs
+          transFunDecs (venv', tenv, funDecs);
+          {venv=venv', tenv=tenv}
         end
 
-      fun enterFunHeader({name, params, body, pos, result}, venv) =
-        let
-          val resTy = computeResultType (tenv, result)
-          fun transParam {name, escape, typ, pos} = {name=name, ty=lookupActualType(pos, tenv, typ)}
-          val params' = map transParam params (* map [ty] => [{name, ty}] *)
-        in
-          S.enter(venv, name, 
-                  E.FunEntry {
-                    level=todoLevel, 
-                    label=Temp.newLabel(), 
-                    formals=map #ty params', 
-                    result=resTy})
-        end
-      val venv' = foldl enterFunHeader venv funDecs
-    in
-      transFunDecs (venv', tenv, funDecs);
-      {venv=venv', tenv=tenv}
+    in 
+      trDec(venv, tenv, dec)
     end
 
-  and transDecs(venv, tenv, []) = {venv=venv, tenv=tenv}
-    | transDecs(venv, tenv, dec::decs) =
-      let val {tenv=tenv', venv=venv'} = transDec(venv, tenv, dec)
-      in transDecs(venv', tenv', decs)
-      end
+  and transDecs(level, venv, tenv, []) = {venv=venv, tenv=tenv}
+    | transDecs(level, venv, tenv, dec::decs) =
+       let 
+         val {tenv=tenv', venv=venv'} = transDec(level, venv, tenv, dec)
+       in 
+         transDecs(level, venv', tenv', decs)
+       end
 
-  and transExp(venv, tenv, exp) =
+  and transExp(level, venv, tenv, exp) =
     let
       fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.UNIT}
 
-        | trexp(A.VarExp var) = {exp=todoTrExp, ty=findVarType(tenv, venv, var)}
+        | trexp(A.VarExp var) = {exp=todoTrExp, ty=findVarType(level, tenv, venv, var)}
 
         | trexp(A.AssignExp {var, exp, pos}) =
           let
             val expA = trexp exp
-            val varTy = findVarType(tenv, venv, var)
+            val varTy = findVarType(level, tenv, venv, var)
           in
             reqSameType(pos, tenv, {exp=(), ty=varTy}, expA);
             {exp=todoTrExp, ty=T.UNIT}
@@ -224,9 +238,10 @@ struct
           let
             val loA = trexp lo
             val hiA = trexp hi
-            val venv'=S.enter(venv, varSym, E.VarEntry {access=todoAccess, ty=T.INT}) (* declare loop variable *)
+            val access = TL.allocLocal level (!escape)
+            val venv'=S.enter(venv, varSym, E.VarEntry {access=access, ty=T.INT}) (* declare loop variable *)
             (* TODO: ensure loop variable is not assigned to *)
-            val bodyA = transExp (venv', tenv, body)
+            val bodyA = transExp (level, venv', tenv, body)
           in
             checkInt(loA, pos);
             checkInt(hiA, pos);
@@ -306,7 +321,7 @@ struct
                   error pos "field is not in record type"
               end
 
-            fun checkFields(tyFields) = 
+            fun checkFields(tyFields) =
               if length fields = length tyFields then
                 app checkField (ListPair.zip(fields, tyFields))
               else
@@ -366,9 +381,9 @@ struct
           end
 
         | trexp(A.LetExp {decs, body, pos}) =
-            let val {venv=venv', tenv=tenv'} = transDecs(venv, tenv, decs)
+            let val {venv=venv', tenv=tenv'} = transDecs(level, venv, tenv, decs)
             (* TODO: The book has transExp(venv', tenv') body. Wonder if this makes it easier to map/app. *)
-            in transExp(venv', tenv', body)
+            in transExp(level, venv', tenv', body)
             end
 
         | trexp(A.SeqExp expList) = 
@@ -395,8 +410,10 @@ struct
   and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy (* XXX: what's this? *)
 
   and transProg(exp: A.exp):unit = 
-    let in 
-      transExp(E.base_venv, E.base_tenv, exp);
+    let 
+      val mainLevel = TL.newLevel {parent=TL.outermostLevel, name=Temp.namedLabel "main", formals=[]}
+    in 
+      transExp(mainLevel, E.base_venv, E.base_tenv, exp);
       ()
     end
 

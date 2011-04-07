@@ -5,6 +5,7 @@ nil
 parse =>
 VarExp(
  SimpleVar(nil))
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test01.tig --
@@ -13,6 +14,7 @@ type check =>
 ../testcases/aa-test01.tig:
 parse =>
 IntExp(1)
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test02.tig --
@@ -21,6 +23,7 @@ type check =>
 ../testcases/aa-test02.tig:
 parse =>
 StringExp("hello")
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test03.tig --
@@ -29,6 +32,7 @@ type check =>
 ../testcases/aa-test03.tig:
 parse =>
 NilExp
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test04.tig --
@@ -38,6 +42,7 @@ nil
 parse =>
 VarExp(
  SimpleVar(nil))
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test05.tig --
@@ -51,6 +56,7 @@ IfExp(
   IntExp(2)),
  StringExp("yep"),
  StringExp("nah"))
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test06.tig --
@@ -64,6 +70,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test07.tig --
@@ -88,6 +95,7 @@ LetExp([
  SeqExp[
   CallExp(foo,[
    IntExp(100)])])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test08.tig --
@@ -132,6 +140,7 @@ LetExp([
     StringExp("not positive"))]),
   CallExp(exit,[
    IntExp(0)])])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test09.tig --
@@ -152,6 +161,7 @@ LetExp([
   CallExp(noargs,[
    VarExp(
     SimpleVar(a))])])
+find escapes =>
 type check =>
 ../testcases/aa-test09.tig:4.3:Function has the wrong arity
 
@@ -178,6 +188,7 @@ LetExp([
    SubscriptVar(
     SimpleVar(a),
     IntExp(0)))])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test10.tig --
@@ -189,6 +200,7 @@ VarExp(
  SubscriptVar(
   SimpleVar(a),
   IntExp(0)))
+find escapes =>
 type check =>
 ../testcases/aa-test10.tig:1.1:Variable does not exist
 ../testcases/aa-test10.tig:1.1:Variable is not an array
@@ -217,6 +229,7 @@ LetExp([
     SimpleVar(a),
     IntExp(0)),
    StringExp("hello"))])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test11.tig --
@@ -229,6 +242,7 @@ AssignExp(
   SimpleVar(a),
   IntExp(0)),
  StringExp("hello"))
+find escapes =>
 type check =>
 ../testcases/aa-test11.tig:1.1:Variable does not exist
 ../testcases/aa-test11.tig:1.1:Variable is not an array
@@ -251,6 +265,7 @@ LetExp([
   ArrayExp(a,
    IntExp(20),
    StringExp(""))])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test12.tig --
@@ -261,6 +276,7 @@ parse =>
 ArrayExp(a,
  IntExp(20),
  StringExp(""))
+find escapes =>
 type check =>
 ../testcases/aa-test12.tig:1.1:Type 'a' is not defined
 ../testcases/aa-test12.tig:1.1:type is not an array
@@ -282,6 +298,7 @@ LetExp([],
       StringExp("2")]),
      StringExp("3")]),
     StringExp("hi")])])])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test14.tig --
@@ -377,6 +394,7 @@ LetExp([
    IntExp(0)))],
  SeqExp[
   IntExp(1)])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test15.tig --
@@ -401,6 +419,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test16.tig --
@@ -424,6 +443,7 @@ LetExp([
   IntExp(1))],
  SeqExp[
   IntExp(1)])
+find escapes =>
 type check =>
 
 -- ../testcases/aa-test17.tig --
@@ -447,6 +467,7 @@ LetExp([
  SeqExp[
   CallExp(foo,[
    IntExp(10)])])
+find escapes =>
 type check =>
 ../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
 ../testcases/aa-test17.tig:2.16:Type 'notExist' is not defined
@@ -474,6 +495,7 @@ LetExp([
  SeqExp[
   CallExp(foo,[
    IntExp(10)])])
+find escapes =>
 type check =>
 ../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test18.tig:2.24:Type 'notExist' is not defined
@@ -500,6 +522,7 @@ LetExp([
  SeqExp[
   CallExp(foo,[
    IntExp(10)])])
+find escapes =>
 type check =>
 ../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
 ../testcases/aa-test19.tig:2.24:Type 'notExist' is not defined
@@ -834,6 +857,7 @@ LetExp([
      SimpleVar(list1)),
     VarExp(
      SimpleVar(list2))])])])
+find escapes =>
 type check =>
 
 -- ../testcases/queens.tig --
@@ -1064,6 +1088,7 @@ r,true,
  SeqExp[
   CallExp(try,[
    IntExp(0)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test01.tig --
@@ -1088,6 +1113,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
+find escapes =>
 type check =>
 
 -- ../testcases/test02.tig --
@@ -1116,6 +1142,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
+find escapes =>
 type check =>
 
 -- ../testcases/test03.tig --
@@ -1151,6 +1178,7 @@ LetExp([
    StringExp("Somebody")),
   VarExp(
    SimpleVar(rec1))])
+find escapes =>
 type check =>
 
 -- ../testcases/test04.tig --
@@ -1192,6 +1220,7 @@ LetExp([
  SeqExp[
   CallExp(nfactor,[
    IntExp(10)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test05.tig --
@@ -1237,6 +1266,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(lis))])
+find escapes =>
 type check =>
 
 -- ../testcases/test06.tig --
@@ -1278,6 +1308,7 @@ LetExp([
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+find escapes =>
 type check =>
 
 -- ../testcases/test07.tig --
@@ -1323,6 +1354,7 @@ LetExp([
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+find escapes =>
 type check =>
 
 -- ../testcases/test08.tig --
@@ -1338,6 +1370,7 @@ IfExp(
    IntExp(20))],
  IntExp(30),
  IntExp(40))
+find escapes =>
 type check =>
 
 -- ../testcases/test09.tig --
@@ -1354,6 +1387,7 @@ IfExp(
    IntExp(4))],
  IntExp(13),
  StringExp(" "))
+find escapes =>
 type check =>
 ../testcases/test09.tig:3.1:types do not match
 
@@ -1371,6 +1405,7 @@ WhileExp(
  OpExp(PlusOp,
   IntExp(5),
   IntExp(6)))
+find escapes =>
 type check =>
 ../testcases/test10.tig:2.1:unit required
 
@@ -1391,6 +1426,7 @@ i,true,
    VarExp(
     SimpleVar(i)),
    IntExp(1))))
+find escapes =>
 type check =>
 ../testcases/test11.tig:2.1:Type 'int' required
 
@@ -1421,6 +1457,7 @@ i,true,
        SimpleVar(a)),
       IntExp(1))),
     NilExp])])
+find escapes =>
 type check =>
 
 -- ../testcases/test13.tig --
@@ -1433,6 +1470,7 @@ parse =>
 OpExp(GtOp,
  IntExp(3),
  StringExp("df"))
+find escapes =>
 type check =>
 ../testcases/test13.tig:3.1:Type 'int' required
 
@@ -1440,15 +1478,13 @@ type check =>
 /* error : compare rec with array */
 
 let
+  type arrtype = array of int
+  type rectype = {name:string, id: int}
 
-	type arrtype = array of int
-	type rectype = {name:string, id: int}
-
-	var rec := rectype {name="aname", id=0}
-	var arr := arrtype [3] of 0
-
+  var rec := rectype {name="aname", id=0}
+  var arr := arrtype [3] of 0
 in
-	if rec <> arr then 3 else 4
+  if rec <> arr then 3 else 4
 end
 --
 ../testcases/test14.tig:
@@ -1481,9 +1517,10 @@ LetExp([
      SimpleVar(arr))),
    IntExp(3),
    IntExp(4))])
+find escapes =>
 type check =>
-../testcases/test14.tig:12.5:Types mismatch
-../testcases/test14.tig:12.2:Type 'int' required
+../testcases/test14.tig:10.6:Types mismatch
+../testcases/test14.tig:10.3:Type 'int' required
 
 -- ../testcases/test15.tig --
 /* error : if-then returns non unit */
@@ -1495,6 +1532,7 @@ parse =>
 IfExp(
  IntExp(20),
  IntExp(3))
+find escapes =>
 type check =>
 ../testcases/test15.tig:3.1:unit required
 
@@ -1524,6 +1562,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(nil))])
+find escapes =>
 type check =>
 
 -- ../testcases/test17.tig --
@@ -1556,6 +1595,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(d))])
+find escapes =>
 type check =>
 ../testcases/test17.tig:4.23:Type 'treelist' is not defined
 
@@ -1607,6 +1647,7 @@ LetExp([
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+find escapes =>
 type check =>
 ../testcases/test18.tig:5.4:Function does not exist
 
@@ -1653,6 +1694,7 @@ LetExp([
   CallExp(do_nothing1,[
    IntExp(0),
    StringExp("str2")])])
+find escapes =>
 type check =>
 ../testcases/test19.tig:8.16:Variable does not exist
 ../testcases/test19.tig:8.4:types do not match
@@ -1674,6 +1716,7 @@ WhileExp(
     SimpleVar(i)),
    IntExp(1)),
   NilExp])
+find escapes =>
 type check =>
 ../testcases/test20.tig:3.18:Variable does not exist
 ../testcases/test20.tig:3.18:Type 'int' required
@@ -1716,6 +1759,7 @@ LetExp([
  SeqExp[
   CallExp(nfactor,[
    IntExp(10)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test21.tig --
@@ -1757,6 +1801,7 @@ LetExp([
  SeqExp[
   CallExp(nfactor,[
    IntExp(10)])])
+find escapes =>
 type check =>
 ../testcases/test21.tig:8.9:Type 'int' required
 ../testcases/test21.tig:5.1:types do not match
@@ -1792,6 +1837,7 @@ LetExp([
     SimpleVar(rec1),
     nam),
    StringExp("asd"))])
+find escapes =>
 type check =>
 ../testcases/test22.tig:7.2:field nam does not exist
 ../testcases/test22.tig:7.2:types do not match
@@ -1833,6 +1879,7 @@ LetExp([
     SimpleVar(rec1),
     id),
    StringExp(""))])
+find escapes =>
 type check =>
 ../testcases/test23.tig:7.2:types do not match
 ../testcases/test23.tig:8.2:types do not match
@@ -1856,6 +1903,7 @@ LetExp([
    SubscriptVar(
     SimpleVar(d),
     IntExp(3)))])
+find escapes =>
 type check =>
 ../testcases/test24.tig:5.2:Variable is not an array
 
@@ -1878,6 +1926,7 @@ LetExp([
    FieldVar(
     SimpleVar(d),
     f))])
+find escapes =>
 type check =>
 ../testcases/test25.tig:5.2:Variable is not a record
 
@@ -1891,6 +1940,7 @@ parse =>
 OpExp(PlusOp,
  IntExp(3),
  StringExp("var"))
+find escapes =>
 type check =>
 ../testcases/test26.tig:3.1:Type 'int' required
 
@@ -1918,6 +1968,7 @@ LetExp([
  SeqExp[
   CallExp(g,[
    IntExp(2)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test28.tig --
@@ -1954,6 +2005,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(rec1))])
+find escapes =>
 type check =>
 ../testcases/test28.tig:7.2:types do not match
 
@@ -1984,6 +2036,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(arr1))])
+find escapes =>
 type check =>
 ../testcases/test29.tig:7.2:types do not match
 
@@ -2016,6 +2069,7 @@ LetExp([
    SubscriptVar(
     SimpleVar(arr1),
     IntExp(2)))])
+find escapes =>
 type check =>
 
 -- ../testcases/test31.tig --
@@ -2034,6 +2088,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+find escapes =>
 type check =>
 ../testcases/test31.tig:3.2:types do not match
 
@@ -2060,6 +2115,7 @@ LetExp([
    StringExp(" ")))],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 ../testcases/test32.tig:6.11:types do not match
 
@@ -2079,6 +2135,7 @@ LetExp([
 ]))],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 ../testcases/test33.tig:3.10:Type 'rectype' is not defined
 ../testcases/test33.tig:3.10:Not a record type
@@ -2105,6 +2162,7 @@ LetExp([
   CallExp(g,[
    StringExp("one"),
    StringExp("two")])])
+find escapes =>
 type check =>
 ../testcases/test34.tig:5.2:types do not match
 
@@ -2129,6 +2187,7 @@ LetExp([
  SeqExp[
   CallExp(g,[
    StringExp("one")])])
+find escapes =>
 type check =>
 ../testcases/test35.tig:5.2:Function has the wrong arity
 
@@ -2155,6 +2214,7 @@ LetExp([
    IntExp(3),
    StringExp("one"),
    IntExp(5)])])
+find escapes =>
 type check =>
 ../testcases/test36.tig:5.2:Function has the wrong arity
 
@@ -2177,6 +2237,7 @@ LetExp([
   StringExp(" "))],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 
 -- ../testcases/test38.tig --
@@ -2200,6 +2261,7 @@ LetExp([
    NameTy(string))]],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 
 -- ../testcases/test39.tig --
@@ -2229,6 +2291,7 @@ LetExp([
     SimpleVar(a)))]],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 
 -- ../testcases/test40.tig --
@@ -2252,6 +2315,7 @@ LetExp([
  SeqExp[
   CallExp(g,[
    IntExp(2)])])
+find escapes =>
 type check =>
 ../testcases/test40.tig:3.2:types do not match
 
@@ -2280,6 +2344,7 @@ LetExp([
      NameTy(string))]],
    SeqExp[
     IntExp(0)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test42.tig --
@@ -2424,6 +2489,7 @@ LetExp([
      dates),
     IntExp(2)),
    IntExp(2323))])
+find escapes =>
 type check =>
 
 -- ../testcases/test43.tig --
@@ -2445,6 +2511,7 @@ LetExp([
    VarExp(
     SimpleVar(a)),
    IntExp(3))])
+find escapes =>
 type check =>
 ../testcases/test43.tig:6.2:Type 'int' required
 
@@ -2477,6 +2544,7 @@ LetExp([
    SimpleVar(b),
    VarExp(
     SimpleVar(nil)))])
+find escapes =>
 type check =>
 
 -- ../testcases/test45.tig --
@@ -2503,6 +2571,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+find escapes =>
 type check =>
 
 -- ../testcases/test46.tig --
@@ -2537,6 +2606,7 @@ LetExp([
     SimpleVar(b)),
    VarExp(
     SimpleVar(nil)))])
+find escapes =>
 type check =>
 
 -- ../testcases/test47.tig --
@@ -2565,6 +2635,7 @@ LetExp([
    NameTy(string))]],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 
 -- ../testcases/test48.tig --
@@ -2600,6 +2671,7 @@ LetExp([
     SimpleVar(a)))]],
  SeqExp[
   IntExp(0)])
+find escapes =>
 type check =>
 
 -- ../testcases/test49.tig --
@@ -2630,6 +2702,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+find escapes =>
 type check =>
 ../testcases/test49.tig:5.10:Variable does not exist
 ../testcases/test49.tig:5.10:Type 'int' required
@@ -2667,6 +2740,7 @@ LetExp([
     SimpleVar(a)),
    VarExp(
     SimpleVar(b)))])
+find escapes =>
 type check =>
 ../testcases/test-array-compare-01.tig:7.3:Array types are not equal
 
@@ -2691,6 +2765,7 @@ LetExp([
    NameTy(string))]],
  SeqExp[
   NilExp])
+find escapes =>
 type check =>
 
 -- ../testcases/test-duplicate-var-01.tig --
@@ -2714,6 +2789,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(a))])
+find escapes =>
 type check =>
 
 -- ../testcases/test-duplicate-var-02.tig --
@@ -2740,6 +2816,7 @@ LetExp([
    StringExp(""))]],
  SeqExp[
   CallExp(a,[])])
+find escapes =>
 type check =>
 
 -- ../testcases/test-duplicate-var-03.tig --
@@ -2764,6 +2841,7 @@ LetExp([
    IntExp(0))]],
  SeqExp[
   CallExp(a,[])])
+find escapes =>
 type check =>
 
 -- ../testcases/test-function-decl-return-unit.tig --
@@ -2784,6 +2862,7 @@ LetExp([
  SeqExp[
   CallExp(foo,[
    IntExp(0)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test-fun-dec-01.tig --
@@ -2803,6 +2882,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(nil))])
+find escapes =>
 type check =>
 ../testcases/test-fun-dec-01.tig:2.3:types do not match
 
@@ -2847,6 +2927,7 @@ LetExp([
  SeqExp[
   CallExp(one,[
    IntExp(100)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test-mutually-recursive-types-01.tig --
@@ -2871,6 +2952,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(nil))])
+find escapes =>
 type check =>
 
 -- ../testcases/test-record-compare-01.tig --
@@ -2910,6 +2992,7 @@ LetExp([
     SimpleVar(person1)),
    VarExp(
     SimpleVar(person2)))])
+find escapes =>
 type check =>
 
 -- ../testcases/test-record-compare-02.tig --
@@ -2954,6 +3037,7 @@ LetExp([
     SimpleVar(person1)),
    VarExp(
     SimpleVar(person2)))])
+find escapes =>
 type check =>
 ../testcases/test-record-compare-02.tig:7.3:Record types are not equal
 
@@ -2977,6 +3061,7 @@ LetExp([
 
    (a,
     IntExp(1))])])
+find escapes =>
 type check =>
 ../testcases/test-record-exp-01.tig:4.3:Record expression has the wrong arity
 
@@ -3002,6 +3087,7 @@ LetExp([
     IntExp(1)),
    (b,
     IntExp(2))])])
+find escapes =>
 type check =>
 ../testcases/test-record-exp-02.tig:4.13:types do not match
 
@@ -3027,6 +3113,7 @@ LetExp([
     IntExp(1)),
    (b,
     StringExp(""))])])
+find escapes =>
 type check =>
 
 -- ../testcases/test-record-exp-04.tig --
@@ -3051,6 +3138,7 @@ LetExp([
     StringExp("")),
    (a,
     IntExp(1))])])
+find escapes =>
 type check =>
 ../testcases/test-record-exp-04.tig:4.8:field is not in record type
 ../testcases/test-record-exp-04.tig:4.16:field is not in record type
@@ -3088,6 +3176,7 @@ LetExp([
  SeqExp[
   CallExp(factorial,[
    IntExp(7)])])
+find escapes =>
 type check =>
 
 -- ../testcases/test-recursive-type-01.tig --
@@ -3108,6 +3197,7 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(nil))])
+find escapes =>
 type check =>
 
 -- ../testcases/test-recursive-type-02.tig --
@@ -3126,5 +3216,6 @@ LetExp([
  SeqExp[
   VarExp(
    SimpleVar(nil))])
+find escapes =>
 type check =>
 
