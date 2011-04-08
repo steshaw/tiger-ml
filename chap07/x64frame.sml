@@ -36,4 +36,12 @@ structure X64Frame: FRAME = struct
       locals := l :: !locals;
       l
     end
+
+  val FP = Temp.newTemp ()
+  val wordSize = 32
+
+  structure T = Tree
+
+  fun exp (InFrame k) exp = T.MEM(T.BINOP(T.PLUS, exp, T.CONST k))
+    | exp (InReg temp) _ = T.TEMP temp
 end

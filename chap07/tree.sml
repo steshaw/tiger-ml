@@ -24,7 +24,10 @@ sig
      and relop = EQ | NE | LT | GT | LE | GE 
                | ULT | ULE | UGT | UGE
 
-  val notRel : relop -> relop
+
+  val seq: stm list -> stm
+
+  val notRel:  relop -> relop
   val commute: relop -> relop
 end
 
@@ -53,6 +56,8 @@ struct
 
     and relop = EQ | NE | LT | GT | LE | GE 
               | ULT | ULE | UGT | UGE
+
+  fun seq (x::xs) = raise Fail "implement Tree.seq"
 
   fun notRel relop = raise Fail "implement Tree.notRel"
   fun commute relop = raise Fail "implement Tree.commute"
