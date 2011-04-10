@@ -5,6 +5,10 @@
  *
  *)
 structure X64Frame: FRAME = struct
+  val FP = Temp.newTemp ()
+  val wordSize = 32 (* in bits *)
+  val wordSizeInBytes = wordSize div 8
+
   datatype access
     = InFrame of int
     | InReg of Temp.temp
@@ -12,33 +16,43 @@ structure X64Frame: FRAME = struct
   type frame = {
     name: Temp.label,
     formals: access list,
+    nextLocalOffset: int ref,
     locals: access list ref
   }
 
-  fun toFormal escapes =
+  fun toFormal (offset, escapes) =
     if escapes
-    then InFrame 0 (* FIXME: allocate temporary here *)
+    then InFrame offset
     else InReg (Temp.newTemp())
 
-  fun toLocal escapes =
+  fun toLocal nextLocalOffset escapes =
     if escapes
-    then InFrame 0 (* FIXME: allocate temporary here *)
+    then 
+      let
+        val offset = !nextLocalOffset
+      in
+        nextLocalOffset := !nextLocalOffset - wordSizeInBytes;
+        InFrame offset
+      end
     else InReg (Temp.newTemp())
 
-  fun newFrame {name=name, formals=formals} = {name = name, formals=map toFormal formals, locals=ref []}
+  fun newFrame {name=name, formals=formals} =
+    let
+      val positions = List.tabulate (length formals, fn n => (n * 4) + 8)
+      val v = ListPair.zip (positions, formals)
+    in 
+      {name = name, formals=map toFormal v, nextLocalOffset = ref (0-4), locals=ref []}
+    end
 
-  fun formals {name=_, formals=formals, locals=_} = formals
+  fun formals {name=_, formals=formals, nextLocalOffset=_, locals=_} = formals
 
-  fun allocLocal {name=_, formals=_, locals=locals} escapes =
-    let 
-      val l = toLocal escapes
+  fun allocLocal {name=_, formals=_, nextLocalOffset=nextLocalOffset, locals=locals} escapes =
+    let
+      val l = toLocal nextLocalOffset escapes
     in
       locals := l :: !locals;
       l
     end
-
-  val FP = Temp.newTemp ()
-  val wordSize = 32
 
   structure T = Tree
 

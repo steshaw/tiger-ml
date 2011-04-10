@@ -15,6 +15,8 @@ sig
   val unEx: exp -> Tree.exp
   val unNx: exp -> Tree.stm
   val unCx: exp -> (Temp.label * Temp.label -> Tree.stm)
+
+  val simpleVar: access -> level -> exp
 end =
 struct
 
@@ -25,7 +27,8 @@ struct
         parent: level,
         name: Temp.label,
         formals: bool list,
-        frame: Frame.frame
+        frame: Frame.frame,
+        id: unit ref
       }
     | Outermost
 
@@ -38,15 +41,19 @@ struct
   val globalAccess = Global
 
   fun newLevel({parent=parent, name=name, formals=formals}) =
-    Level {parent=parent, name=name, formals=formals, frame=Frame.newFrame({name=Temp.newLabel(), formals=formals})}
+    Level {parent=parent, name=name, 
+           formals=formals, 
+           frame=Frame.newFrame({name=Temp.newLabel(), formals=formals}),
+           id = ref ()}
 
   fun formals level = case level
     of Outermost => raise Fail "no formals for outermost"
-    | Level({parent=_,name=_,formals=formals,frame=_}) => [] (* TODO *)
+    | Level({parent=_,name=_,formals=formals,frame=_, id=_}) => [] (* TODO *)
 
   fun allocLocal level escapes = case level
     of Outermost => raise Fail "cannot allocate locals at outermost level"
-    | Level {parent=parent, name=name, formals=formals, frame=frame} => Local (level, Frame.allocLocal frame escapes)
+    | Level {parent=_, name=_, formals=_, frame=frame, id=_} => 
+        Local (level, Frame.allocLocal frame escapes)
 
   datatype exp
     = Ex of T.exp
@@ -77,5 +84,8 @@ struct
 (*
      | (T.CONST 1) => fn (t, f) => T.EXP e
 *)
+
+  (* TODO: Handle following static links when levels are different. *)
+  fun simpleVar (Local (localLevel, localAccess)) level = Ex (Frame.exp localAccess (T.TEMP Frame.FP))
 
 end
