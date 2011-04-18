@@ -7,7 +7,7 @@ sig
   val formals: frame -> access list
   val allocLocal: frame -> bool -> access
 
-  val procEntryExit1: {frame: frame, body: Tree.exp} -> Tree.exp
+  val procEntryExit1: {frame: frame, body: Tree.stm} -> Tree.stm
 
   val FP: Temp.temp
   val wordSize: int

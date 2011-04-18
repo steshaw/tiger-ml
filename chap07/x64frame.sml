@@ -60,7 +60,7 @@ structure X64Frame: FRAME = struct
 
   structure T = Tree
 
-  fun procEntryExit1 {frame: frame, body: T.exp} = body (* TODO *)
+  fun procEntryExit1 {frame: frame, body: T.stm} = body (* TODO *)
 
   fun exp (InFrame k) exp = T.MEM(T.BINOP(T.PLUS, exp, T.CONST k))
     | exp (InReg temp) _ = T.TEMP temp
