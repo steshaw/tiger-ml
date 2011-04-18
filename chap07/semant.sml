@@ -409,7 +409,9 @@ struct
       trexp(exp)
     end
 
+(*
   and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy (* XXX: what's this? *)
+*)
 
   and transProg(exp: A.exp):unit =
     let

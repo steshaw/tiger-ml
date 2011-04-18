@@ -50,7 +50,8 @@ type check =>
 frags:
   body:
     EXP(
-     CONST ~1)
+     MEM(
+      CONST 0))
 
 -- ../testcases/aa-test04.tig --
 nil
