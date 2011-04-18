@@ -208,7 +208,7 @@ struct
 
   and transExp(level, venv, tenv, exp) =
     let
-      fun trexp(A.NilExp) = {exp=todoTrExp, ty=T.UNIT}
+      fun trexp(A.NilExp) = {exp=TL.nil (), ty=T.UNIT}
 
         | trexp(A.VarExp var) = {exp=todoTrExp, ty=findVarType(level, tenv, venv, var)}
 

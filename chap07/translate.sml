@@ -19,6 +19,7 @@ sig
   val simpleVar: access -> level -> exp
   val literalString: string -> exp
   val constantInt: int -> exp
+  val nil: unit -> exp
 
   val procEntryExit: {level: level, body: exp} -> unit
 
@@ -110,6 +111,7 @@ struct
       Ex (T.NAME label) (* TODO put string literal to frags *)
     end
   fun constantInt n = Ex (T.CONST n)
+  fun nil () = Ex (T.MEM (T.CONST 0))
 
 (*
   val procEntryExit: {level: level, body: exp} -> unit
