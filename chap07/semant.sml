@@ -15,16 +15,18 @@ struct
 
   (* TODO: Consider adding boolean type to the language *)
 
+(*
   type expty = {(* exp: Translate.exp,*) ty: T.ty}
+*)
 
   val todoAccess = TL.globalAccess (* TODO *)
   val todoTy = T.INT (* TODO *)
-  val todoTrExp = () (* TODO *)
-  val todoExpTy = {exp=(), ty=todoTy} (* TODO *)
+  val todoTrExp = TL.todoExp (* TODO *)
+  val todoExpTy = {exp=todoTrExp, ty=todoTy} (* TODO *)
 
   (* Value to use when expression is in error and no better value/ty can be provided *)
   val errorTrExpTy = {exp=todoTrExp, ty=T.NIL}
-  val errorTrExp = ()
+  val errorTrExp = TL.todoExp (* XXX: Do we need a case for erroneous translate expressions? *)
 
   val wouldBeBooleanTy = T.INT
 
@@ -335,7 +337,7 @@ struct
           end
 
         | trexp(A.IntExp _) = {exp=todoTrExp, ty=T.INT}
-        | trexp(A.StringExp _) = {exp=todoTrExp, ty=T.STRING}
+        | trexp(A.StringExp (s, pos)) = {exp=(TL.literal s), ty=T.STRING}
         | trexp(A.BreakExp pos) = {exp=todoTrExp, ty=T.UNIT}
 
         | trexp(A.OpExp{left, oper, right, pos}) =
@@ -409,10 +411,10 @@ struct
 
   and transTy (            tenv: E.tenv, ty: A.ty): T.ty = todoTy (* XXX: what's this? *)
 
-  and transProg(exp: A.exp):unit = 
-    let 
+  and transProg(exp: A.exp):unit =
+    let
       val mainLevel = TL.newLevel {parent=TL.outermostLevel, name=Temp.namedLabel "main", formals=[]}
-    in 
+    in
       transExp(mainLevel, E.base_venv, E.base_tenv, exp);
       ()
     end

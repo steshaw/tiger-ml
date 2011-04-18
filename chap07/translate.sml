@@ -17,16 +17,19 @@ sig
   val unCx: exp -> (Temp.label * Temp.label -> Tree.stm)
 
   val simpleVar: access -> level -> exp
+  val literal: string -> exp
 
   val procEntryExit: {level: level, body: exp} -> unit
 
   val getResult: unit -> Frame.frag list
+
+  val todoExp: exp
 end =
 struct
 
   structure T = Tree
 
-  val fragList: Frame.frag list = []
+  val fragList: Frame.frag list ref = ref []
 
   datatype level
     = Level of {
@@ -66,6 +69,8 @@ struct
     | Nx of T.stm
     | Cx of Temp.label * Temp.label -> T.stm
 
+  val todoExp = Ex (Tree.CONST ~1)
+
   fun unEx (Ex e) = e
     | unEx (Cx mkStm) =
         let 
@@ -93,8 +98,15 @@ struct
 
   (* TODO: Handle following static links when levels are different. *)
   fun simpleVar (Local (localLevel, localAccess)) level = Ex (Frame.exp localAccess (T.TEMP Frame.FP))
+  fun literal literal = 
+    let 
+      val label = Temp.newLabel()
+    in
+      fragList := Frame.STRING (label, literal) :: !fragList;
+      Ex (T.NAME label) (* TODO put string literal to frags *)
+    end
 
   fun procEntryExit {level: level, body: exp} = () (* TODO *)
 
-  fun getResult () = [] (* TODO *)
+  fun getResult () = !fragList
 end

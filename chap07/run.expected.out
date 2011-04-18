@@ -25,6 +25,8 @@ parse =>
 StringExp("hello")
 find escapes =>
 type check =>
+frags:
+  label L1: hello
 
 -- ../testcases/aa-test03.tig --
 ()
@@ -58,6 +60,10 @@ IfExp(
  StringExp("nah"))
 find escapes =>
 type check =>
+frags:
+  label L2: nah
+frags:
+  label L1: yep
 
 -- ../testcases/aa-test06.tig --
 let var a := 1 in a end
@@ -97,6 +103,8 @@ LetExp([
    IntExp(100)])])
 find escapes =>
 type check =>
+frags:
+  label L3: hi
 
 -- ../testcases/aa-test08.tig --
 let
@@ -142,6 +150,12 @@ LetExp([
    IntExp(0)])])
 find escapes =>
 type check =>
+frags:
+  label L5: not positive
+frags:
+  label L4: positive
+frags:
+  label L3: hi
 
 -- ../testcases/aa-test09.tig --
 let
@@ -190,6 +204,8 @@ LetExp([
     IntExp(0)))])
 find escapes =>
 type check =>
+frags:
+  label L1: 
 
 -- ../testcases/aa-test10.tig --
 a[0]
@@ -231,6 +247,10 @@ LetExp([
    StringExp("hello"))])
 find escapes =>
 type check =>
+frags:
+  label L2: hello
+frags:
+  label L1: 
 
 -- ../testcases/aa-test11.tig --
 a[0] := "hello"
@@ -247,6 +267,8 @@ type check =>
 ../testcases/aa-test11.tig:1.1:Variable does not exist
 ../testcases/aa-test11.tig:1.1:Variable is not an array
 ../testcases/aa-test11.tig:1.1:types do not match
+frags:
+  label L1: hello
 
 -- ../testcases/aa-test12.fixed.tig --
 let
@@ -267,6 +289,8 @@ LetExp([
    StringExp(""))])
 find escapes =>
 type check =>
+frags:
+  label L1: 
 
 -- ../testcases/aa-test12.tig --
 a[20] of ""
@@ -280,6 +304,8 @@ find escapes =>
 type check =>
 ../testcases/aa-test12.tig:1.1:Type 'a' is not defined
 ../testcases/aa-test12.tig:1.1:type is not an array
+frags:
+  label L1: 
 
 -- ../testcases/aa-test13.tig --
 let in
@@ -300,6 +326,14 @@ LetExp([],
     StringExp("hi")])])])
 find escapes =>
 type check =>
+frags:
+  label L4: hi
+frags:
+  label L3: 3
+frags:
+  label L2: 2
+frags:
+  label L1: 1
 
 -- ../testcases/aa-test14.tig --
 let 
@@ -859,6 +893,26 @@ LetExp([
      SimpleVar(list2))])])])
 find escapes =>
 type check =>
+frags:
+  label L26:  
+frags:
+  label L25: \n
+frags:
+  label L24: 0
+frags:
+  label L23: -
+frags:
+  label L22: 0
+frags:
+  label L11: 0
+frags:
+  label L10: \n
+frags:
+  label L9:  
+frags:
+  label L8: 9
+frags:
+  label L7: 0
 
 -- ../testcases/queens.tig --
 /* A program to solve the 8-queens problem */
@@ -1090,6 +1144,14 @@ r,true,
    IntExp(0)])])
 find escapes =>
 type check =>
+frags:
+  label L8: \n
+frags:
+  label L7: \n
+frags:
+  label L6:  .
+frags:
+  label L5:  O
 
 -- ../testcases/test01.tig --
 /* an array type and an array variable */
@@ -1180,6 +1242,10 @@ LetExp([
    SimpleVar(rec1))])
 find escapes =>
 type check =>
+frags:
+  label L2: Somebody
+frags:
+  label L1: Nobody
 
 -- ../testcases/test04.tig --
 /* define a recursive function */
@@ -1310,6 +1376,10 @@ LetExp([
    StringExp("str2")])])
 find escapes =>
 type check =>
+frags:
+  label L6: str2
+frags:
+  label L5: str
 
 -- ../testcases/test07.tig --
 /* define valid mutually recursive functions */
@@ -1356,6 +1426,12 @@ LetExp([
    StringExp("str2")])])
 find escapes =>
 type check =>
+frags:
+  label L7: str2
+frags:
+  label L6:  
+frags:
+  label L5: str
 
 -- ../testcases/test08.tig --
 /* correct if */
@@ -1390,6 +1466,8 @@ IfExp(
 find escapes =>
 type check =>
 ../testcases/test09.tig:3.1:types do not match
+frags:
+  label L1:  
 
 -- ../testcases/test10.tig --
 /* error : body of while not unit */
@@ -1429,6 +1507,8 @@ i,true,
 find escapes =>
 type check =>
 ../testcases/test11.tig:2.1:Type 'int' required
+frags:
+  label L1:  
 
 -- ../testcases/test12.tig --
 /* valid for and let */
@@ -1473,6 +1553,8 @@ OpExp(GtOp,
 find escapes =>
 type check =>
 ../testcases/test13.tig:3.1:Type 'int' required
+frags:
+  label L1: df
 
 -- ../testcases/test14.tig --
 /* error : compare rec with array */
@@ -1521,6 +1603,8 @@ find escapes =>
 type check =>
 ../testcases/test14.tig:10.6:Types mismatch
 ../testcases/test14.tig:10.3:Type 'int' required
+frags:
+  label L1: aname
 
 -- ../testcases/test15.tig --
 /* error : if-then returns non unit */
@@ -1650,6 +1734,12 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test18.tig:5.4:Function does not exist
+frags:
+  label L7: str2
+frags:
+  label L6:  
+frags:
+  label L5: str
 
 -- ../testcases/test19.tig --
 /* error : second function uses variables local to the first one, undeclared variable */
@@ -1698,6 +1788,12 @@ find escapes =>
 type check =>
 ../testcases/test19.tig:8.16:Variable does not exist
 ../testcases/test19.tig:8.4:types do not match
+frags:
+  label L7: str2
+frags:
+  label L6:  
+frags:
+  label L5: str
 
 -- ../testcases/test20.tig --
 /* error: undeclared variable i */
@@ -1841,6 +1937,10 @@ find escapes =>
 type check =>
 ../testcases/test22.tig:7.2:field nam does not exist
 ../testcases/test22.tig:7.2:types do not match
+frags:
+  label L2: asd
+frags:
+  label L1: Name
 
 -- ../testcases/test23.tig --
 /* error : type mismatch */
@@ -1883,6 +1983,10 @@ find escapes =>
 type check =>
 ../testcases/test23.tig:7.2:types do not match
 ../testcases/test23.tig:8.2:types do not match
+frags:
+  label L2: 
+frags:
+  label L1: aname
 
 -- ../testcases/test24.tig --
 /* error : variable not array */
@@ -1943,6 +2047,8 @@ OpExp(PlusOp,
 find escapes =>
 type check =>
 ../testcases/test26.tig:3.1:Type 'int' required
+frags:
+  label L1: var
 
 -- ../testcases/test27.tig --
 /* locals hide globals */
@@ -2008,6 +2114,8 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test28.tig:7.2:types do not match
+frags:
+  label L1: Name
 
 -- ../testcases/test29.tig --
 /* error : different array types */
@@ -2091,6 +2199,8 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test31.tig:3.2:types do not match
+frags:
+  label L1:  
 
 -- ../testcases/test32.tig --
 /* error : initializing exp and array type differ */
@@ -2118,6 +2228,8 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test32.tig:6.11:types do not match
+frags:
+  label L1:  
 
 -- ../testcases/test33.tig --
 /* error : unknown type */
@@ -2165,6 +2277,10 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test34.tig:5.2:types do not match
+frags:
+  label L4: two
+frags:
+  label L3: one
 
 -- ../testcases/test35.tig --
 /* error : formals are more then actuals */
@@ -2239,6 +2355,8 @@ LetExp([
   IntExp(0)])
 find escapes =>
 type check =>
+frags:
+  label L1:  
 
 -- ../testcases/test38.tig --
 /* This is illegal, since there are two types with the same name
@@ -2491,6 +2609,24 @@ LetExp([
    IntExp(2323))])
 find escapes =>
 type check =>
+frags:
+  label L9: sdf
+frags:
+  label L8: sfd
+frags:
+  label L7: kati
+frags:
+  label L6: Allos
+frags:
+  label L5: Kapou
+frags:
+  label L4: Kapoios
+frags:
+  label L3: 
+frags:
+  label L2: somewhere
+frags:
+  label L1: aname
 
 -- ../testcases/test43.tig --
 /* initialize with unit and causing type mismatch in addition */
@@ -2791,6 +2927,8 @@ LetExp([
    SimpleVar(a))])
 find escapes =>
 type check =>
+frags:
+  label L1: 
 
 -- ../testcases/test-duplicate-var-02.tig --
 let
@@ -2818,6 +2956,10 @@ LetExp([
   CallExp(a,[])])
 find escapes =>
 type check =>
+frags:
+  label L8: 
+frags:
+  label L7: 
 
 -- ../testcases/test-duplicate-var-03.tig --
 let
@@ -2843,6 +2985,8 @@ LetExp([
   CallExp(a,[])])
 find escapes =>
 type check =>
+frags:
+  label L1: 
 
 -- ../testcases/test-function-decl-return-unit.tig --
 let
@@ -2885,6 +3029,8 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test-fun-dec-01.tig:2.3:types do not match
+frags:
+  label L3: ha
 
 -- ../testcases/test-mutually-recursive-function-01.tig --
 let
@@ -2994,6 +3140,10 @@ LetExp([
     SimpleVar(person2)))])
 find escapes =>
 type check =>
+frags:
+  label L2: Steven
+frags:
+  label L1: Steven
 
 -- ../testcases/test-record-compare-02.tig --
 let
@@ -3040,6 +3190,10 @@ LetExp([
 find escapes =>
 type check =>
 ../testcases/test-record-compare-02.tig:7.3:Record types are not equal
+frags:
+  label L2: Steven
+frags:
+  label L1: Steven
 
 -- ../testcases/test-record-exp-01.tig --
 let
@@ -3115,6 +3269,8 @@ LetExp([
     StringExp(""))])])
 find escapes =>
 type check =>
+frags:
+  label L1: 
 
 -- ../testcases/test-record-exp-04.tig --
 let
@@ -3142,6 +3298,8 @@ find escapes =>
 type check =>
 ../testcases/test-record-exp-04.tig:4.8:field is not in record type
 ../testcases/test-record-exp-04.tig:4.16:field is not in record type
+frags:
+  label L1: 
 
 -- ../testcases/test-recursive-function-01.tig --
 let

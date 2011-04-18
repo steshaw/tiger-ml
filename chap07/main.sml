@@ -3,7 +3,27 @@ struct
   open Parse
   structure PP = PrintAbsyn
 
-  fun compile(file: string) = let in
+  structure Fr = X64Frame (* FIXME: why can't I use Frame here? *)
+
+  fun dumpFrag (frag: Fr.frag): unit = let in
+    print("frags:\n");
+    case frag
+      of Fr.PROC {body=body, frame=frame} => let in
+           print("  body: ");
+           Printtree.printtree (TextIO.stdOut, body)
+         end
+       | Fr.STRING (label, name) => let in
+           print("  label ");
+           print(Symbol.name label);
+           print(": ");
+           print(name);
+           print("\n")
+         end
+  end
+
+  fun dumpFrags (fs: X64Frame.frag list) = app dumpFrag fs
+
+  fun compile (file: string) = let in
     print (file ^ ":\n");
     let
       val ast = parse file
@@ -15,7 +35,8 @@ struct
       print ("type check =>\n");
       Semant.transProg(ast) (* pass: type check *)
         handle Fail msg => ErrorMsg.error 1 ("failed with: " ^ msg)
-        handle        _ => ErrorMsg.error 1 "type check failed with unknown exception"
+        handle        _ => ErrorMsg.error 1 "type check failed with unknown exception";
+      dumpFrags (TL.getResult ())
     end
   end
 
