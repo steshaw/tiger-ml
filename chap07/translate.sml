@@ -17,7 +17,8 @@ sig
   val unCx: exp -> (Temp.label * Temp.label -> Tree.stm)
 
   val simpleVar: access -> level -> exp
-  val literal: string -> exp
+  val literalString: string -> exp
+  val constantInt: int -> exp
 
   val procEntryExit: {level: level, body: exp} -> unit
 
@@ -101,13 +102,14 @@ struct
 
   (* TODO: Handle following static links when levels are different. *)
   fun simpleVar (Local (localLevel, localAccess)) level = Ex (Frame.exp localAccess (T.TEMP Frame.FP))
-  fun literal literal = 
+  fun literalString literal = 
     let 
       val label = Temp.newLabel()
     in
       fragList := Frame.STRING (label, literal) :: !fragList;
       Ex (T.NAME label) (* TODO put string literal to frags *)
     end
+  fun constantInt n = Ex (T.CONST n)
 
 (*
   val procEntryExit: {level: level, body: exp} -> unit

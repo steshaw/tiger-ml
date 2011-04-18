@@ -336,8 +336,8 @@ struct
                | _                           => (error pos "Not a record type"; errorTrExpTy)
           end
 
-        | trexp(A.IntExp _) = {exp=todoTrExp, ty=T.INT}
-        | trexp(A.StringExp (s, pos)) = {exp=(TL.literal s), ty=T.STRING}
+        | trexp(A.IntExp n) = {exp=TL.constantInt n, ty=T.INT}
+        | trexp(A.StringExp (s, pos)) = {exp=(TL.literalString s), ty=T.STRING}
         | trexp(A.BreakExp pos) = {exp=todoTrExp, ty=T.UNIT}
 
         | trexp(A.OpExp{left, oper, right, pos}) =

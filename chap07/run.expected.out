@@ -23,7 +23,7 @@ type check =>
 frags:
   body:
     EXP(
-     CONST ~1)
+     CONST 1)
 
 -- ../testcases/aa-test02.tig --
 "hello"
