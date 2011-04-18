@@ -5,12 +5,11 @@ struct
 
   structure Fr = X64Frame (* FIXME: why can't I use Frame here? *)
 
-  fun dumpFrag (frag: Fr.frag): unit = let in
-    print("frags:\n");
+  fun dumpFrag (frag: Fr.frag): unit =
     case frag
       of Fr.PROC {body=body, frame=frame} => let in
-           print("  body: ");
-           Printtree.printtree (TextIO.stdOut, body)
+           print("  body:\n");
+           Printtree.printTreeIndent (TextIO.stdOut, body, 4)
          end
        | Fr.STRING (label, name) => let in
            print("  label ");
@@ -19,9 +18,11 @@ struct
            print(name);
            print("\n")
          end
-  end
 
-  fun dumpFrags (fs: X64Frame.frag list) = app dumpFrag fs
+  fun dumpFrags (fs: X64Frame.frag list) = let in
+    print("frags:\n");
+    app dumpFrag fs
+  end
 
   fun compile (file: string) = let in
     print (file ^ ":\n");

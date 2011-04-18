@@ -87,7 +87,10 @@ struct
         end
     | unEx (Nx s) = T.ESEQ (s, T.CONST 0)
 
-  fun unNx exp = raise Fail "implement Translate.unNx"
+  fun unNx (Ex exp) = T.EXP exp
+(*  
+  fun unNx (Nx stm) = Nx stm
+*)
 
   fun unCx (Cx mkStm) = mkStm
   fun unCx (Ex e) = case e
@@ -106,7 +109,16 @@ struct
       Ex (T.NAME label) (* TODO put string literal to frags *)
     end
 
-  fun procEntryExit {level: level, body: exp} = () (* TODO *)
+(*
+  val procEntryExit: {level: level, body: exp} -> unit
+*)
+
+  fun procEntryExit {level: level, body: exp} = case level 
+    of Outermost => raise Fail "procEntryExit doesn't cope with Outermost level"
+     | Level({parent=_, name=_, formals=formals, frame, id=_}) =>
+         let in
+           fragList := Frame.PROC {body = unNx body, frame=frame} :: !fragList
+         end
 
   fun getResult () = !fragList
 end

@@ -414,9 +414,9 @@ struct
   and transProg(exp: A.exp):unit =
     let
       val mainLevel = TL.newLevel {parent=TL.outermostLevel, name=Temp.namedLabel "main", formals=[]}
+      val {exp=trExp, ty} = transExp(mainLevel, E.base_venv, E.base_tenv, exp)
     in
-      transExp(mainLevel, E.base_venv, E.base_tenv, exp);
-      ()
+      TL.procEntryExit {level = mainLevel, body = trExp}
     end
 
 end

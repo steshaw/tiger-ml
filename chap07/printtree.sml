@@ -1,13 +1,14 @@
 structure Printtree:
 sig
   val printtree : TextIO.outstream * Tree.stm -> unit 
+  val printTreeIndent : TextIO.outstream * Tree.stm * int -> unit 
 end = 
 struct
 
   structure T = Tree
 
-fun printtree (outstream, s0) =
- let fun say s =  TextIO.output(outstream,s)
+fun printTreeIndent (outstream, s0, numIndent) = let 
+  fun say s =  TextIO.output(outstream,s)
   fun sayln s= (say s; say "\n") 
 
   fun indent 0 = ()
@@ -60,7 +61,12 @@ fun printtree (outstream, s0) =
     | relop T.UGT = say "UGT"
     | relop T.UGE = say "UGE"
 
-  in  stm(s0,0); sayln ""; TextIO.flushOut outstream
-end
+  in
+    stm (s0, numIndent);
+    sayln "";
+    TextIO.flushOut outstream
+  end
+
+fun printtree (outstream, s0) = printTreeIndent (outstream, s0, 0)
 
 end
