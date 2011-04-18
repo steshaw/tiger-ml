@@ -20,6 +20,10 @@ structure X64Frame: FRAME = struct
     locals: access list ref
   }
 
+  datatype frag
+    = PROC of {body: Tree.stm, frame: frame}
+    | STRING of Temp.label * string
+
   fun toFormal (offset, escapes) =
     if escapes
     then InFrame offset
@@ -55,6 +59,8 @@ structure X64Frame: FRAME = struct
     end
 
   structure T = Tree
+
+  fun procEntryExit1 {frame: frame, body: T.exp} = body (* TODO *)
 
   fun exp (InFrame k) exp = T.MEM(T.BINOP(T.PLUS, exp, T.CONST k))
     | exp (InReg temp) _ = T.TEMP temp
